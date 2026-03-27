@@ -1,9 +1,9 @@
-<!doctype html>
+ï»¿<!doctype html>
 <html lang="ko">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>ÀÚµ¿ÀüÅõ °­È­ Idle</title>
+    <title>ìë™ì „íˆ¬ ê°•í™” Idle</title>
     <style>
       :root { --bg: #081225; --line: #34557d; }
       * { box-sizing: border-box; }
@@ -119,22 +119,6 @@
       }
       .companion-btn.active {
         outline: 2px solid #fde68a;
-      }
-      .companion-btn.tier-1 {
-        border: 1px solid rgba(125, 211, 252, 0.45);
-        background: linear-gradient(180deg, #a5f3fc, #22d3ee);
-      }
-      .companion-btn.tier-2 {
-        border: 1px solid rgba(110, 231, 183, 0.58);
-        background: linear-gradient(180deg, #99f6e4, #34d399);
-      }
-      .companion-btn.tier-3 {
-        border: 1px solid rgba(251, 191, 36, 0.64);
-        background: linear-gradient(180deg, #fde68a, #f59e0b);
-      }
-      .companion-btn.tier-4 {
-        border: 1px solid rgba(244, 114, 182, 0.66);
-        background: linear-gradient(180deg, #fbcfe8, #ec4899);
       }
       .companion-scroll {
         max-height: 240px;
@@ -396,7 +380,7 @@
       .monster.normal .monster-head { background: linear-gradient(180deg, #d1d5db, #9ca3af); }
       .monster.normal .monster-name { color: #dbeafe; }
       .monster.normal::after {
-        content: "ÀÏ¹İ";
+        content: "ì¼ë°˜";
         position: absolute;
         left: 8px;
         bottom: -6px;
@@ -413,7 +397,7 @@
       .monster.midboss .monster-head { background: linear-gradient(180deg, #f59e0b, #d97706); }
       .monster.midboss .monster-name { color: #fcd34d; }
       .monster.midboss::after {
-        content: "Áß°£º¸½º";
+        content: "ì¤‘ê°„ë³´ìŠ¤";
         position: absolute;
         left: 2px;
         bottom: -6px;
@@ -431,7 +415,7 @@
       .monster.chapterBoss .monster-name { color: #fecdd3; }
       .monster.chapterBoss .monster-core { box-shadow: 0 0 16px rgba(249, 112, 143, 0.58); border-color: rgba(251, 113, 133, 0.82); }
       .monster.chapterBoss::after {
-        content: "Ã©ÅÍº¸½º";
+        content: "ì±•í„°ë³´ìŠ¤";
         position: absolute;
         left: 1px;
         bottom: -6px;
@@ -884,12 +868,12 @@
     </style>
   </head>
   <body>
-    <div id="toast" class="toast">ÀÚµ¿ ÀüÅõ ½ÃÀÛ</div>
+    <div id="toast" class="toast">ìë™ ì „íˆ¬ ì‹œì‘</div>
 
     <div class="game">
       <section class="card">
-        <h1>ÀÚµ¿ÀüÅõ °­È­ Idle</h1>
-        <p class="sub">½ºÆäÀÌ½º/Å¬¸¯ ÀÔ·Â ¾øÀÌ ÀÚµ¿ ÀüÅõ°¡ ÁøÇàµË´Ï´Ù.</p>
+        <h1>ìë™ì „íˆ¬ ê°•í™” Idle</h1>
+        <p class="sub">ìŠ¤í˜ì´ìŠ¤/í´ë¦­ ì…ë ¥ ì—†ì´ ìë™ ì „íˆ¬ê°€ ì§„í–‰ë©ë‹ˆë‹¤.</p>
       </section>
 
       <section class="card split battle-screen">
@@ -898,25 +882,25 @@
             <div class="combat-hp-row">
               <div class="combat-entity-bar">
                 <div class="combat-label-row">
-                  <span class="label">³» Ã¼·Â</span>
+                  <span class="label">ë‚´ ì²´ë ¥</span>
                   <strong id="combatPowerText" class="combat-inline"></strong>
                 </div>
                 <div class="battle-bar-wrap"><div id="heroHpBar" class="bar hero-hp-bar"></div></div>
               </div>
               <div class="hp-divider"></div>
               <div class="combat-entity-bar">
-                <span class="label">Àû Ã¼·Â</span>
+                <span class="label">ì  ì²´ë ¥</span>
                 <div class="battle-bar-wrap"><div id="monsterHpBar" class="bar monster-hp-bar"></div></div>
               </div>
             </div>
             <div class="stage-name">
-              <span class="label">ÇöÀç ½ºÅ×ÀÌÁö</span>
+              <span class="label">í˜„ì¬ ìŠ¤í…Œì´ì§€</span>
               <strong id="stageNameText">1-1</strong>
             </div>
             <div class="battle-currency-strip">
-              <span class="battle-currency-chip power">ÀüÅõ·Â <strong id="battlePowerTopText">0</strong></span>
-              <span class="battle-currency-chip gold">°ñµå <strong id="battleGoldTopText">0</strong></span>
-              <span class="battle-currency-chip diamond">´ÙÀÌ¾Æ <strong id="battleDiamondTopText">0</strong></span>
+              <span class="battle-currency-chip power">ì „íˆ¬ë ¥ <strong id="battlePowerTopText">0</strong></span>
+              <span class="battle-currency-chip gold">ê³¨ë“œ <strong id="battleGoldTopText">0</strong></span>
+              <span class="battle-currency-chip diamond">ë‹¤ì´ì•„ <strong id="battleDiamondTopText">0</strong></span>
             </div>
             <div class="battle-progress-wrap">
               <div id="stageProgressBar" class="battle-stage-progress"></div>
@@ -925,8 +909,8 @@
           <div class="monster">
             <div class="monster-aura" aria-hidden="true"></div>
             <div class="monster-core" aria-hidden="true"></div>
-            <img id="monsterNormalImage" class="monster-sprite-image" src="enemy/normal/normal_slime.png" alt="³ë¸» Àû ÀÌ¹ÌÁö" hidden />
-            <div id="monsterName" class="monster-name">ÀÌ³¢ ½½¶óÀÓ</div>
+            <img id="monsterNormalImage" class="monster-sprite-image" src="enemy/normal/normal_slime.png" alt="ë…¸ë§ ì  ì´ë¯¸ì§€" hidden />
+            <div id="monsterName" class="monster-name">ì´ë¼ ìŠ¬ë¼ì„</div>
             <div class="monster-body"></div>
             <div class="monster-head"></div>
           </div>
@@ -935,7 +919,7 @@
             <div class="hero-core" aria-hidden="true"></div>
             <div class="hero-crit-ring" aria-hidden="true"></div>
             <div class="hero-cleave-ring" aria-hidden="true"></div>
-            <img id="heroWarriorImage" class="hero-sprite-image" src="warrior/warrior.png" alt="Àü»ç" />
+            <img id="heroWarriorImage" class="hero-sprite-image" src="warrior/warrior.png" alt="ì „ì‚¬" />
             <div class="hero-head"></div>
             <div class="hero-body"></div>
             <div class="hero-sword" id="heroSword"></div>
@@ -945,42 +929,42 @@
           <div class="ground"></div>
         </div>
         <div class="battle-status-trigger-wrap">
-          <button id="battleStatusOpenBtn" class="mini-btn battle-status-trigger" type="button">ÀüÅõ »óÅÂ º¸±â</button>
+          <button id="battleStatusOpenBtn" class="mini-btn battle-status-trigger" type="button">ì „íˆ¬ ìƒíƒœ ë³´ê¸°</button>
         </div>
       </section>
 
       <section class="card">
         <div class="tab-buttons">
-          <button id="tabStatBtn" class="tab-btn">½ºÅİ º¸±â</button>
-          <button id="tabUpgradeBtn" class="tab-btn active">°­È­</button>
-          <button id="tabSkillBtn" class="tab-btn">½ºÅ³</button>
-          <button id="tabCompanionBtn" class="tab-btn">µ¿·á</button>
+          <button id="tabStatBtn" class="tab-btn">ìŠ¤í…Ÿ ë³´ê¸°</button>
+          <button id="tabUpgradeBtn" class="tab-btn active">ê°•í™”</button>
+          <button id="tabSkillBtn" class="tab-btn">ìŠ¤í‚¬</button>
+          <button id="tabCompanionBtn" class="tab-btn">ë™ë£Œ</button>
         </div>
 
         <div id="tabStatPanel" class="tab-panel">
-          <h2 class="section-title">½ºÅİ º¸±â</h2>
+          <h2 class="section-title">ìŠ¤í…Ÿ ë³´ê¸°</h2>
           <div class="info-grid">
-            <div class="row"><span>ÀÌ¸§</span><strong id="statName">Àü»ç</strong></div>
-            <div class="row"><span>·¹º§</span><strong id="statLevel">1</strong></div>
-            <div class="row"><span>°æÇèÄ¡</span><strong id="statExp">0</strong></div>
-            <div class="row"><span>°ø°İ·Â</span><strong id="statAttack">0</strong></div>
-            <div class="row"><span>¹æ¾î·Â</span><strong id="statDefense">0</strong></div>
-            <div class="row"><span>ÃÖ´ë Ã¼·Â</span><strong id="statMaxHp">0</strong></div>
-            <div class="row"><span>°ø°İ¼Óµµ(È¸/ÃÊ)</span><strong id="statSpeed">0</strong></div>
-            <div class="row"><span>ÃÖÁ¾ °ø°İ·Â</span><strong id="statFinalAttack">0</strong></div>
-            <div class="row"><span>ÃÖÁ¾ ÃÖ´ë Ã¼·Â</span><strong id="statFinalHp">0</strong></div>
-            <div class="row"><span>ÃÖÁ¾ °ø°İ¼Óµµ</span><strong id="statFinalSpeed">0</strong></div>
-            <div class="row"><span>ÃÖÁ¾ DPS</span><strong id="statFinalDps">0</strong></div>
-            <div class="row"><span>Ä¡¸íÅ¸ È®·ü</span><strong id="statCritChance">0%</strong></div>
-            <div class="row"><span>Ä¡¸íÅ¸ µ¥¹ÌÁö</span><strong id="statCritDamage">+50%</strong></div>
-            <div class="row"><span>º¸½º Ãß°¡ °ø°İ µ¥¹ÌÁö</span><strong id="statBossBonus">+0%</strong></div>
-            <div class="row"><span>Ãß°¡Å¸ È®·ü</span><strong id="statCleaveChance">0%</strong></div>
-            <div class="row"><span>Ãß°¡Å¸ È½¼ö</span><strong id="statCleaveCount">0È¸</strong></div>
-            <div class="row"><span>ÀüÃ¼ ÀüÅõ·Â</span><strong id="statCombatPower">0</strong></div>
-            <div class="row"><span>°ø°İ °£°İ</span><strong id="statInterval">0ÃÊ</strong></div>
-            <div class="row"><span>°­È­ ·¹º§</span><strong id="statUpgradeLv">1/1/1</strong></div>
-            <div class="row"><span>½ºÅ³ ·¹º§</span><strong id="statSkillLv">Ä¡È®0/Ä¡ÇÇ0/ÃßÈ®0/ÃßÅ¸0/ÈíÈ®0/ÈíÈ¸0</strong></div>
-            <div class="row"><span>µ¿·á</span><strong id="statCompanionText">¾øÀ½</strong></div>
+            <div class="row"><span>ì´ë¦„</span><strong id="statName">ì „ì‚¬</strong></div>
+            <div class="row"><span>ë ˆë²¨</span><strong id="statLevel">1</strong></div>
+            <div class="row"><span>ê²½í—˜ì¹˜</span><strong id="statExp">0</strong></div>
+            <div class="row"><span>ê³µê²©ë ¥</span><strong id="statAttack">0</strong></div>
+            <div class="row"><span>ë°©ì–´ë ¥</span><strong id="statDefense">0</strong></div>
+            <div class="row"><span>ìµœëŒ€ ì²´ë ¥</span><strong id="statMaxHp">0</strong></div>
+            <div class="row"><span>ê³µê²©ì†ë„(íšŒ/ì´ˆ)</span><strong id="statSpeed">0</strong></div>
+            <div class="row"><span>ìµœì¢… ê³µê²©ë ¥</span><strong id="statFinalAttack">0</strong></div>
+            <div class="row"><span>ìµœì¢… ìµœëŒ€ ì²´ë ¥</span><strong id="statFinalHp">0</strong></div>
+            <div class="row"><span>ìµœì¢… ê³µê²©ì†ë„</span><strong id="statFinalSpeed">0</strong></div>
+            <div class="row"><span>ìµœì¢… DPS</span><strong id="statFinalDps">0</strong></div>
+            <div class="row"><span>ì¹˜ëª…íƒ€ í™•ë¥ </span><strong id="statCritChance">0%</strong></div>
+            <div class="row"><span>ì¹˜ëª…íƒ€ ë°ë¯¸ì§€</span><strong id="statCritDamage">+50%</strong></div>
+            <div class="row"><span>ë³´ìŠ¤ ì¶”ê°€ ê³µê²© ë°ë¯¸ì§€</span><strong id="statBossBonus">+0%</strong></div>
+            <div class="row"><span>ì¶”ê°€íƒ€ í™•ë¥ </span><strong id="statCleaveChance">0%</strong></div>
+            <div class="row"><span>ì¶”ê°€íƒ€ íšŸìˆ˜</span><strong id="statCleaveCount">0íšŒ</strong></div>
+            <div class="row"><span>ì „ì²´ ì „íˆ¬ë ¥</span><strong id="statCombatPower">0</strong></div>
+            <div class="row"><span>ê³µê²© ê°„ê²©</span><strong id="statInterval">0ì´ˆ</strong></div>
+            <div class="row"><span>ê°•í™” ë ˆë²¨</span><strong id="statUpgradeLv">1/1/1</strong></div>
+            <div class="row"><span>ìŠ¤í‚¬ ë ˆë²¨</span><strong id="statSkillLv">ì¹˜í™•0/ì¹˜í”¼0/ì¶”í™•0/ì¶”íƒ€0/í¡í™•0/í¡íšŒ0</strong></div>
+            <div class="row"><span>ë™ë£Œ</span><strong id="statCompanionText">ì—†ìŒ</strong></div>
             <div class="bar-wrap" style="margin-top: 8px"><div id="statHpBar" class="bar"></div></div>
             <div class="row"><span>HP</span><strong id="statHpNow"></strong></div>
             <div class="bar-wrap"><div id="statExpBar" class="bar"></div></div>
@@ -989,35 +973,35 @@
         </div>
 
         <div id="tabUpgradePanel" class="tab-panel active">
-          <h2 class="section-title">°­È­ È­¸é</h2>
+          <h2 class="section-title">ê°•í™” í™”ë©´</h2>
           <div class="actions">
-            <button id="upgradeBulkToggleBtn" class="btn-secondary" type="button">10È¸ ¾÷±×·¹ÀÌµå: OFF</button>
-            <button id="upgradeAttackBtn" class="btn-secondary">°ø°İ·Â °­È­ <span class="sub">(ºñ¿ë: <span id="attackCost">3</span>)</span></button>
-            <button id="upgradeHpBtn" class="btn-secondary">Ã¼·Â °­È­ <span class="sub">(ºñ¿ë: <span id="hpCost">4</span>)</span></button>
-            <button id="upgradeSpeedBtn" class="btn-secondary">°ø°İ¼Óµµ °­È­ <span class="sub">(ºñ¿ë: <span id="speedCost">5</span>)</span></button>
-             <div class="row"><span>°ñµå</span><strong id="skillPoints">0</strong></div>
-            <div id="upgradeSummary" class="muted">°­È­ ·¹º§: °ø°İ1 / Ã¼·Â1 / ¼Óµµ1</div>
+            <button id="upgradeBulkToggleBtn" class="btn-secondary" type="button">10íšŒ ì—…ê·¸ë ˆì´ë“œ: OFF</button>
+            <button id="upgradeAttackBtn" class="btn-secondary">ê³µê²©ë ¥ ê°•í™” <span class="sub">(ë¹„ìš©: <span id="attackCost">3</span>)</span></button>
+            <button id="upgradeHpBtn" class="btn-secondary">ì²´ë ¥ ê°•í™” <span class="sub">(ë¹„ìš©: <span id="hpCost">4</span>)</span></button>
+            <button id="upgradeSpeedBtn" class="btn-secondary">ê³µê²©ì†ë„ ê°•í™” <span class="sub">(ë¹„ìš©: <span id="speedCost">5</span>)</span></button>
+             <div class="row"><span>ê³¨ë“œ</span><strong id="skillPoints">0</strong></div>
+            <div id="upgradeSummary" class="muted">ê°•í™” ë ˆë²¨: ê³µê²©1 / ì²´ë ¥1 / ì†ë„1</div>
           </div>
           <div class="actions">
-            <button id="saveBtn" class="btn-primary">¼öµ¿ ÀúÀå</button>
-            <button id="debugToggleBtn" class="btn-secondary" type="button" hidden>µğ¹ö±× ¸ğµå</button>
-            <button id="resetBtn" class="btn-danger">ÃÊ±âÈ­</button>
+            <button id="saveBtn" class="btn-primary">ìˆ˜ë™ ì €ì¥</button>
+            <button id="debugToggleBtn" class="btn-secondary">ë””ë²„ê·¸ ëª¨ë“œ</button>
+            <button id="resetBtn" class="btn-danger">ì´ˆê¸°í™”</button>
           </div>
         </div>
 
         <div id="tabCompanionPanel" class="tab-panel">
-          <h2 class="section-title">µ¿·á</h2>
+          <h2 class="section-title">ë™ë£Œ</h2>
           <div class="actions">
-            <div class="row"><span>º¸À¯ µ¿·á</span><strong id="ownedCompanionCount">0 / 20</strong></div>
-            <div class="row"><span>ÃÑ »Ì±â ½Ãµµ</span><strong id="drawAttemptText">0È¸</strong></div>
-            <div class="row"><span>º¸À¯ ´ÙÀÌ¾Æ</span><strong id="diamondText">0</strong></div>
-            <div class="row"><span>1È¸ »Ì±â ºñ¿ë</span><strong id="drawCostText">10 ´ÙÀÌ¾Æ</strong></div>
-            <div class="row"><span>11È¸ »Ì±â ºñ¿ë</span><strong id="drawMultiCostText">100 ´ÙÀÌ¾Æ</strong></div>
-            <button id="drawCompanionBtn" class="btn-secondary">µ¿·á 1È¸ »Ì±â <span class="sub">(ºñ¿ë: <span id="drawBtnCost">10</span>)</span></button>
-            <button id="drawCompanion11Btn" class="btn-secondary">µ¿·á 11È¸ »Ì±â <span class="sub">(ºñ¿ë: <span id="drawMultiBtnCost">100</span>)</span></button>
-            <button id="companionTierRateBtn" class="btn-secondary" type="button">Æ¼¾îº° »Ì±â È®·ü º¸±â</button>
-            <div class="row"><span>ÇöÀç µ¿·á</span><strong id="selectedCompanionText">ÇØÁ¦</strong></div>
-            <div class="row" style="align-items:flex-start"><span>È¿°ú(º¸À¯+ÀåÂø)</span><strong id="selectedCompanionEffect" style="max-width: 330px; text-align: right"></strong></div>
+            <div class="row"><span>ë³´ìœ  ë™ë£Œ</span><strong id="ownedCompanionCount">0 / 20</strong></div>
+            <div class="row"><span>ì´ ë½‘ê¸° ì‹œë„</span><strong id="drawAttemptText">0íšŒ</strong></div>
+            <div class="row"><span>ë³´ìœ  ë‹¤ì´ì•„</span><strong id="diamondText">0</strong></div>
+            <div class="row"><span>1íšŒ ë½‘ê¸° ë¹„ìš©</span><strong id="drawCostText">10 ë‹¤ì´ì•„</strong></div>
+            <div class="row"><span>11íšŒ ë½‘ê¸° ë¹„ìš©</span><strong id="drawMultiCostText">100 ë‹¤ì´ì•„</strong></div>
+            <button id="drawCompanionBtn" class="btn-secondary">ë™ë£Œ 1íšŒ ë½‘ê¸° <span class="sub">(ë¹„ìš©: <span id="drawBtnCost">10</span>)</span></button>
+            <button id="drawCompanion11Btn" class="btn-secondary">ë™ë£Œ 11íšŒ ë½‘ê¸° <span class="sub">(ë¹„ìš©: <span id="drawMultiBtnCost">100</span>)</span></button>
+            <button id="companionTierRateBtn" class="btn-secondary" type="button">í‹°ì–´ë³„ ë½‘ê¸° í™•ë¥  ë³´ê¸°</button>
+            <div class="row"><span>í˜„ì¬ ë™ë£Œ</span><strong id="selectedCompanionText">í•´ì œ</strong></div>
+            <div class="row" style="align-items:flex-start"><span>íš¨ê³¼(ë³´ìœ +ì¥ì°©)</span><strong id="selectedCompanionEffect" style="max-width: 330px; text-align: right"></strong></div>
             <div class="companion-scroll">
               <div id="companionList" class="companion-grid"></div>
             </div>
@@ -1025,18 +1009,18 @@
         </div>
 
         <div id="tabSkillPanel" class="tab-panel">
-          <h2 class="section-title">½ºÅ³ ¾÷±×·¹ÀÌµå</h2>
-          <button id="skillBulkToggleBtn" class="btn-secondary" type="button">10È¸ ¾÷±×·¹ÀÌµå: OFF</button>
+          <h2 class="section-title">ìŠ¤í‚¬ ì—…ê·¸ë ˆì´ë“œ</h2>
+          <button id="skillBulkToggleBtn" class="btn-secondary" type="button">10íšŒ ì—…ê·¸ë ˆì´ë“œ: OFF</button>
           <div class="skill-grid">
-            <button id="upgradeCritChanceBtn" class="btn-secondary">Ä¡¸íÅ¸ È®·ü <span id="critChanceDesc" class="skill-text">È®·ü 0% / ÃÖ´ë 100%</span><div class="sub">ºñ¿ë <span id="critChanceCost">12</span></div></button>
-            <button id="upgradeCritDamageBtn" class="btn-secondary">Ä¡¸íÅ¸ µ¥¹ÌÁö <span id="critDamageDesc" class="skill-text">Ãß°¡ 50% (Lv 0)</span><div class="sub">ºñ¿ë <span id="critDamageCost">12</span></div></button>
-            <button id="upgradeCleaveChanceBtn" class="btn-secondary">Ãß°¡Å¸ È®·ü <span id="cleaveChanceDesc" class="skill-text">È®·ü 0% / ÃÖ´ë 50%</span><div class="sub">ºñ¿ë <span id="cleaveChanceCost">15</span></div></button>
-            <button id="upgradeCleaveCountBtn" class="btn-secondary">Ãß°¡Å¸ °¹¼ö <span id="cleaveCountDesc" class="skill-text">1È¸ / ÃÖ´ë 5È¸</span><div class="sub">ºñ¿ë <span id="cleaveCountCost">75</span></div></button>
-            <button id="upgradeLifestealChanceBtn" class="btn-secondary">ÈíÇ÷ È®·ü <span id="lifestealChanceDesc" class="skill-text">È®·ü 0% / ÃÖ´ë 50%</span><div class="sub">ºñ¿ë <span id="lifeChanceCost">16</span></div></button>
-            <button id="upgradeLifestealAmountBtn" class="btn-secondary">ÈíÇ÷ È¸º¹·® <span id="lifestealAmountDesc" class="skill-text">È¸º¹·® +0% (Lv 0)</span><div class="sub">ºñ¿ë <span id="lifeAmountCost">16</span></div></button>
+            <button id="upgradeCritChanceBtn" class="btn-secondary">ì¹˜ëª…íƒ€ í™•ë¥  <span id="critChanceDesc" class="skill-text">í™•ë¥  0% / ìµœëŒ€ 100%</span><div class="sub">ë¹„ìš© <span id="critChanceCost">12</span></div></button>
+            <button id="upgradeCritDamageBtn" class="btn-secondary">ì¹˜ëª…íƒ€ ë°ë¯¸ì§€ <span id="critDamageDesc" class="skill-text">ì¶”ê°€ 50% (Lv 0)</span><div class="sub">ë¹„ìš© <span id="critDamageCost">12</span></div></button>
+            <button id="upgradeCleaveChanceBtn" class="btn-secondary">ì¶”ê°€íƒ€ í™•ë¥  <span id="cleaveChanceDesc" class="skill-text">í™•ë¥  0% / ìµœëŒ€ 50%</span><div class="sub">ë¹„ìš© <span id="cleaveChanceCost">15</span></div></button>
+            <button id="upgradeCleaveCountBtn" class="btn-secondary">ì¶”ê°€íƒ€ ê°¯ìˆ˜ <span id="cleaveCountDesc" class="skill-text">1íšŒ / ìµœëŒ€ 5íšŒ</span><div class="sub">ë¹„ìš© <span id="cleaveCountCost">75</span></div></button>
+            <button id="upgradeLifestealChanceBtn" class="btn-secondary">í¡í˜ˆ í™•ë¥  <span id="lifestealChanceDesc" class="skill-text">í™•ë¥  0% / ìµœëŒ€ 50%</span><div class="sub">ë¹„ìš© <span id="lifeChanceCost">16</span></div></button>
+            <button id="upgradeLifestealAmountBtn" class="btn-secondary">í¡í˜ˆ íšŒë³µëŸ‰ <span id="lifestealAmountDesc" class="skill-text">íšŒë³µëŸ‰ +0% (Lv 0)</span><div class="sub">ë¹„ìš© <span id="lifeAmountCost">16</span></div></button>
           </div>
           <div class="actions">
-            <div class="row"><span>°ñµå</span><strong id="skillPoints2">0</strong></div>
+            <div class="row"><span>ê³¨ë“œ</span><strong id="skillPoints2">0</strong></div>
           </div>
         </div>
       </section>
@@ -1045,19 +1029,19 @@
         <div id="battleStatusBackdrop" class="battle-status-backdrop"></div>
         <section class="card battle-status-panel" role="dialog" aria-modal="true" aria-labelledby="battleStatusTitle">
           <div class="battle-status-head">
-            <h2 id="battleStatusTitle" class="section-title">ÀüÅõ »óÅÂ</h2>
-            <button id="battleStatusCloseBtn" class="battle-status-close" type="button">´İ±â</button>
+            <h2 id="battleStatusTitle" class="section-title">ì „íˆ¬ ìƒíƒœ</h2>
+            <button id="battleStatusCloseBtn" class="battle-status-close" type="button">ë‹«ê¸°</button>
           </div>
           <div class="info-grid">
-            <div class="row"><span>ÇöÀç ½ºÅ×ÀÌÁö</span><strong id="stageText"></strong></div>
-            <div class="row"><span>¸ó½ºÅÍ HP</span><strong id="monsterHpText"></strong></div>
-            <div class="row"><span>Ã¼·Â</span><strong id="heroHpText"></strong></div>
-            <div class="row"><span>°ñµå</span><strong id="battleGoldText">0</strong></div>
-            <div class="row"><span>´ÙÀÌ¾Æ</span><strong id="battleDiamondText">0</strong></div>
-            <div class="row"><span>µ¿·á</span><strong id="activeCompanionText"></strong></div>
-            <div class="row"><span>°ø°İ¼Óµµ</span><strong id="attackSpeedText"></strong></div>
-            <div class="row"><span>ÃÊ´ç DPS</span><strong id="dpsText"></strong></div>
-            <div class="row"><span>º¸½º Á¦ÇÑ½Ã°£</span><strong id="bossTimerText">-</strong></div>
+            <div class="row"><span>í˜„ì¬ ìŠ¤í…Œì´ì§€</span><strong id="stageText"></strong></div>
+            <div class="row"><span>ëª¬ìŠ¤í„° HP</span><strong id="monsterHpText"></strong></div>
+            <div class="row"><span>ì²´ë ¥</span><strong id="heroHpText"></strong></div>
+            <div class="row"><span>ê³¨ë“œ</span><strong id="battleGoldText">0</strong></div>
+            <div class="row"><span>ë‹¤ì´ì•„</span><strong id="battleDiamondText">0</strong></div>
+            <div class="row"><span>ë™ë£Œ</span><strong id="activeCompanionText"></strong></div>
+            <div class="row"><span>ê³µê²©ì†ë„</span><strong id="attackSpeedText"></strong></div>
+            <div class="row"><span>ì´ˆë‹¹ DPS</span><strong id="dpsText"></strong></div>
+            <div class="row"><span>ë³´ìŠ¤ ì œí•œì‹œê°„</span><strong id="bossTimerText">-</strong></div>
           </div>
           <div class="mini-upgrade-row">
             <button id="attackLvlBtn" class="mini-btn" disabled></button>
@@ -1070,10 +1054,10 @@
         <div id="companionDrawBackdrop" class="companion-draw-backdrop"></div>
         <section class="card companion-draw-panel" role="dialog" aria-modal="true" aria-labelledby="companionDrawTitle">
           <div class="companion-draw-head">
-            <h2 id="companionDrawTitle" class="section-title">µ¿·á »Ì±â °á°ú</h2>
-            <button id="companionDrawCloseBtn" class="companion-draw-close" type="button">´İ±â</button>
+            <h2 id="companionDrawTitle" class="section-title">ë™ë£Œ ë½‘ê¸° ê²°ê³¼</h2>
+            <button id="companionDrawCloseBtn" class="companion-draw-close" type="button">ë‹«ê¸°</button>
           </div>
-          <div id="companionDrawSummary" class="companion-draw-summary">°á°ú¸¦ ºÒ·¯¿À´Â Áß...</div>
+          <div id="companionDrawSummary" class="companion-draw-summary">ê²°ê³¼ë¥¼ ë¶ˆëŸ¬ì˜¤ëŠ” ì¤‘...</div>
           <div id="companionDrawResultList" class="companion-draw-result-list"></div>
         </section>
       </div>
@@ -1081,36 +1065,36 @@
         <div id="companionTierRateBackdrop" class="battle-status-backdrop"></div>
         <section class="card battle-status-panel" role="dialog" aria-modal="true" aria-labelledby="companionTierRateTitle">
           <div class="battle-status-head">
-            <h2 id="companionTierRateTitle" class="section-title">µ¿·á Æ¼¾î È®·ü</h2>
-            <button id="companionTierRateCloseBtn" class="battle-status-close" type="button">´İ±â</button>
+            <h2 id="companionTierRateTitle" class="section-title">ë™ë£Œ í‹°ì–´ í™•ë¥ </h2>
+            <button id="companionTierRateCloseBtn" class="battle-status-close" type="button">ë‹«ê¸°</button>
           </div>
           <div class="info-grid">
             <div class="row"><span>T1</span><strong id="tierRateT1Text">50%</strong></div>
             <div class="row"><span>T2</span><strong id="tierRateT2Text">30%</strong></div>
             <div class="row"><span>T3</span><strong id="tierRateT3Text">15%</strong></div>
             <div class="row"><span>T4</span><strong id="tierRateT4Text">5%</strong></div>
-            <div class="row" style="align-items:flex-start"><span>¾È³»</span><strong style="max-width: 330px; text-align: right">Æ¼¾î È®·ü Àû¿ë ÈÄ, ¼±ÅÃµÈ Æ¼¾î ³» µ¿·á´Â ±Õµî È®·ü·Î °áÁ¤µË´Ï´Ù.</strong></div>
+            <div class="row" style="align-items:flex-start"><span>ì•ˆë‚´</span><strong style="max-width: 330px; text-align: right">í‹°ì–´ í™•ë¥  ì ìš© í›„, ì„ íƒëœ í‹°ì–´ ë‚´ ë™ë£ŒëŠ” ê· ë“± í™•ë¥ ë¡œ ê²°ì •ë©ë‹ˆë‹¤.</strong></div>
           </div>
         </section>
       </div>
       <section id="debugPanel" class="card debug-panel" style="display:none;">
         <div class="debug-title section-title">
-          <h2>µğ¹ö±× ÆĞ³Î</h2>
+          <h2>ë””ë²„ê·¸ íŒ¨ë„</h2>
           <div class="debug-title-actions">
             <strong id="debugModeText">OFF</strong>
-            <button id="debugCopyBtn" class="btn-secondary" type="button">³»¿ëº¹»ç</button>
-            <button id="debugCloseBtn" class="btn-danger" type="button">µğ¹ö±× Á¾·á</button>
+            <button id="debugCopyBtn" class="btn-secondary" type="button">ë‚´ìš©ë³µì‚¬</button>
+            <button id="debugCloseBtn" class="btn-danger" type="button">ë””ë²„ê·¸ ì¢…ë£Œ</button>
           </div>
         </div>
         <div class="info-grid">
-          <div class="row"><span>µ¿·á ÀåÂø »óÅÂ</span><strong id="debugCompanionId">none</strong></div>
-          <div class="row"><span>¿À·ù Á¡°Ë</span><strong id="debugCompanionCheck">-</strong></div>
-          <div class="row"><span>ÀúÀå Å°</span><strong id="debugStorage">-</strong></div>
+          <div class="row"><span>ë™ë£Œ ì¥ì°© ìƒíƒœ</span><strong id="debugCompanionId">none</strong></div>
+          <div class="row"><span>ì˜¤ë¥˜ ì ê²€</span><strong id="debugCompanionCheck">-</strong></div>
+          <div class="row"><span>ì €ì¥ í‚¤</span><strong id="debugStorage">-</strong></div>
         </div>
         <div id="debugLog" class="debug-log"></div>
       </section>
 
-      <footer>ÀüÅõ »óÅÂ´Â ÆË¾÷À¸·Î È®ÀÎÇÏ°í, ÇÏ´Ü ÅÇ¿¡¼­ ½ºÅİ/°­È­/½ºÅ³/µ¿·á¸¦ ÀüÈ¯ÇÕ´Ï´Ù.</footer>
+      <footer>ì „íˆ¬ ìƒíƒœëŠ” íŒì—…ìœ¼ë¡œ í™•ì¸í•˜ê³ , í•˜ë‹¨ íƒ­ì—ì„œ ìŠ¤í…Ÿ/ê°•í™”/ìŠ¤í‚¬/ë™ë£Œë¥¼ ì „í™˜í•©ë‹ˆë‹¤.</footer>
     </div>
 
     <script>
@@ -1129,74 +1113,72 @@
       const COMPANION_OWNED_EFFECT_RATIO = 0.5;
       const COMPANION_EQUIPPED_EFFECT_RATIO = 0.5;
       const DIAMOND_DROP_CHANCE = 0.1;
-      const ATTACK_SPEED_CAP = 10;
-      const ATTACK_SPEED_MIN = 0.8;
       const DEBUG_STORAGE_KEY = "auto-idle-debug-enabled";
       const OFFLINE_MAX_SECONDS = 900;
       const OFFLINE_MAX_SIM_HITS = 1200;
       const BULK_UPGRADE_COUNT = 10;
       const ENEMY_FAMILIES = [
-        { id: "slime", normal: "ÀÌ³¢ ½½¶óÀÓ", midboss: "Á¡¾× °Å½Å", chapterBoss: "½É¿¬ Á¡¾×È²Á¦" },
-        { id: "hound", normal: "¹ÙÀ§ ÇÏ¿îµå", midboss: "ÆøÁÖ ÇÏ¿îµåÀå", chapterBoss: "Ç÷¿ù ÇÏ¿îµå ±ºÁÖ" },
-        { id: "golem", normal: "¼â¾Ï °ñ·½", midboss: "Áß·® °ñ·½Àå", chapterBoss: "ÅÂ°íÀÇ °ñ·½ ÄÚ¾î" },
-        { id: "specter", normal: "¸Á·É ·¹ÀÌ½º", midboss: "¿øÇÑÀÇ ¸Á·ÉÀå", chapterBoss: "Çã¹«ÀÇ ¸Á·É¿Õ" },
-        { id: "lizard", normal: "»ç¸· µµ¸¶Àü»ç", midboss: "¸ğ·¡ ¼Û°÷´Ï ÁöÈÖ°ü", chapterBoss: "¿­»ç µµ¸¶±ºÁÖ" },
-        { id: "construct", normal: "ÀÚµ¿º´±â ÄÚ¾î", midboss: "°úºÎÇÏ ÁıÇà±â", chapterBoss: "ÇÁ·ÎÅäÅ¸ÀÔ Á¦¾îÇÙ" },
+        { id: "slime", normal: "ì´ë¼ ìŠ¬ë¼ì„", midboss: "ì ì•¡ ê±°ì‹ ", chapterBoss: "ì‹¬ì—° ì ì•¡í™©ì œ" },
+        { id: "hound", normal: "ë°”ìœ„ í•˜ìš´ë“œ", midboss: "í­ì£¼ í•˜ìš´ë“œì¥", chapterBoss: "í˜ˆì›” í•˜ìš´ë“œ êµ°ì£¼" },
+        { id: "golem", normal: "ì‡„ì•” ê³¨ë ˜", midboss: "ì¤‘ëŸ‰ ê³¨ë ˜ì¥", chapterBoss: "íƒœê³ ì˜ ê³¨ë ˜ ì½”ì–´" },
+        { id: "specter", normal: "ë§ë ¹ ë ˆì´ìŠ¤", midboss: "ì›í•œì˜ ë§ë ¹ì¥", chapterBoss: "í—ˆë¬´ì˜ ë§ë ¹ì™•" },
+        { id: "lizard", normal: "ì‚¬ë§‰ ë„ë§ˆì „ì‚¬", midboss: "ëª¨ë˜ ì†¡ê³³ë‹ˆ ì§€íœ˜ê´€", chapterBoss: "ì—´ì‚¬ ë„ë§ˆêµ°ì£¼" },
+        { id: "construct", normal: "ìë™ë³‘ê¸° ì½”ì–´", midboss: "ê³¼ë¶€í•˜ ì§‘í–‰ê¸°", chapterBoss: "í”„ë¡œí† íƒ€ì… ì œì–´í•µ" },
       ];
             const enemyFamilyById = Object.fromEntries(ENEMY_FAMILIES.map((f) => [f.id, f]));
       const NORMAL_ENEMY_SPRITE_BY_NAME = {
-        "ÀÌ³¢ ½½¶óÀÓ": "enemy/normal/normal_slime.png",
-        "¹ÙÀ§ ÇÏ¿îµå": "enemy/normal/normal_rocky_hound.png",
-        "¼â¾Ï °ñ·½": "enemy/normal/normal_rocky_golem.png",
-        "¸Á·É ·¹ÀÌ½º": "enemy/normal/normal_wraith.png",
-        "»ç¸· µµ¸¶Àü»ç": "enemy/normal/normal_desert_lizard.png",
-        "ÀÚµ¿º´±â ÄÚ¾î": "enemy/normal/normal_core.png",
+        "ì´ë¼ ìŠ¬ë¼ì„": "enemy/normal/normal_slime.png",
+        "ë°”ìœ„ í•˜ìš´ë“œ": "enemy/normal/normal_rocky_hound.png",
+        "ì‡„ì•” ê³¨ë ˜": "enemy/normal/normal_rocky_golem.png",
+        "ë§ë ¹ ë ˆì´ìŠ¤": "enemy/normal/normal_wraith.png",
+        "ì‚¬ë§‰ ë„ë§ˆì „ì‚¬": "enemy/normal/normal_desert_lizard.png",
+        "ìë™ë³‘ê¸° ì½”ì–´": "enemy/normal/normal_core.png",
       };
       const MIDBOSS_ENEMY_SPRITE_BY_NAME = {
-        "Á¡¾× °Å½Å": "enemy/midboss/mid_slime.png",
-        "ÆøÁÖ ÇÏ¿îµåÀå": "enemy/midboss/mid_hound.png",
-        "Áß·® °ñ·½Àå": "enemy/midboss/mid_golem.png",
-        "¿øÇÑÀÇ ¸Á·ÉÀå": "enemy/midboss/mid_wraith.png",
-        "¸ğ·¡ ¼Û°÷´Ï ÁöÈÖ°ü": "enemy/midboss/mid_lizard.png",
-        "°úºÎÇÏ ÁıÇà±â": "enemy/midboss/mid_core.png",
+        "ì ì•¡ ê±°ì‹ ": "enemy/midboss/mid_slime.png",
+        "í­ì£¼ í•˜ìš´ë“œì¥": "enemy/midboss/mid_hound.png",
+        "ì¤‘ëŸ‰ ê³¨ë ˜ì¥": "enemy/midboss/mid_golem.png",
+        "ì›í•œì˜ ë§ë ¹ì¥": "enemy/midboss/mid_wraith.png",
+        "ëª¨ë˜ ì†¡ê³³ë‹ˆ ì§€íœ˜ê´€": "enemy/midboss/mid_lizard.png",
+        "ê³¼ë¶€í•˜ ì§‘í–‰ê¸°": "enemy/midboss/mid_core.png",
       };
       const CHAPBOSS_ENEMY_SPRITE_BY_NAME = {
-        "½É¿¬ Á¡¾×È²Á¦": "enemy/chapboss/chap_slime.png",
-        "Ç÷¿ù ÇÏ¿îµå ±ºÁÖ": "enemy/chapboss/chap_hound.png",
-        "ÅÂ°íÀÇ °ñ·½ ÄÚ¾î": "enemy/chapboss/chap_golem.png",
-        "Çã¹«ÀÇ ¸Á·É¿Õ": "enemy/chapboss/chap_wraith.png",
-        "¿­»ç µµ¸¶±ºÁÖ": "enemy/chapboss/chap_lizard.png",
-        "ÇÁ·ÎÅäÅ¸ÀÔ Á¦¾îÇÙ": "enemy/chapboss/chap_core.png",
+        "ì‹¬ì—° ì ì•¡í™©ì œ": "enemy/chapboss/chap_slime.png",
+        "í˜ˆì›” í•˜ìš´ë“œ êµ°ì£¼": "enemy/chapboss/chap_hound.png",
+        "íƒœê³ ì˜ ê³¨ë ˜ ì½”ì–´": "enemy/chapboss/chap_golem.png",
+        "í—ˆë¬´ì˜ ë§ë ¹ì™•": "enemy/chapboss/chap_wraith.png",
+        "ì—´ì‚¬ ë„ë§ˆêµ°ì£¼": "enemy/chapboss/chap_lizard.png",
+        "í”„ë¡œí† íƒ€ì… ì œì–´í•µ": "enemy/chapboss/chap_core.png",
       };
       const COMPANION_ROSTER = [
-        { id: "none", name: "¹«¼Ò¼Ó", tier: 0, cost: 0, effect: { atk: 0, hp: 0, speed: 0, bossAtk: 0, crit: 0, cleave: 0, text: "Ãß°¡ È¿°ú ¾øÀ½" } },
-        { id: "comp-1-1", tier: 1, name: "º°¹«¸® µµ¿ì¹Ì", cost: 18, effect: { atk: 0.04, hp: 0.01, speed: 0.00, bossAtk: 0.00, crit: 0.00, cleave: 0.00, text: "°ø°İ·Â +4%" } },
-        { id: "comp-1-2", tier: 1, name: "È¸º¹ ¹ö¼¸ Á¤·É", cost: 20, effect: { atk: 0.01, hp: 0.05, speed: 0.00, bossAtk: 0.00, crit: 0.00, cleave: 0.00, text: "ÃÖ´ëÃ¼·Â +5%" } },
-        { id: "comp-1-3", tier: 1, name: "»ê±æ ¼øÂûÀÚ", cost: 20, effect: { atk: 0.00, hp: 0.01, speed: 0.03, bossAtk: 0.00, crit: 0.00, cleave: 0.00, text: "°ø°İ¼Óµµ +3%" } },
-        { id: "comp-1-4", tier: 1, name: "´Şºû ±Ã¼ö", cost: 22, effect: { atk: 0.03, hp: 0.00, speed: 0.01, bossAtk: 0.01, crit: 0.00, cleave: 0.00, text: "°ø°İ·Â +3%, º¸½º Ãß°¡ °ø°İ·Â +1%" } },
-        { id: "comp-1-5", tier: 1, name: "Àíºû Àü»ç", cost: 24, effect: { atk: 0.05, hp: 0.00, speed: 0.00, bossAtk: 0.00, crit: 0.01, cleave: 0.00, text: "°ø°İ·Â +5%, Ä¡¸íÅ¸ +1%" } },
-        { id: "comp-2-1", tier: 2, name: "È­¿°ÀÇ ±³°ü", cost: 30, effect: { atk: 0.07, hp: 0.02, speed: 0.00, bossAtk: 0.02, crit: 0.00, cleave: 0.00, text: "°ø°İ·Â +7%, º¸½º Ãß°¡ °ø°İ·Â +2%" } },
-        { id: "comp-2-2", tier: 2, name: "°­Ã¶ ÁıÇàÀÚ", cost: 34, effect: { atk: 0.03, hp: 0.07, speed: 0.01, bossAtk: 0.00, crit: 0.00, cleave: 0.00, text: "ÃÖ´ëÃ¼·Â +7%, °ø°İ¼Óµµ +1%" } },
-        { id: "comp-2-3", tier: 2, name: "ÆøÇ³ »ç³É°³", cost: 34, effect: { atk: 0.02, hp: 0.00, speed: 0.06, bossAtk: 0.03, crit: 0.00, cleave: 0.00, text: "°ø°İ¼Óµµ +6%, º¸½º Ãß°¡ °ø°İ·Â +3%" } },
-        { id: "comp-2-4", tier: 2, name: "Àººû Á¤Âû´Ü", cost: 38, effect: { atk: 0.04, hp: 0.02, speed: 0.00, bossAtk: 0.00, crit: 0.02, cleave: 0.00, text: "°ø°İ·Â +4%, Ä¡¸íÅ¸ +2%" } },
-        { id: "comp-2-5", tier: 2, name: "±×¸²ÀÚ ³¬½Ã²Û", cost: 38, effect: { atk: 0.03, hp: 0.00, speed: 0.00, bossAtk: 0.00, crit: 0.00, cleave: 0.03, text: "Ãß°¡Å¸ È®·ü +3%" } },
-        { id: "comp-3-1", tier: 3, name: "Ã»·æÀÇ ¼öÇàÀÚ", cost: 48, effect: { atk: 0.09, hp: 0.03, speed: 0.02, bossAtk: 0.04, crit: 0.00, cleave: 0.00, text: "°ø°İ·Â +9%, º¸½º Ãß°¡ °ø°İ·Â +4%" } },
-        { id: "comp-3-2", tier: 3, name: "Ã¶°© ¹Ùµå", cost: 52, effect: { atk: 0.02, hp: 0.10, speed: 0.00, bossAtk: 0.02, crit: 0.00, cleave: 0.00, text: "Ã¼·Â +10%, º¸½º Ãß°¡ °ø°İ·Â +2%" } },
-        { id: "comp-3-3", tier: 3, name: "¹ø°³ÀÇ »çÀı", cost: 55, effect: { atk: 0.06, hp: 0.00, speed: 0.03, bossAtk: 0.00, crit: 0.05, cleave: 0.00, text: "°ø°İ·Â +6%, °ø°İ¼Óµµ +3%, Ä¡¸íÅ¸ +5%" } },
-        { id: "comp-3-4", tier: 3, name: "±×¸²ÀÚ ÆÄµ¿", cost: 58, effect: { atk: 0.04, hp: 0.04, speed: 0.01, bossAtk: 0.00, crit: 0.00, cleave: 0.04, text: "°ø°İ·Â +4%, ÃÖ´ëÃ¼·Â +4%, Ãß°¡Å¸ È®·ü +4%" } },
-        { id: "comp-3-5", tier: 3, name: "È­»êÀÇ °Ë»ç", cost: 62, effect: { atk: 0.06, hp: 0.00, speed: 0.00, bossAtk: 0.06, crit: 0.00, cleave: 0.00, text: "°ø°İ·Â +6%, º¸½º Ãß°¡ °ø°İ·Â +6%" } },
-        { id: "comp-4-1", tier: 4, name: "Ãµ°øÀÇ »çµµ", cost: 74, effect: { atk: 0.14, hp: 0.08, speed: 0.03, bossAtk: 0.10, crit: 0.00, cleave: 0.00, text: "°ø°İ·Â +14%, º¸½º Ãß°¡ °ø°İ·Â +10%" } },
-        { id: "comp-4-2", tier: 4, name: "ÅÂ°íÀÇ ½ÉÆÇÀÚ", cost: 78, effect: { atk: 0.09, hp: 0.16, speed: 0.00, bossAtk: 0.04, crit: 0.00, cleave: 0.00, text: "ÃÖ´ëÃ¼·Â +16%, º¸½º Ãß°¡ °ø°İ·Â +4%" } },
-        { id: "comp-4-3", tier: 4, name: "ÆøÇ³ÀÇ Á¦¿Õ", cost: 82, effect: { atk: 0.07, hp: 0.06, speed: 0.09, bossAtk: 0.07, crit: 0.00, cleave: 0.00, text: "°ø°İ¼Óµµ +9%, º¸½º Ãß°¡ °ø°İ·Â +7%" } },
-        { id: "comp-4-4", tier: 4, name: "½É¿¬ °¨½ÃÀÎ", cost: 88, effect: { atk: 0.08, hp: 0.04, speed: 0.02, bossAtk: 0.00, crit: 0.07, cleave: 0.00, text: "°ø°İ·Â +8%, Ä¡¸íÅ¸ +7%" } },
-        { id: "comp-4-5", tier: 4, name: "¿ëÀÇ ¿¬±İ¼ú»ç", cost: 94, effect: { atk: 0.10, hp: 0.09, speed: 0.03, bossAtk: 0.12, crit: 0.00, cleave: 0.00, text: "°ø°İ·Â +10%, º¸½º Ãß°¡ °ø°İ·Â +12%" } },
+        { id: "none", name: "ë¬´ì†Œì†", tier: 0, cost: 0, effect: { atk: 0, hp: 0, speed: 0, bossAtk: 0, crit: 0, cleave: 0, text: "ì¶”ê°€ íš¨ê³¼ ì—†ìŒ" } },
+        { id: "comp-1-1", tier: 1, name: "ë³„ë¬´ë¦¬ ë„ìš°ë¯¸", cost: 18, effect: { atk: 0.04, hp: 0.01, speed: 0.00, bossAtk: 0.00, crit: 0.00, cleave: 0.00, text: "ê³µê²©ë ¥ +4%" } },
+        { id: "comp-1-2", tier: 1, name: "íšŒë³µ ë²„ì„¯ ì •ë ¹", cost: 20, effect: { atk: 0.01, hp: 0.05, speed: 0.00, bossAtk: 0.00, crit: 0.00, cleave: 0.00, text: "ìµœëŒ€ì²´ë ¥ +5%" } },
+        { id: "comp-1-3", tier: 1, name: "ì‚°ê¸¸ ìˆœì°°ì", cost: 20, effect: { atk: 0.00, hp: 0.01, speed: 0.03, bossAtk: 0.00, crit: 0.00, cleave: 0.00, text: "ê³µê²©ì†ë„ +3%" } },
+        { id: "comp-1-4", tier: 1, name: "ë‹¬ë¹› ê¶ìˆ˜", cost: 22, effect: { atk: 0.03, hp: 0.00, speed: 0.01, bossAtk: 0.01, crit: 0.00, cleave: 0.00, text: "ê³µê²©ë ¥ +3%, ë³´ìŠ¤ ì¶”ê°€ ê³µê²©ë ¥ +1%" } },
+        { id: "comp-1-5", tier: 1, name: "ì¿ë¹› ì „ì‚¬", cost: 24, effect: { atk: 0.05, hp: 0.00, speed: 0.00, bossAtk: 0.00, crit: 0.01, cleave: 0.00, text: "ê³µê²©ë ¥ +5%, ì¹˜ëª…íƒ€ +1%" } },
+        { id: "comp-2-1", tier: 2, name: "í™”ì—¼ì˜ êµê´€", cost: 30, effect: { atk: 0.07, hp: 0.02, speed: 0.00, bossAtk: 0.02, crit: 0.00, cleave: 0.00, text: "ê³µê²©ë ¥ +7%, ë³´ìŠ¤ ì¶”ê°€ ê³µê²©ë ¥ +2%" } },
+        { id: "comp-2-2", tier: 2, name: "ê°•ì²  ì§‘í–‰ì", cost: 34, effect: { atk: 0.03, hp: 0.07, speed: 0.01, bossAtk: 0.00, crit: 0.00, cleave: 0.00, text: "ìµœëŒ€ì²´ë ¥ +7%, ê³µê²©ì†ë„ +1%" } },
+        { id: "comp-2-3", tier: 2, name: "í­í’ ì‚¬ëƒ¥ê°œ", cost: 34, effect: { atk: 0.02, hp: 0.00, speed: 0.06, bossAtk: 0.03, crit: 0.00, cleave: 0.00, text: "ê³µê²©ì†ë„ +6%, ë³´ìŠ¤ ì¶”ê°€ ê³µê²©ë ¥ +3%" } },
+        { id: "comp-2-4", tier: 2, name: "ì€ë¹› ì •ì°°ë‹¨", cost: 38, effect: { atk: 0.04, hp: 0.02, speed: 0.00, bossAtk: 0.00, crit: 0.02, cleave: 0.00, text: "ê³µê²©ë ¥ +4%, ì¹˜ëª…íƒ€ +2%" } },
+        { id: "comp-2-5", tier: 2, name: "ê·¸ë¦¼ì ë‚šì‹œê¾¼", cost: 38, effect: { atk: 0.03, hp: 0.00, speed: 0.00, bossAtk: 0.00, crit: 0.00, cleave: 0.03, text: "ì¶”ê°€íƒ€ í™•ë¥  +3%" } },
+        { id: "comp-3-1", tier: 3, name: "ì²­ë£¡ì˜ ìˆ˜í–‰ì", cost: 48, effect: { atk: 0.09, hp: 0.03, speed: 0.02, bossAtk: 0.04, crit: 0.00, cleave: 0.00, text: "ê³µê²©ë ¥ +9%, ë³´ìŠ¤ ì¶”ê°€ ê³µê²©ë ¥ +4%" } },
+        { id: "comp-3-2", tier: 3, name: "ì² ê°‘ ë°”ë“œ", cost: 52, effect: { atk: 0.02, hp: 0.10, speed: 0.00, bossAtk: 0.02, crit: 0.00, cleave: 0.00, text: "ì²´ë ¥ +10%, ë³´ìŠ¤ ì¶”ê°€ ê³µê²©ë ¥ +2%" } },
+        { id: "comp-3-3", tier: 3, name: "ë²ˆê°œì˜ ì‚¬ì ˆ", cost: 55, effect: { atk: 0.06, hp: 0.00, speed: 0.03, bossAtk: 0.00, crit: 0.05, cleave: 0.00, text: "ê³µê²©ë ¥ +6%, ê³µê²©ì†ë„ +3%, ì¹˜ëª…íƒ€ +5%" } },
+        { id: "comp-3-4", tier: 3, name: "ê·¸ë¦¼ì íŒŒë™", cost: 58, effect: { atk: 0.04, hp: 0.04, speed: 0.01, bossAtk: 0.00, crit: 0.00, cleave: 0.04, text: "ê³µê²©ë ¥ +4%, ìµœëŒ€ì²´ë ¥ +4%, ì¶”ê°€íƒ€ í™•ë¥  +4%" } },
+        { id: "comp-3-5", tier: 3, name: "í™”ì‚°ì˜ ê²€ì‚¬", cost: 62, effect: { atk: 0.06, hp: 0.00, speed: 0.00, bossAtk: 0.06, crit: 0.00, cleave: 0.00, text: "ê³µê²©ë ¥ +6%, ë³´ìŠ¤ ì¶”ê°€ ê³µê²©ë ¥ +6%" } },
+        { id: "comp-4-1", tier: 4, name: "ì²œê³µì˜ ì‚¬ë„", cost: 74, effect: { atk: 0.14, hp: 0.08, speed: 0.03, bossAtk: 0.10, crit: 0.00, cleave: 0.00, text: "ê³µê²©ë ¥ +14%, ë³´ìŠ¤ ì¶”ê°€ ê³µê²©ë ¥ +10%" } },
+        { id: "comp-4-2", tier: 4, name: "íƒœê³ ì˜ ì‹¬íŒì", cost: 78, effect: { atk: 0.09, hp: 0.16, speed: 0.00, bossAtk: 0.04, crit: 0.00, cleave: 0.00, text: "ìµœëŒ€ì²´ë ¥ +16%, ë³´ìŠ¤ ì¶”ê°€ ê³µê²©ë ¥ +4%" } },
+        { id: "comp-4-3", tier: 4, name: "í­í’ì˜ ì œì™•", cost: 82, effect: { atk: 0.07, hp: 0.06, speed: 0.09, bossAtk: 0.07, crit: 0.00, cleave: 0.00, text: "ê³µê²©ì†ë„ +9%, ë³´ìŠ¤ ì¶”ê°€ ê³µê²©ë ¥ +7%" } },
+        { id: "comp-4-4", tier: 4, name: "ì‹¬ì—° ê°ì‹œì¸", cost: 88, effect: { atk: 0.08, hp: 0.04, speed: 0.02, bossAtk: 0.00, crit: 0.07, cleave: 0.00, text: "ê³µê²©ë ¥ +8%, ì¹˜ëª…íƒ€ +7%" } },
+        { id: "comp-4-5", tier: 4, name: "ìš©ì˜ ì—°ê¸ˆìˆ ì‚¬", cost: 94, effect: { atk: 0.10, hp: 0.09, speed: 0.03, bossAtk: 0.12, crit: 0.00, cleave: 0.00, text: "ê³µê²©ë ¥ +10%, ë³´ìŠ¤ ì¶”ê°€ ê³µê²©ë ¥ +12%" } },
       ];
       const companionById = Object.fromEntries(COMPANION_ROSTER.map((c) => [c.id, c]));
       const COMPANION_TIER_META = {
-        1: { label: "ÀÏ¹İ", className: "tier-1" },
-        2: { label: "Èñ±Í", className: "tier-2" },
-        3: { label: "¿µ¿õ", className: "tier-3" },
-        4: { label: "Àü¼³", className: "tier-4" },
+        1: { label: "ì¼ë°˜", className: "tier-1" },
+        2: { label: "í¬ê·€", className: "tier-2" },
+        3: { label: "ì˜ì›…", className: "tier-3" },
+        4: { label: "ì „ì„¤", className: "tier-4" },
       };
       const COMPANION_TIER_RATE = {
         1: 0.5,
@@ -1211,7 +1193,7 @@
       let lastCompanionRenderDebugState = "";
 
       const state = {
-        heroName: "Àü»ç",
+        heroName: "ì „ì‚¬",
         level: 1,
         exp: 0,
         skillPoints: 0,
@@ -1240,7 +1222,7 @@
       };
 
       const enemy = {
-        name: "½½¶óÀÓ",
+        name: "ìŠ¬ë¼ì„",
         level: 1,
         family: "slime",
         hpMax: 24,
@@ -1447,7 +1429,7 @@
       }
 
       function createEffectAccumulator() {
-        return { atk: 0, hp: 0, speed: 0, bossAtk: 0, crit: 0, cleave: 0, lifesteal: 0 };
+        return { atk: 0, hp: 0, speed: 0, bossAtk: 0, crit: 0, cleave: 0 };
       }
 
       function addScaledEffect(target, effect, scale) {
@@ -1458,7 +1440,6 @@
         target.bossAtk += (effect.bossAtk || 0) * scale;
         target.crit += (effect.crit || 0) * scale;
         target.cleave += (effect.cleave || 0) * scale;
-        target.lifesteal += (effect.lifesteal || 0) * scale;
       }
 
       function companionLevelMultiplier(level) {
@@ -1477,9 +1458,9 @@
 
       function companionNextLevelProgress(companionId) {
         const level = getCompanionLevel(companionId);
-        if (level <= 0) return "¹ÌÈ¹µæ";
-        if (level < 9) return `´ÙÀ½ Lv${level + 1}: µ¿ÀÏ µ¿·á 1°³`;
-        if (level === 9) return `Lv10 ½Â±Ş Á¶°¢ ${getCompanionLv9Shard(companionId)}/${COMPANION_LV10_DUPLICATES}`;
+        if (level <= 0) return "ë¯¸íšë“";
+        if (level < 9) return `ë‹¤ìŒ Lv${level + 1}: ë™ì¼ ë™ë£Œ 1ê°œ`;
+        if (level === 9) return `Lv10 ìŠ¹ê¸‰ ì¡°ê° ${getCompanionLv9Shard(companionId)}/${COMPANION_LV10_DUPLICATES}`;
         return "Lv MAX";
       }
 
@@ -1595,31 +1576,31 @@
 
       function companionDisplayName() {
         const equipped = getEquippedCompanions();
-        if (!equipped.length) return "µ¿·á ¹ÌÀåÂø";
+        if (!equipped.length) return "ë™ë£Œ ë¯¸ì¥ì°©";
         if (equipped.length === 1) {
           const one = equipped[0];
-          return `1/${MAX_EQUIPPED_COMPANIONS} ÀåÂø - ${one.name} Lv${getCompanionLevel(one.id)}`;
+          return `1/${MAX_EQUIPPED_COMPANIONS} ì¥ì°© - ${one.name} Lv${getCompanionLevel(one.id)}`;
         }
-        return `${equipped.length}/${MAX_EQUIPPED_COMPANIONS} ÀåÂø`;
+        return `${equipped.length}/${MAX_EQUIPPED_COMPANIONS} ì¥ì°©`;
       }
 
       function formatEffectSummary(effect) {
         const parts = [];
-        if ((effect.atk || 0) !== 0) parts.push(`°ø°İ ${Math.round(effect.atk * 100)}%`);
-        if ((effect.hp || 0) !== 0) parts.push(`Ã¼·Â ${Math.round(effect.hp * 100)}%`);
-        if ((effect.speed || 0) !== 0) parts.push(`¼Óµµ ${Math.round(effect.speed * 100)}%`);
-        if ((effect.bossAtk || 0) !== 0) parts.push(`º¸½º ${Math.round(effect.bossAtk * 100)}%`);
-        if ((effect.crit || 0) !== 0) parts.push(`Ä¡È® ${Math.round(effect.crit * 100)}%`);
-        if ((effect.cleave || 0) !== 0) parts.push(`ÃßÅ¸ ${Math.round(effect.cleave * 100)}%`);
-        return parts.length ? parts.join(", ") : "¾øÀ½";
+        if ((effect.atk || 0) !== 0) parts.push(`ê³µê²© ${Math.round(effect.atk * 100)}%`);
+        if ((effect.hp || 0) !== 0) parts.push(`ì²´ë ¥ ${Math.round(effect.hp * 100)}%`);
+        if ((effect.speed || 0) !== 0) parts.push(`ì†ë„ ${Math.round(effect.speed * 100)}%`);
+        if ((effect.bossAtk || 0) !== 0) parts.push(`ë³´ìŠ¤ ${Math.round(effect.bossAtk * 100)}%`);
+        if ((effect.crit || 0) !== 0) parts.push(`ì¹˜í™• ${Math.round(effect.crit * 100)}%`);
+        if ((effect.cleave || 0) !== 0) parts.push(`ì¶”íƒ€ ${Math.round(effect.cleave * 100)}%`);
+        return parts.length ? parts.join(", ") : "ì—†ìŒ";
       }
 
       function companionEffectText() {
         const effect = aggregateCompanionEffect();
         const ownedText = formatEffectSummary(effect.owned || createEffectAccumulator());
         const equippedText = formatEffectSummary(effect.equipped || createEffectAccumulator());
-        if (ownedText === "¾øÀ½" && equippedText === "¾øÀ½") return "Ãß°¡ È¿°ú ¾øÀ½";
-        return `º¸À¯ È¿°ú: ${ownedText} / ÀåÂø È¿°ú: ${equippedText}`;
+        if (ownedText === "ì—†ìŒ" && equippedText === "ì—†ìŒ") return "ì¶”ê°€ íš¨ê³¼ ì—†ìŒ";
+        return `ë³´ìœ  íš¨ê³¼: ${ownedText} / ì¥ì°© íš¨ê³¼: ${equippedText}`;
       }
 
       function companionEffectForDisplay(baseEffect, scale) {
@@ -1641,14 +1622,14 @@
           state.companionLevels[companionId] = 1;
           delete state.companionLv9Shards[companionId];
           normalizeOwnedCompanions();
-          return { level: 1, statusText: "È¹µæ (Lv1)" };
+          return { level: 1, statusText: "íšë“ (Lv1)" };
         }
 
         if (currentLevel < 9) {
           const nextLevel = currentLevel + 1;
           state.companionLevels[companionId] = nextLevel;
           normalizeOwnedCompanions();
-          return { level: nextLevel, statusText: `Lv${nextLevel} ´Ş¼º` };
+          return { level: nextLevel, statusText: `Lv${nextLevel} ë‹¬ì„±` };
         }
 
         if (currentLevel === 9) {
@@ -1657,15 +1638,15 @@
             state.companionLevels[companionId] = 10;
             delete state.companionLv9Shards[companionId];
             normalizeOwnedCompanions();
-            return { level: 10, statusText: "Lv10 ´Ş¼º" };
+            return { level: 10, statusText: "Lv10 ë‹¬ì„±" };
           }
 
           state.companionLv9Shards[companionId] = nextShard;
           normalizeOwnedCompanions();
-          return { level: 9, statusText: `Lv10 ½Â±Ş Á¶°¢ ${nextShard}/${COMPANION_LV10_DUPLICATES}` };
+          return { level: 9, statusText: `Lv10 ìŠ¹ê¸‰ ì¡°ê° ${nextShard}/${COMPANION_LV10_DUPLICATES}` };
         }
 
-        return { level: COMPANION_MAX_LEVEL, statusText: "Lv10 (ÃÖ´ë)" };
+        return { level: COMPANION_MAX_LEVEL, statusText: "Lv10 (ìµœëŒ€)" };
       }
 
       function drawableCompanionPool() {
@@ -1723,22 +1704,15 @@
         return Math.max(1, Math.floor(state.hpBase * (1 + (state.hpLv - 1) * 0.32) * companionHpMultiplier()));
       }
 
-      function baseAttacksPerSecond(level = state.speedLv) {
-        const base = state.speedBase * (1 + (Number(level) - 1) * 0.35);
-        return Math.min(ATTACK_SPEED_CAP, Math.max(ATTACK_SPEED_MIN, base));
-      }
-
-      function isBaseAttacksPerSecondCapped(level = state.speedLv) {
-        return baseAttacksPerSecond(level) >= ATTACK_SPEED_CAP;
-      }
-
       function attacksPerSecond() {
-        return Math.min(ATTACK_SPEED_CAP, baseAttacksPerSecond() * companionSpeedMultiplier());
+        const speed = Math.max(0.8, state.speedBase * (1 + (state.speedLv - 1) * 0.35) * companionSpeedMultiplier());
+        return Math.min(10, speed);
       }
 
       function attackInterval() {
         return 1 / attacksPerSecond();
       }
+
       function clampStage(v) {
         return Math.max(1, Math.min(MAX_CHAPTER, v));
       }
@@ -1765,15 +1739,11 @@
         return family.normal;
       }
 
-      function critChanceBase() { return Math.min(1, 0.01 * state.skills.critChanceLv); }
-      function critChance() { return critChanceBase() + companionCritChance(); }
+      function critChance() { return Math.min(1, 0.01 * state.skills.critChanceLv + companionCritChance()); }
       function critMultiplier() { return 1.5 + 0.05 * state.skills.critDamageLv; }
-      function cleaveChanceBase() { return Math.min(0.5, 0.05 * state.skills.cleaveChanceLv); }
-      function cleaveChance() { return cleaveChanceBase() + companionCleaveChance(); }
+      function cleaveChance() { return Math.min(0.5, 0.05 * state.skills.cleaveChanceLv + companionCleaveChance()); }
       function cleaveCount() { return Math.min(5, state.skills.cleaveCountLv); }
-      function companionLifestealChance() { return aggregateCompanionEffect().lifesteal; }
-      function lifestealChanceBase() { return Math.min(0.5, 0.05 * state.skills.lifestealChanceLv); }
-      function lifestealChance() { return lifestealChanceBase() + companionLifestealChance(); }
+      function lifestealChance() { return Math.min(0.5, 0.05 * state.skills.lifestealChanceLv); }
       function lifestealAmountRate() { return Math.min(0.2, 0.01 * state.skills.lifestealAmountLv); }
 
       function renderCompanionList() {
@@ -1797,16 +1767,16 @@
         noneBtn.className = "companion-btn";
         noneBtn.type = "button";
         noneBtn.dataset.companionId = "none";
-        noneBtn.innerHTML = `µ¿·á ÇØÁ¦<span>ÇöÀç ÀåÂø ÀüÃ¼ ÇØÁ¦</span>`;
+        noneBtn.innerHTML = `ë™ë£Œ í•´ì œ<span>í˜„ì¬ ì¥ì°© ì „ì²´ í•´ì œ</span>`;
         if (!state.companionIds.length) noneBtn.classList.add("active");
         const bindCompanionButton = (button, companionId, label) => {
           button.setAttribute("onclick", `window.__equipCompanionFromUI('${companionId}')`);
           button.addEventListener("click", () => {
-            pushDebugLog(`µ¿·á ¹öÆ° Á÷Á¢ Å¬¸¯: ${label}`);
+            pushDebugLog(`ë™ë£Œ ë²„íŠ¼ ì§ì ‘ í´ë¦­: ${label}`);
             equipCompanion(companionId);
           });
           button.addEventListener("pointerdown", () => {
-            pushDebugLog(`µ¿·á ¹öÆ° Æ÷ÀÎÅÍ´Ù¿î: ${label}`);
+            pushDebugLog(`ë™ë£Œ ë²„íŠ¼ í¬ì¸í„°ë‹¤ìš´: ${label}`);
             equipCompanion(companionId);
           });
         };
@@ -1817,7 +1787,6 @@
           if (c.id === "none") continue;
 
           const level = getCompanionLevel(c.id);
-          const tierMeta = companionTierMeta(c.tier);
           const isOwned = level > 0;
           const levelMultiplier = companionLevelMultiplier(level);
           const ownedEffect = companionEffectForDisplay(c.effect, COMPANION_OWNED_EFFECT_RATIO * levelMultiplier);
@@ -1826,10 +1795,9 @@
 
           const b = document.createElement("button");
           b.className = "companion-btn";
-          b.classList.add(tierMeta.className);
           b.type = "button";
           b.dataset.companionId = c.id;
-          b.innerHTML = `${c.name} Lv${level}<span>${isOwned ? `º¸À¯: ${formatEffectSummary(ownedEffect)} / ÀåÂø: ${formatEffectSummary(equippedEffect)} / ${progressText}` : "¹ÌÈ¹µæ"}</span>`;
+          b.innerHTML = `${c.name} Lv${level}<span>${isOwned ? `ë³´ìœ : ${formatEffectSummary(ownedEffect)} / ì¥ì°©: ${formatEffectSummary(equippedEffect)} / ${progressText}` : "ë¯¸íšë“"}</span>`;
           if (!isOwned) b.classList.add("locked");
           if (state.companionIds.includes(c.id)) b.classList.add("active");
           bindCompanionButton(b, c.id, c.id);
@@ -1840,7 +1808,7 @@
           const empty = document.createElement("div");
           empty.className = "sub";
           empty.style.padding = "10px 4px";
-          empty.textContent = "È¹µæÇÑ µ¿·á°¡ ¾ø½À´Ï´Ù. µ¿·á »Ì±â¸¦ ¸ÕÀú ÁøÇàÇÏ¼¼¿ä.";
+          empty.textContent = "íšë“í•œ ë™ë£Œê°€ ì—†ìŠµë‹ˆë‹¤. ë™ë£Œ ë½‘ê¸°ë¥¼ ë¨¼ì € ì§„í–‰í•˜ì„¸ìš”.";
           ui.companionList.appendChild(empty);
         }
 
@@ -1853,31 +1821,31 @@
         const targetId = normalizeCompanionId(id);
         const next = companionById[targetId] || companionById.none;
         if (targetId !== id) {
-          pushDebugLog(`equipCompanion Á¤±ÔÈ­: target=${id} -> ${targetId}`);
+          pushDebugLog(`equipCompanion ì •ê·œí™”: target=${id} -> ${targetId}`);
         }
-        pushDebugLog(`equipCompanion È£Ãâ: target=${targetId}, before=${state.companionIds.join(",") || "none"}`);
+        pushDebugLog(`equipCompanion í˜¸ì¶œ: target=${targetId}, before=${state.companionIds.join(",") || "none"}`);
         const before = maxHp();
 
         if (next.id === "none") {
           if (!state.companionIds.length) {
-            setToast("µ¿·á°¡ ÀÌ¹Ì ÇØÁ¦ »óÅÂÀÔ´Ï´Ù");
-            pushDebugLog("ÀÌ¹Ì ÇØÁ¦ »óÅÂ");
+            setToast("ë™ë£Œê°€ ì´ë¯¸ í•´ì œ ìƒíƒœì…ë‹ˆë‹¤");
+            pushDebugLog("ì´ë¯¸ í•´ì œ ìƒíƒœ");
             return;
           }
           state.companionIds = [];
           state.companionId = "none";
           const afterClear = maxHp();
           state.hp = Math.min(state.hp, afterClear);
-          setToast("ÀåÂø µ¿·á¸¦ ¸ğµÎ ÇØÁ¦Çß½À´Ï´Ù");
-          pushDebugLog(`ÀüÃ¼ ÇØÁ¦ ¿Ï·á: hpCap=${afterClear}`);
+          setToast("ì¥ì°© ë™ë£Œë¥¼ ëª¨ë‘ í•´ì œí–ˆìŠµë‹ˆë‹¤");
+          pushDebugLog(`ì „ì²´ í•´ì œ ì™„ë£Œ: hpCap=${afterClear}`);
           renderCompanionList();
           refreshDebugPanel();
           updateStatus();
           return;
         }
         if (next.id !== "none" && !state.ownedCompanions.includes(next.id)) {
-          setToast("µ¿·á »Ì±â·Î È¹µæÇÑ µ¿·á¸¸ ÀåÂøÇÒ ¼ö ÀÖ½À´Ï´Ù");
-          pushDebugLog(`¹Ì¼ÒÀ¯ µ¿·á ÀåÂø ½Ãµµ Â÷´Ü: ${next.id}`);
+          setToast("ë™ë£Œ ë½‘ê¸°ë¡œ íšë“í•œ ë™ë£Œë§Œ ì¥ì°©í•  ìˆ˜ ìˆìŠµë‹ˆë‹¤");
+          pushDebugLog(`ë¯¸ì†Œìœ  ë™ë£Œ ì¥ì°© ì‹œë„ ì°¨ë‹¨: ${next.id}`);
           return;
         }
 
@@ -1887,8 +1855,8 @@
           normalizeEquippedCompanions();
           const afterRemove = maxHp();
           state.hp = Math.min(state.hp, afterRemove);
-          setToast(`${next.name} ÀåÂø ÇØÁ¦`);
-          pushDebugLog(`ÀåÂø ÇØÁ¦: ${next.id}, hpCap=${afterRemove}`);
+          setToast(`${next.name} ì¥ì°© í•´ì œ`);
+          pushDebugLog(`ì¥ì°© í•´ì œ: ${next.id}, hpCap=${afterRemove}`);
           renderCompanionList();
           refreshDebugPanel();
           updateStatus();
@@ -1896,8 +1864,8 @@
         }
 
         if (state.companionIds.length >= MAX_EQUIPPED_COMPANIONS) {
-          setToast(`µ¿·á´Â ÃÖ´ë ${MAX_EQUIPPED_COMPANIONS}¸í±îÁö ÀåÂøÇÒ ¼ö ÀÖ½À´Ï´Ù`);
-          pushDebugLog(`ÀåÂø ½ÇÆĞ(½½·ÔÃÊ°ú): ${next.id}`);
+          setToast(`ë™ë£ŒëŠ” ìµœëŒ€ ${MAX_EQUIPPED_COMPANIONS}ëª…ê¹Œì§€ ì¥ì°©í•  ìˆ˜ ìˆìŠµë‹ˆë‹¤`);
+          pushDebugLog(`ì¥ì°© ì‹¤íŒ¨(ìŠ¬ë¡¯ì´ˆê³¼): ${next.id}`);
           return;
         }
 
@@ -1906,8 +1874,8 @@
         const after = maxHp();
         const healed = Math.max(0, after - before);
         if (healed > 0) state.hp = Math.min(after, state.hp + healed);
-        setToast(`${next.name} ÀåÂø (${state.companionIds.length}/${MAX_EQUIPPED_COMPANIONS})`);
-        pushDebugLog(`ÀåÂø ¿Ï·á: ${state.companionIds.join(",")}, º¸Á¤HP=${after}, heal=${healed}`);
+        setToast(`${next.name} ì¥ì°© (${state.companionIds.length}/${MAX_EQUIPPED_COMPANIONS})`);
+        pushDebugLog(`ì¥ì°© ì™„ë£Œ: ${state.companionIds.join(",")}, ë³´ì •HP=${after}, heal=${healed}`);
         renderCompanionList();
         refreshDebugPanel();
         updateStatus();
@@ -1922,13 +1890,13 @@
         const drawCount = drawAmount >= COMPANION_MULTI_DRAW_COUNT ? COMPANION_MULTI_DRAW_COUNT : 1;
 
         if (isAllCompanionsMaxed()) {
-          setToast("¸ğµç µ¿·á°¡ Lv10ÀÔ´Ï´Ù");
+          setToast("ëª¨ë“  ë™ë£Œê°€ Lv10ì…ë‹ˆë‹¤");
           return;
         }
 
         const cost = companionDrawCost(drawCount);
         if (!canBuyDiamond(cost)) {
-          setToast("´ÙÀÌ¾Æ°¡ ºÎÁ·ÇÕ´Ï´Ù");
+          setToast("ë‹¤ì´ì•„ê°€ ë¶€ì¡±í•©ë‹ˆë‹¤");
           return;
         }
 
@@ -1951,7 +1919,7 @@
         if (!results.length) {
           state.diamonds += cost;
           state.drawCount = Math.max(0, state.drawCount - drawCount);
-          setToast("»Ì±â °¡´ÉÇÑ µ¿·á°¡ ¾ø½À´Ï´Ù");
+          setToast("ë½‘ê¸° ê°€ëŠ¥í•œ ë™ë£Œê°€ ì—†ìŠµë‹ˆë‹¤");
           return;
         }
 
@@ -1961,7 +1929,7 @@
         } else {
           const preview = results.slice(0, 3).map((r) => `${r.name} ${r.statusText}`).join(", ");
           const suffix = results.length > 3 ? " ..." : "";
-          setToast(`µ¿·á ${applied}È¸ »Ì±â: ${preview}${suffix}`);
+          setToast(`ë™ë£Œ ${applied}íšŒ ë½‘ê¸°: ${preview}${suffix}`);
         }
 
         openCompanionDrawModal(results, drawCount, applied);
@@ -2011,7 +1979,7 @@
         if (ui.debugModeText) ui.debugModeText.textContent = debugState.enabled ? "ON" : "OFF";
         if (ui.debugPanelToggleBtn) {
           ui.debugPanelToggleBtn.classList.toggle("btn-disable", debugState.enabled);
-          ui.debugPanelToggleBtn.textContent = debugState.enabled ? "µğ¹ö±× Á¾·á" : "µğ¹ö±× ¸ğµå";
+          ui.debugPanelToggleBtn.textContent = debugState.enabled ? "ë””ë²„ê·¸ ì¢…ë£Œ" : "ë””ë²„ê·¸ ëª¨ë“œ";
         }
       }
 
@@ -2029,20 +1997,20 @@
         const equipped = getEquippedCompanions();
         if (ui.debugCompanionId) ui.debugCompanionId.textContent = equipped.length ? equipped.map((c) => c.id).join(",") : "none";
         if (ui.debugCompanionCheck) {
-          ui.debugCompanionCheck.textContent = `${equipped.length}/${MAX_EQUIPPED_COMPANIONS} ÀåÂø / ¸®½ºÆ®=${state.ownedCompanions.length}`;
+          ui.debugCompanionCheck.textContent = `${equipped.length}/${MAX_EQUIPPED_COMPANIONS} ì¥ì°© / ë¦¬ìŠ¤íŠ¸=${state.ownedCompanions.length}`;
         }
         if (ui.debugStorage) ui.debugStorage.textContent = STORAGE_KEY;
       }
 
       function getDebugDump() {
         const lines = [
-          `[µğ¹ö±× ¸ğµå] ${debugState.enabled ? "ON" : "OFF"}`,
-          `[Å°] ${STORAGE_KEY}`,
-          `[µ¿·á ID] ${state.companionIds.join(", ") || "none"}`,
-          `[µ¿·á ¼ÒÀ¯ ¸ñ·Ï] ${state.ownedCompanions.join(", ") || "none"}`,
-          `[µ¿·á ÆĞ³Î] ${ui.debugCompanionCheck ? ui.debugCompanionCheck.textContent : "-"}`,
-          `[µğ¹ö±× ·Î±×]`,
-          ...(debugLogs.length ? debugLogs : ["(·Î±× ¾øÀ½)"]),
+          `[ë””ë²„ê·¸ ëª¨ë“œ] ${debugState.enabled ? "ON" : "OFF"}`,
+          `[í‚¤] ${STORAGE_KEY}`,
+          `[ë™ë£Œ ID] ${state.companionIds.join(", ") || "none"}`,
+          `[ë™ë£Œ ì†Œìœ  ëª©ë¡] ${state.ownedCompanions.join(", ") || "none"}`,
+          `[ë™ë£Œ íŒ¨ë„] ${ui.debugCompanionCheck ? ui.debugCompanionCheck.textContent : "-"}`,
+          `[ë””ë²„ê·¸ ë¡œê·¸]`,
+          ...(debugLogs.length ? debugLogs : ["(ë¡œê·¸ ì—†ìŒ)"]),
         ];
         return lines.join("\n");
       }
@@ -2052,7 +2020,7 @@
         try {
           if (navigator.clipboard && navigator.clipboard.writeText) {
             await navigator.clipboard.writeText(payload);
-            setToast("µğ¹ö±× ·Î±×¸¦ º¹»çÇß½À´Ï´Ù");
+            setToast("ë””ë²„ê·¸ ë¡œê·¸ë¥¼ ë³µì‚¬í–ˆìŠµë‹ˆë‹¤");
           } else {
             throw new Error("clipboard unsupported");
           }
@@ -2066,15 +2034,15 @@
           ta.select();
           try {
             document.execCommand("copy");
-            setToast("µğ¹ö±× ·Î±×¸¦ º¹»çÇß½À´Ï´Ù");
+            setToast("ë””ë²„ê·¸ ë¡œê·¸ë¥¼ ë³µì‚¬í–ˆìŠµë‹ˆë‹¤");
           } catch (err) {
-            setToast("º¹»ç ½ÇÆĞ. ÄÜ¼Ö¿¡¼­ È®ÀÎÇÏ¼¼¿ä");
+            setToast("ë³µì‚¬ ì‹¤íŒ¨. ì½˜ì†”ì—ì„œ í™•ì¸í•˜ì„¸ìš”");
             console.error(err);
           } finally {
             ta.remove();
           }
         }
-        pushDebugLog("µğ¹ö±× ·Î±× º¹»ç ½ÇÇà");
+        pushDebugLog("ë””ë²„ê·¸ ë¡œê·¸ ë³µì‚¬ ì‹¤í–‰");
       }
 
       function disableDebugMode() {
@@ -2146,8 +2114,8 @@
         ui.heroHpBar.style.width = `${Math.min(1, Math.max(0, state.hp / hpCap)) * 100}%`;
         ui.monsterHpText.textContent = `${Math.floor(enemy.hp)} / ${enemy.hpMax}`;
         ui.heroHpText.textContent = `${Math.floor(state.hp)} / ${hpCap}`;
-        ui.attackSpeedText.textContent = `${aps.toFixed(2)}È¸/ÃÊ`;
-        ui.dpsText.textContent = `${dps.toFixed(1)} /ÃÊ`;
+        ui.attackSpeedText.textContent = `${aps.toFixed(2)}íšŒ/ì´ˆ`;
+        ui.dpsText.textContent = `${dps.toFixed(1)} /ì´ˆ`;
         const power = combatPower();
         ui.combatPowerText.textContent = `${power.total}`;
         if (ui.battlePowerTopText) ui.battlePowerTopText.textContent = `${power.total}`;
@@ -2164,11 +2132,11 @@
         ui.stageNameText.textContent = currentStage;
         ui.stageProgressBar.style.width = `${(state.stageKillCount / ENEMIES_PER_STAGE) * 100}%`;
         ui.monsterName.textContent = `${enemy.name}`;
-        ui.bossTimerText.textContent = enemy.isBoss ? `${Math.max(0, Math.ceil(state.bossTimeLeft))}ÃÊ` : "-";
+        ui.bossTimerText.textContent = enemy.isBoss ? `${Math.max(0, Math.ceil(state.bossTimeLeft))}ì´ˆ` : "-";
         ui.activeCompanionText.textContent = companionDisplayName();
-        ui.attackLvlBtn.textContent = `°ø°İ·Â °­È­ ${state.attackLv}È¸`;
-        ui.hpLvlBtn.textContent = `Ã¼·Â °­È­ ${state.hpLv}È¸`;
-        ui.speedLvlBtn.textContent = `°ø°İ¼Óµµ °­È­ ${state.speedLv}È¸`;
+        ui.attackLvlBtn.textContent = `ê³µê²©ë ¥ ê°•í™” ${state.attackLv}íšŒ`;
+        ui.hpLvlBtn.textContent = `ì²´ë ¥ ê°•í™” ${state.hpLv}íšŒ`;
+        ui.speedLvlBtn.textContent = `ê³µê²©ì†ë„ ê°•í™” ${state.speedLv}íšŒ`;
         ui.selectedCompanionText.textContent = companionDisplayName();
         ui.selectedCompanionEffect.textContent = companionEffectText();
 
@@ -2179,9 +2147,9 @@
         const allMaxed = isAllCompanionsMaxed();
 
         ui.ownedCompanionCount.textContent = `${ownedCount}/${Math.min(MAX_COMPANIONS, COMPANION_ROSTER.length - 1)}`;
-        ui.drawAttemptText.textContent = `${state.drawCount || 0}È¸`;
-        ui.drawCostText.textContent = `${drawCostSingle} ´ÙÀÌ¾Æ`;
-        if (ui.drawMultiCostText) ui.drawMultiCostText.textContent = `${drawCostMulti} ´ÙÀÌ¾Æ`;
+        ui.drawAttemptText.textContent = `${state.drawCount || 0}íšŒ`;
+        ui.drawCostText.textContent = `${drawCostSingle} ë‹¤ì´ì•„`;
+        if (ui.drawMultiCostText) ui.drawMultiCostText.textContent = `${drawCostMulti} ë‹¤ì´ì•„`;
         ui.drawBtnCost.textContent = String(drawCostSingle);
         if (ui.drawMultiBtnCost) ui.drawMultiBtnCost.textContent = String(drawCostMulti);
 
@@ -2191,7 +2159,7 @@
           ui.drawCompanion11Btn.classList.toggle("btn-disable", allMaxed || !canBuyDiamond(drawCostMulti));
           ui.drawCompanion11Btn.disabled = allMaxed || !canBuyDiamond(drawCostMulti);
         }
-        const bulkModeText = `10È¸ ¾÷±×·¹ÀÌµå: ${state.bulkUpgradeMode ? "ON" : "OFF"}`;
+        const bulkModeText = `10íšŒ ì—…ê·¸ë ˆì´ë“œ: ${state.bulkUpgradeMode ? "ON" : "OFF"}`;
         if (ui.upgradeBulkToggleBtn) {
           ui.upgradeBulkToggleBtn.textContent = bulkModeText;
           ui.upgradeBulkToggleBtn.classList.toggle("btn-primary", state.bulkUpgradeMode);
@@ -2206,7 +2174,7 @@
         const bulkCount = upgradeBatchCount();
         const atkCount = bulkCount;
         const hpCount = bulkCount;
-        const spCount = maxBaseSpeedUpgradeCount(state.speedLv, bulkCount);
+        const spCount = bulkCount;
         const critCount = Math.max(0, Math.min(bulkCount, 100 - state.skills.critChanceLv));
         const critDamageCount = Math.max(0, Math.min(bulkCount, 200 - state.skills.critDamageLv));
         const cleaveChanceCount = Math.max(0, Math.min(bulkCount, 10 - state.skills.cleaveChanceLv));
@@ -2229,13 +2197,12 @@
         const isCleaveChanceMax = cleaveChanceCount <= 0;
         const isCleaveCountMax = cleaveCountCount <= 0;
         const isLifeChanceMax = lifeChanceCount <= 0;
-        const isSpeedMax = spCount <= 0;
         const isLifeAmountMax = lifeAmountCount <= 0;
 
         const renderCostText = (cost, count, done = false) => {
-          if (done || count <= 0) return "¿Ï·á";
+          if (done || count <= 0) return "ì™„ë£Œ";
           if (!state.bulkUpgradeMode) return String(cost);
-          return `${cost} (${count}È¸)`;
+          return `${cost} (${count}íšŒ)`;
         };
 
         ui.attackCost.textContent = renderCostText(atkCost, atkCount, false);
@@ -2247,21 +2214,21 @@
         ui.cleaveCountCost.textContent = renderCostText(cleaveCountUpCost, cleaveCountCount, isCleaveCountMax);
         ui.lifeChanceCost.textContent = renderCostText(lifeChanceUpCost, lifeChanceCount, isLifeChanceMax);
         ui.lifeAmountCost.textContent = renderCostText(lifeAmountUpCost, lifeAmountCount, isLifeAmountMax);
-        ui.upgradeSummary.textContent = `°­È­ ·¹º§: °ø°İ${state.attackLv} / Ã¼·Â${state.hpLv} / ¼Óµµ${state.speedLv}`;
+        ui.upgradeSummary.textContent = `ê°•í™” ë ˆë²¨: ê³µê²©${state.attackLv} / ì²´ë ¥${state.hpLv} / ì†ë„${state.speedLv}`;
 
-        ui.critChanceDesc.textContent = `È®·ü ${Math.round(critChance() * 100)}%, ÃÖ´ë 100% (Lv ${state.skills.critChanceLv})`;
-        ui.critDamageDesc.textContent = `Ãß°¡ +${50 + state.skills.critDamageLv * 5}% (Lv ${state.skills.critDamageLv}, ÃÖ´ë +1050%)`;
-        ui.cleaveChanceDesc.textContent = `È®·ü ${Math.round(cleaveChance() * 100)}%, ÃÖ´ë 50% (Lv ${state.skills.cleaveChanceLv})`;
-        ui.cleaveCountDesc.textContent = `${cleaveCount()}È¸ / ÃÖ´ë 5È¸ (Lv ${state.skills.cleaveCountLv})`;
-        ui.lifestealChanceDesc.textContent = `È®·ü ${Math.round(lifestealChance() * 100)}%, ÃÖ´ë 50% (Lv ${state.skills.lifestealChanceLv})`;
-        ui.lifestealAmountDesc.textContent = `È¸º¹·® +${Math.round(lifestealAmountRate() * 100)}% (Lv ${state.skills.lifestealAmountLv}, ÃÖ´ë 20%)`;
+        ui.critChanceDesc.textContent = `í™•ë¥  ${Math.round(critChance() * 100)}%, ìµœëŒ€ 100% (Lv ${state.skills.critChanceLv})`;
+        ui.critDamageDesc.textContent = `ì¶”ê°€ +${50 + state.skills.critDamageLv * 5}% (Lv ${state.skills.critDamageLv}, ìµœëŒ€ +1050%)`;
+        ui.cleaveChanceDesc.textContent = `í™•ë¥  ${Math.round(cleaveChance() * 100)}%, ìµœëŒ€ 50% (Lv ${state.skills.cleaveChanceLv})`;
+        ui.cleaveCountDesc.textContent = `${cleaveCount()}íšŒ / ìµœëŒ€ 5íšŒ (Lv ${state.skills.cleaveCountLv})`;
+        ui.lifestealChanceDesc.textContent = `í™•ë¥  ${Math.round(lifestealChance() * 100)}%, ìµœëŒ€ 50% (Lv ${state.skills.lifestealChanceLv})`;
+        ui.lifestealAmountDesc.textContent = `íšŒë³µëŸ‰ +${Math.round(lifestealAmountRate() * 100)}% (Lv ${state.skills.lifestealAmountLv}, ìµœëŒ€ 20%)`;
 
         ui.attackBtn.classList.toggle("btn-disable", !canBuy(atkCost));
         ui.attackBtn.disabled = !canBuy(atkCost);
         ui.hpBtn.classList.toggle("btn-disable", !canBuy(hpCost));
         ui.hpBtn.disabled = !canBuy(hpCost);
-        ui.speedBtn.classList.toggle("btn-disable", isSpeedMax || !canBuy(spCost));
-        ui.speedBtn.disabled = isSpeedMax || !canBuy(spCost);
+        ui.speedBtn.classList.toggle("btn-disable", !canBuy(spCost));
+        ui.speedBtn.disabled = !canBuy(spCost);
         ui.critChanceBtn.classList.toggle("btn-disable", isCritChanceMax || !canBuy(critChanceUpCost));
         ui.critChanceBtn.disabled = isCritChanceMax || !canBuy(critChanceUpCost);
         ui.critDamageBtn.classList.toggle("btn-disable", isCritDamageMax || !canBuy(critDamageUpCost));
@@ -2302,18 +2269,18 @@
         ui.statSpeed.textContent = finalSpeed.toFixed(2);
         ui.statFinalAttack.textContent = `${finalAttack}`;
         ui.statFinalHp.textContent = `${hpCap}`;
-        ui.statFinalSpeed.textContent = `${finalSpeed.toFixed(2)}È¸/ÃÊ`;
-        ui.statFinalDps.textContent = `${finalDps.toFixed(1)} /ÃÊ`;
+        ui.statFinalSpeed.textContent = `${finalSpeed.toFixed(2)}íšŒ/ì´ˆ`;
+        ui.statFinalDps.textContent = `${finalDps.toFixed(1)} /ì´ˆ`;
         ui.statCritChance.textContent = `${critRate}%`;
         ui.statCritDamage.textContent = `+${critDamageRate}%`;
         ui.statBossBonus.textContent = `+${bossBonusRate}%`;
         ui.statCleaveChance.textContent = `${cleaveRate}%`;
-        ui.statCleaveCount.textContent = `${cleaveHits}È¸`;
+        ui.statCleaveCount.textContent = `${cleaveHits}íšŒ`;
         const power = combatPower();
-        ui.statCombatPower.textContent = `${power.total} (${Math.round(power.attackScore)}A / ${Math.round(power.hpScore)}HP / ${Math.round(power.speedScore)}¼Ó / ${Math.round(power.skillBonus)}½ºÅ³)`;
-        ui.statInterval.textContent = `${attackInterval().toFixed(2)}ÃÊ`;
+        ui.statCombatPower.textContent = `${power.total} (${Math.round(power.attackScore)}A / ${Math.round(power.hpScore)}HP / ${Math.round(power.speedScore)}ì† / ${Math.round(power.skillBonus)}ìŠ¤í‚¬)`;
+        ui.statInterval.textContent = `${attackInterval().toFixed(2)}ì´ˆ`;
         ui.statUpgradeLv.textContent = `${state.attackLv}/${state.hpLv}/${state.speedLv}`;
-        ui.statSkillLv.textContent = `Ä¡È®${state.skills.critChanceLv}/Ä¡ÇÇ${state.skills.critDamageLv}/ÃßÈ®${state.skills.cleaveChanceLv}/ÃßÅ¸${state.skills.cleaveCountLv}/ÈíÈ®${state.skills.lifestealChanceLv}/ÈíÈ¸${state.skills.lifestealAmountLv}`;
+        ui.statSkillLv.textContent = `ì¹˜í™•${state.skills.critChanceLv}/ì¹˜í”¼${state.skills.critDamageLv}/ì¶”í™•${state.skills.cleaveChanceLv}/ì¶”íƒ€${state.skills.cleaveCountLv}/í¡í™•${state.skills.lifestealChanceLv}/í¡íšŒ${state.skills.lifestealAmountLv}`;
         ui.statCompanionText.textContent = companionDisplayName();
         ui.statHpNow.textContent = `${Math.floor(state.hp)} / ${hpCap}`;
         ui.statExpNow.textContent = `${state.exp} / ${nextExp}`;
@@ -2329,7 +2296,7 @@
           state.exp -= expNeed(state.level);
           state.level += 1;
           state.hp = Math.min(maxHp(), state.hp + 8);
-          setToast("·¹º§¾÷!");
+          setToast("ë ˆë²¨ì—…!");
         }
       }
 
@@ -2370,7 +2337,7 @@
         ui.monster.classList.toggle("use-normal-sprite", useMonsterSprite);
         if (ui.monsterNormalImage) {
           if (useMonsterSprite) ui.monsterNormalImage.src = spritePath;
-          ui.monsterNormalImage.alt = enemy.name || "Àû ÀÌ¹ÌÁö";
+          ui.monsterNormalImage.alt = enemy.name || "ì  ì´ë¯¸ì§€";
           ui.monsterNormalImage.hidden = !useMonsterSprite;
         }
       }
@@ -2469,7 +2436,7 @@
         };
 
         if (isCrit) {
-          labels.push("Ä¡¸íÅ¸!");
+          labels.push("ì¹˜ëª…íƒ€!");
         }
 
         if (willCleave) {
@@ -2481,7 +2448,7 @@
               enemy.hp -= extraDmg;
               totalDmg += extraDmg;
             }
-            labels.push(`Ãß°¡Å¸ x${count}`);
+            labels.push(`ì¶”ê°€íƒ€ x${count}`);
           }
         }
 
@@ -2524,7 +2491,7 @@
           "monster",
           `${labels.length ? labels.join(" ") + " " : ""}-${Math.floor(totalDmg)}`,
           "#fca5a5",
-          labels.includes("Ä¡¸íÅ¸!") ? "crit" : cleaveCnt > 0 ? "cleave" : ""
+          labels.includes("ì¹˜ëª…íƒ€!") ? "crit" : cleaveCnt > 0 ? "cleave" : ""
         );
         if (isCrit || cleaveCnt > 0) {
           addHitBurst("monster", isCrit ? "rgba(250, 204, 21, 0.75)" : "rgba(125, 211, 252, 0.58)", 130, 440);
@@ -2543,7 +2510,7 @@
           const expGain = 8 + enemy.level * 2;
           const killBonus = Math.max(1, Math.floor(totalDmg * 0.25));
           const bonus = enemy.level + 1 + killBonus;
-          const label = defeatedType === "midboss" ? "Áß°£º¸½º" : defeatedType === "chapterBoss" ? "Ã©ÅÍ º¸½º" : "Àû";
+          const label = defeatedType === "midboss" ? "ì¤‘ê°„ë³´ìŠ¤" : defeatedType === "chapterBoss" ? "ì±•í„° ë³´ìŠ¤" : "ì ";
           gainExp(expGain);
           state.skillPoints += enemy.level + 1;
           state.skillPoints += killBonus;
@@ -2552,7 +2519,7 @@
             state.diamonds += 1;
             droppedDiamond = 1;
           }
-          setToast(`${label} Ã³Ä¡! EXP ${expGain}, °ñµå +${bonus}${droppedDiamond ? `, ´ÙÀÌ¾Æ +${droppedDiamond}` : ""}`);
+          setToast(`${label} ì²˜ì¹˜! EXP ${expGain}, ê³¨ë“œ +${bonus}${droppedDiamond ? `, ë‹¤ì´ì•„ +${droppedDiamond}` : ""}`);
           spawnNextMonster();
           ensureBounds();
           updateStatus();
@@ -2593,9 +2560,9 @@
         state.hp = maxHp();
         restartCurrentStageFromStart();
         if (type === "time") {
-          setToast("º¸½º Á¦ÇÑ½Ã°£ ÃÊ°ú·Î ½ºÅ×ÀÌÁö°¡ ¸®¼ÂµÇ¾ú½À´Ï´Ù");
+          setToast("ë³´ìŠ¤ ì œí•œì‹œê°„ ì´ˆê³¼ë¡œ ìŠ¤í…Œì´ì§€ê°€ ë¦¬ì…‹ë˜ì—ˆìŠµë‹ˆë‹¤");
         } else {
-          setToast("Ã¼·ÂÀÌ °í°¥µÇ¾î ÇØ´ç ½ºÅ×ÀÌÁö Ã¹ ÀûÀ¸·Î µ¹¾Æ°©´Ï´Ù");
+          setToast("ì²´ë ¥ì´ ê³ ê°ˆë˜ì–´ í•´ë‹¹ ìŠ¤í…Œì´ì§€ ì²« ì ìœ¼ë¡œ ëŒì•„ê°‘ë‹ˆë‹¤");
         }
       }
 
@@ -2609,25 +2576,10 @@
         return state.bulkUpgradeMode ? BULK_UPGRADE_COUNT : 1;
       }
 
-      function maxBaseSpeedUpgradeCount(fromLevel = state.speedLv, limit = upgradeBatchCount()) {
-        const start = Math.max(1, Math.floor(Number(fromLevel) || 0));
-        const maxTurns = Math.max(0, Math.floor(Number(limit) || 0));
-        let count = 0;
-
-        for (let i = 0; i < maxTurns; i++) {
-          const currentLevel = start + i;
-          if (isBaseAttacksPerSecondCapped(currentLevel)) break;
-          count += 1;
-          if (isBaseAttacksPerSecondCapped(currentLevel + 1)) break;
-        }
-
-        return count;
-      }
-
       function toggleBulkUpgradeMode() {
         state.bulkUpgradeMode = !state.bulkUpgradeMode;
         updateStatus();
-        setToast(`10È¸ ¾÷±×·¹ÀÌµå ${state.bulkUpgradeMode ? "ON" : "OFF"}`);
+        setToast(`10íšŒ ì—…ê·¸ë ˆì´ë“œ ${state.bulkUpgradeMode ? "ON" : "OFF"}`);
       }
 
       function upgradeAttack() {
@@ -2637,7 +2589,7 @@
 
         state.skillPoints -= totalCost;
         state.attackLv += count;
-        setToast(count === 1 ? "°ø°İ·Â °­È­" : `°ø°İ·Â ${count}È¸ °­È­`);
+        setToast(count === 1 ? "ê³µê²©ë ¥ ê°•í™”" : `ê³µê²©ë ¥ ${count}íšŒ ê°•í™”`);
         updateStatus();
       }
 
@@ -2654,22 +2606,18 @@
           state.hp += after - before;
           if (state.hp > after) state.hp = after;
         }
-        setToast(count === 1 ? "Ã¼·Â °­È­" : `Ã¼·Â ${count}È¸ °­È­`);
+        setToast(count === 1 ? "ì²´ë ¥ ê°•í™”" : `ì²´ë ¥ ${count}íšŒ ê°•í™”`);
         updateStatus();
       }
 
       function upgradeSpeed() {
-        const count = maxBaseSpeedUpgradeCount(state.speedLv, upgradeBatchCount());
-        if (count <= 0) {
-          setToast("°ø°İ¼Óµµ´Â ´õ ÀÌ»ó °­È­ÇÒ ¼ö ¾ø½À´Ï´Ù");
-          return;
-        }
+        const count = upgradeBatchCount();
         const totalCost = sumSequentialCost(count, (i) => upgradeCost(5, state.speedLv + i));
         if (!canBuy(totalCost)) return;
 
         state.skillPoints -= totalCost;
         state.speedLv += count;
-        setToast(count === 1 ? "°ø°İ¼Óµµ °­È­" : `°ø°İ¼Óµµ ${count}È¸ °­È­`);
+        setToast(count === 1 ? "ê³µê²©ì†ë„ ê°•í™”" : `ê³µê²©ì†ë„ ${count}íšŒ ê°•í™”`);
         updateStatus();
       }
 
@@ -2681,7 +2629,7 @@
 
         state.skillPoints -= totalCost;
         state.skills.critChanceLv += count;
-        setToast(count === 1 ? `Ä¡¸íÅ¸ È®·ü Lv ${state.skills.critChanceLv} Àû¿ë` : `Ä¡¸íÅ¸ È®·ü ${count}È¸ °­È­ (Lv ${state.skills.critChanceLv})`);
+        setToast(count === 1 ? `ì¹˜ëª…íƒ€ í™•ë¥  Lv ${state.skills.critChanceLv} ì ìš©` : `ì¹˜ëª…íƒ€ í™•ë¥  ${count}íšŒ ê°•í™” (Lv ${state.skills.critChanceLv})`);
         updateStatus();
       }
 
@@ -2693,7 +2641,7 @@
 
         state.skillPoints -= totalCost;
         state.skills.cleaveChanceLv += count;
-        setToast(count === 1 ? `Ãß°¡Å¸ È®·ü Lv ${state.skills.cleaveChanceLv} Àû¿ë` : `Ãß°¡Å¸ È®·ü ${count}È¸ °­È­ (Lv ${state.skills.cleaveChanceLv})`);
+        setToast(count === 1 ? `ì¶”ê°€íƒ€ í™•ë¥  Lv ${state.skills.cleaveChanceLv} ì ìš©` : `ì¶”ê°€íƒ€ í™•ë¥  ${count}íšŒ ê°•í™” (Lv ${state.skills.cleaveChanceLv})`);
         updateStatus();
       }
 
@@ -2705,7 +2653,7 @@
 
         state.skillPoints -= totalCost;
         state.skills.lifestealChanceLv += count;
-        setToast(count === 1 ? `ÈíÇ÷ È®·ü Lv ${state.skills.lifestealChanceLv} Àû¿ë` : `ÈíÇ÷ È®·ü ${count}È¸ °­È­ (Lv ${state.skills.lifestealChanceLv})`);
+        setToast(count === 1 ? `í¡í˜ˆ í™•ë¥  Lv ${state.skills.lifestealChanceLv} ì ìš©` : `í¡í˜ˆ í™•ë¥  ${count}íšŒ ê°•í™” (Lv ${state.skills.lifestealChanceLv})`);
         updateStatus();
       }
 
@@ -2717,7 +2665,7 @@
 
         state.skillPoints -= totalCost;
         state.skills.lifestealAmountLv += count;
-        setToast(count === 1 ? `ÈíÇ÷ È¸º¹·® Lv ${state.skills.lifestealAmountLv} Àû¿ë` : `ÈíÇ÷ È¸º¹·® ${count}È¸ °­È­ (Lv ${state.skills.lifestealAmountLv})`);
+        setToast(count === 1 ? `í¡í˜ˆ íšŒë³µëŸ‰ Lv ${state.skills.lifestealAmountLv} ì ìš©` : `í¡í˜ˆ íšŒë³µëŸ‰ ${count}íšŒ ê°•í™” (Lv ${state.skills.lifestealAmountLv})`);
         updateStatus();
       }
 
@@ -2729,7 +2677,7 @@
 
         state.skillPoints -= totalCost;
         state.skills.critDamageLv += count;
-        setToast(count === 1 ? `Ä¡¸íÅ¸ µ¥¹ÌÁö Lv ${state.skills.critDamageLv} Àû¿ë` : `Ä¡¸íÅ¸ µ¥¹ÌÁö ${count}È¸ °­È­ (Lv ${state.skills.critDamageLv})`);
+        setToast(count === 1 ? `ì¹˜ëª…íƒ€ ë°ë¯¸ì§€ Lv ${state.skills.critDamageLv} ì ìš©` : `ì¹˜ëª…íƒ€ ë°ë¯¸ì§€ ${count}íšŒ ê°•í™” (Lv ${state.skills.critDamageLv})`);
         updateStatus();
       }
 
@@ -2741,7 +2689,7 @@
 
         state.skillPoints -= totalCost;
         state.skills.cleaveCountLv += count;
-        setToast(count === 1 ? `Ãß°¡Å¸ °¹¼ö Lv ${state.skills.cleaveCountLv} Àû¿ë` : `Ãß°¡Å¸ °¹¼ö ${count}È¸ °­È­ (Lv ${state.skills.cleaveCountLv})`);
+        setToast(count === 1 ? `ì¶”ê°€íƒ€ ê°¯ìˆ˜ Lv ${state.skills.cleaveCountLv} ì ìš©` : `ì¶”ê°€íƒ€ ê°¯ìˆ˜ ${count}íšŒ ê°•í™” (Lv ${state.skills.cleaveCountLv})`);
         updateStatus();
       }
 
@@ -2801,7 +2749,7 @@
           state.skills.lifestealChanceLv = Math.min(10, Math.max(0, Number(state.skills.lifestealChanceLv || 0)));
           state.skills.lifestealAmountLv = Math.min(20, Math.max(0, Number(state.skills.lifestealAmountLv || 0)));
         } catch (e) {
-          console.warn("ÀúÀå µ¥ÀÌÅÍ ·Îµå ½ÇÆĞ", e);
+          console.warn("ì €ì¥ ë°ì´í„° ë¡œë“œ ì‹¤íŒ¨", e);
         }
 
         state.chapter = Math.max(1, Math.min(MAX_CHAPTER, Number(state.chapter) || 1));
@@ -2860,12 +2808,12 @@
             bossTimeouts += 1;
           }
           if (bossTimeouts > 0) {
-            setToast(`¿ÀÇÁ¶óÀÎ ÀüÅõ ¹İ¿µ: º¸½º ½Ã°£ ÃÊ°ú ${bossTimeouts}È¸`);
+            setToast(`ì˜¤í”„ë¼ì¸ ì „íˆ¬ ë°˜ì˜: ë³´ìŠ¤ ì‹œê°„ ì´ˆê³¼ ${bossTimeouts}íšŒ`);
           }
         }
 
         if (monsterDeaths > 0) {
-          setToast(`¿ÀÇÁ¶óÀÎ ÀüÅõ ¹İ¿µ: ½ºÅ×ÀÌÁö ¸®¼Â ${monsterDeaths}È¸`);
+          setToast(`ì˜¤í”„ë¼ì¸ ì „íˆ¬ ë°˜ì˜: ìŠ¤í…Œì´ì§€ ë¦¬ì…‹ ${monsterDeaths}íšŒ`);
         }
 
         if (effectiveGap > 5) {
@@ -2876,9 +2824,9 @@
         ensureBounds();
         updateStatus();
         if (rawGap > effectiveGap) {
-          setToast(`¿ÀÇÁ¶óÀÎ ÀüÅõ ¹İ¿µ: ${Math.floor(effectiveGap)}ÃÊ (»óÇÑ Àû¿ë)`);
+          setToast(`ì˜¤í”„ë¼ì¸ ì „íˆ¬ ë°˜ì˜: ${Math.floor(effectiveGap)}ì´ˆ (ìƒí•œ ì ìš©)`);
         } else {
-          setToast(`¿ÀÇÁ¶óÀÎ ÀüÅõ ¹İ¿µ: ${Math.floor(effectiveGap)}ÃÊ`);
+          setToast(`ì˜¤í”„ë¼ì¸ ì „íˆ¬ ë°˜ì˜: ${Math.floor(effectiveGap)}ì´ˆ`);
         }
       }
 
@@ -2936,8 +2884,8 @@
         }
 
         if (ui.companionDrawSummary) {
-          const drawLabel = drawCount >= COMPANION_MULTI_DRAW_COUNT ? "11È¸ »Ì±â" : "1È¸ »Ì±â";
-          ui.companionDrawSummary.textContent = `${drawLabel} °á°ú: ${appliedCount}°³ È¹µæ`;
+          const drawLabel = drawCount >= COMPANION_MULTI_DRAW_COUNT ? "11íšŒ ë½‘ê¸°" : "1íšŒ ë½‘ê¸°";
+          ui.companionDrawSummary.textContent = `${drawLabel} ê²°ê³¼: ${appliedCount}ê°œ íšë“`;
         }
 
         ui.companionDrawModal.hidden = false;
@@ -2999,7 +2947,7 @@
         localStorage.setItem(DEBUG_STORAGE_KEY, debugState.enabled ? "1" : "0");
         normalizeDebugMode();
         if (debugState.enabled) {
-          pushDebugLog("µğ¹ö±× ¸ğµå ON");
+          pushDebugLog("ë””ë²„ê·¸ ëª¨ë“œ ON");
         }
         if (debugState.enabled) refreshDebugPanel();
       });
@@ -3016,14 +2964,14 @@
       ui.skillBulkToggleBtn?.addEventListener("click", toggleBulkUpgradeMode);
       ui.saveBtn.addEventListener("click", () => {
         saveGame();
-        setToast("ÀúÀå ¿Ï·á");
+        setToast("ì €ì¥ ì™„ë£Œ");
       });
       ui.debugCopyBtn?.addEventListener("click", () => {
         copyDebugDump();
       });
       ui.debugCloseBtn?.addEventListener("click", () => {
         disableDebugMode();
-        setToast("µğ¹ö±× ¸ğµå Á¾·á");
+        setToast("ë””ë²„ê·¸ ëª¨ë“œ ì¢…ë£Œ");
       });
       ui.companionList?.addEventListener("click", (event) => {
         const btn = event.target.closest("button[data-companion-id]");
@@ -3032,9 +2980,9 @@
       });
 
       ui.resetBtn.addEventListener("click", () => {
-        if (!confirm("ÃÊ±âÈ­ÇÒ±î¿ä?")) return;
+        if (!confirm("ì´ˆê¸°í™”í• ê¹Œìš”?")) return;
           Object.assign(state, {
-          heroName: "Àü»ç",
+          heroName: "ì „ì‚¬",
           level: 1,
           exp: 0,
           skillPoints: 0,
@@ -3078,7 +3026,7 @@
         spawnNormalMonster();
         updateStatus();
         saveGame();
-        setToast("ÃÊ±âÈ­µÊ");
+        setToast("ì´ˆê¸°í™”ë¨");
       });
 
       normalizeDebugMode();
@@ -3143,23 +3091,6 @@
     </script>
   </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
