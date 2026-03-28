@@ -1,4 +1,4 @@
-﻿<!doctype html>
+﻿﻿<!doctype html>
 <html lang="ko">
   <head>
     <meta charset="UTF-8" />
@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>자동전투 강화 Idle</title>
     <style>
-      :root { --bg: #081225; --line: #34557d; }
+      :root { --bg: #081225; --line: #34557d; --battle-stage-height: 325px; --battle-card-height: calc(var(--battle-stage-height) + 26px); --hero-left: 36px; }
       * { box-sizing: border-box; font-family: "Pretendard", "Noto Sans KR", "Malgun Gothic", "Apple SD Gothic Neo", "Segoe UI", sans-serif; }
       html, body {
         margin: 0;
@@ -20,13 +20,12 @@
       }
       body { display: flex; justify-content: center; padding: 8px; }
       .game {
-        width: min(520px, 100% - 16px);
+        width: min(640px, 100% - 16px);
         height: calc(100vh - 16px);
         display: grid;
-        grid-template-rows: auto minmax(320px, 1fr) auto auto;
+        grid-template-rows: auto var(--battle-card-height) minmax(0, 1fr) auto;
         gap: 10px;
-        overflow-y: auto;
-        overflow-x: hidden;
+        overflow: hidden;
       }
       .card {
         border: 1px solid var(--line);
@@ -38,10 +37,16 @@
       h1 { color: #93c5fd; font-size: 1.2rem; }
       .sub { font-size: 0.9rem; color: #bfdbfe; }
       .split { display: grid; gap: 10px; min-height: 0; }
-      .battle-screen { grid-template-rows: minmax(210px, 1fr) auto; min-height: 0; display: grid; gap: 10px; }
+      .battle-screen {
+        grid-template-rows: var(--battle-stage-height);
+        display: grid;
+        overflow: hidden;
+      }
       .battle-stage {
         position: relative;
-        min-height: 220px;
+        height: var(--battle-stage-height);
+        min-height: var(--battle-stage-height);
+        max-height: var(--battle-stage-height);
         border-radius: 14px;
         overflow: hidden;
         background: linear-gradient(180deg, #0b1327 72%, #09121f 100%);
@@ -72,6 +77,21 @@
         pointer-events: none;
         z-index: 1;
       }
+      .battle-stage::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(ellipse at center, rgba(10, 18, 35, 0.2), rgba(4, 8, 20, 0.86));
+        opacity: 0;
+        pointer-events: none;
+        z-index: 12;
+      }
+      .battle-stage.stage-swap {
+        animation: stage-swap-scene 1s ease-in-out;
+      }
+      .battle-stage.stage-swap::after {
+        animation: stage-swap-fade 1s ease-in-out;
+      }
       @keyframes ambient-fog {
         0% { opacity: 0.34; }
         50% { opacity: 0.52; }
@@ -83,6 +103,11 @@
         left: 10px;
         right: 10px;
         z-index: 3;
+        padding: 6px 6px 4px;
+        border: 1px solid rgba(191, 219, 254, 0.28);
+        border-radius: 10px;
+        background: linear-gradient(180deg, rgba(9, 20, 41, 0.8), rgba(9, 18, 34, 0.7));
+        box-shadow: inset 0 0 18px rgba(148, 163, 184, 0.18);
         display: grid;
         gap: 7px;
       }
@@ -107,6 +132,7 @@
         color: #fde68a;
         font-size: 0.84rem;
         font-weight: 800;
+        text-shadow: 0 1px 2px rgba(3, 7, 18, 0.7);
       }
       .companion-grid {
         display: grid;
@@ -167,6 +193,7 @@
       .combat-entity-bar .label {
         font-size: 0.78rem;
         color: #dbeafe;
+        text-shadow: 0 1px 2px rgba(3, 7, 18, 0.7);
       }
       .hp-divider {
         width: 20px;
@@ -187,12 +214,15 @@
         justify-content: space-between;
         align-items: center;
         font-size: 0.8rem;
+        text-shadow: 0 1px 2px rgba(3, 7, 18, 0.65);
       }
       .stage-name .label {
         color: #dbeafe;
+        text-shadow: 0 1px 2px rgba(3, 7, 18, 0.7);
       }
       .stage-name strong {
         color: #fef3c7;
+        text-shadow: 0 1px 2px rgba(3, 7, 18, 0.7);
       }
       .battle-currency-strip {
         display: flex;
@@ -210,6 +240,7 @@
         border: 1px solid rgba(191, 219, 254, 0.45);
         background: rgba(10, 24, 46, 0.76);
         color: #e0ecff;
+        text-shadow: 0 1px 2px rgba(3, 7, 18, 0.75);
       }
       .battle-currency-chip strong {
         color: #ffffff;
@@ -239,7 +270,7 @@
         z-index: 4;
         width: 86px;
         height: 98px;
-        bottom: 30px;
+        bottom: 20px;
       }
       .hero-aura {
         position: absolute;
@@ -283,7 +314,7 @@
         pointer-events: none;
         border: 2px solid transparent;
       }
-      .hero { left: 36px; cursor: pointer; }
+      .hero { left: var(--hero-left); cursor: pointer; }
       .hero-sprite-image {
         position: absolute;
         left: -20px;
@@ -408,9 +439,12 @@
         font-size: 0.78rem;
         text-align: center;
         line-height: 1.2;
-        padding: 0 4px;
+        padding: 1px 7px;
         border-radius: 999px;
-        background: rgba(7, 18, 37, 0.42);
+        background: linear-gradient(180deg, rgba(15, 23, 42, 0.84), rgba(8, 15, 33, 0.92));
+        border: 1px solid rgba(191, 219, 254, 0.42);
+        text-shadow: 0 1px 2px rgba(3, 7, 18, 0.7);
+        box-shadow: 0 0 9px rgba(56, 189, 248, 0.3);
       }
       .monster::after {
         position: absolute;
@@ -507,13 +541,25 @@
       }
       .battle-hint { margin-top: 8px; text-align: center; color: #fde68a; font-size: 0.9rem; }
       .battle-status-trigger-wrap {
+        position: absolute;
+        left: var(--hero-left);
+        bottom: 4px;
+        width: 86px;
         display: flex;
         justify-content: center;
+        z-index: 7;
       }
       .battle-status-trigger {
         width: 100%;
-        max-width: 320px;
+        max-width: none;
+        padding: 2px 4px;
+        font-size: 0.68rem;
+        line-height: 1.1;
+        white-space: nowrap;
         background: linear-gradient(180deg, #fef3c7, #fde68a);
+        overflow: hidden;
+        border-radius: 8px;
+        box-shadow: 0 1px 0 rgba(148, 163, 184, 0.28);
       }
       .mini-upgrade-row { display: grid; gap: 8px; margin-top: 8px; grid-template-columns: repeat(3, 1fr); }
       .mini-btn { border: 0; border-radius: 10px; padding: 8px 7px; font-size: 0.8rem; color: #0b1220; font-weight: 700; background: linear-gradient(180deg, #f8fafc, #d9e7ff); opacity: 0.95; }
@@ -524,11 +570,13 @@
       .tab-buttons { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 10px; }
       .tab-btn { border: 0; border-radius: 12px; padding: 10px 8px; color: #0b1220; font-weight: 700; cursor: pointer; background: linear-gradient(180deg, #9ac6ff, #8abaf0); opacity: 0.84; }
       .tab-btn.active { background: linear-gradient(180deg, #5eead4, #2dd4bf); opacity: 1; }
+      .main-panel { min-height: 0; display: flex; flex-direction: column; overflow: hidden; }
       .tab-panel { display: none; }
       .tab-panel.active {
         display: flex;
         flex-direction: column;
-        height: clamp(240px, 34vh, 332px);
+        flex: 1 1 auto;
+        min-height: 0;
         overflow-y: auto;
         padding-right: 6px;
         scrollbar-gutter: stable;
@@ -706,6 +754,16 @@
       .monster-reset-time { animation: monster-reset-time 0.6s ease-out; }
       .monster-hit { animation: monster-flinch 0.15s ease-out; }
       .monster-attack { animation: monster-attack 0.12s ease-out; }
+      .hero-death { animation: hero-death-fall 0.68s cubic-bezier(0.22, 0.61, 0.36, 1) forwards; }
+      .monster-death { animation: monster-death-collapse 0.68s cubic-bezier(0.22, 0.61, 0.36, 1) forwards; }
+      .hero-death .hero-sprite-image {
+        animation: hero-death-image 0.68s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+      }
+      .monster-death .monster-sprite-image,
+      .monster-death .monster-body,
+      .monster-death .monster-head {
+        animation: monster-death-image 0.68s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+      }
       .hero-crit { animation: hero-crit-pop 0.22s ease-out; }
       .hero-crit .hero-crit-ring,
       .hero-cleave .hero-cleave-ring {
@@ -757,6 +815,40 @@
         40% { transform: translateX(3px); }
         60% { transform: translateX(-2px); }
         100% { transform: translateX(0); }
+      }
+      @keyframes stage-swap-scene {
+        0% { filter: brightness(1) saturate(1); }
+        50% { filter: brightness(0.6) saturate(0.8); }
+        100% { filter: brightness(1) saturate(1); }
+      }
+      @keyframes stage-swap-fade {
+        0% { opacity: 0; }
+        28% { opacity: 0.15; }
+        52% { opacity: 0.78; }
+        78% { opacity: 0.16; }
+        100% { opacity: 0; }
+      }
+      @keyframes hero-death-fall {
+        0% { transform: translateY(0) rotate(0deg) scale(1); opacity: 1; filter: brightness(1); }
+        18% { transform: translateY(-4px) rotate(-7deg) scale(1.04); opacity: 1; filter: brightness(1.3); }
+        42% { transform: translateY(8px) rotate(11deg) scale(0.97); opacity: 0.86; filter: brightness(0.95); }
+        100% { transform: translateY(24px) rotate(16deg) scale(0.82); opacity: 0.08; filter: grayscale(0.6) brightness(0.58); }
+      }
+      @keyframes monster-death-collapse {
+        0% { transform: translateY(0) rotate(0deg) scale(1); opacity: 1; filter: brightness(1); }
+        20% { transform: translateY(-3px) rotate(6deg) scale(1.03); opacity: 1; filter: brightness(1.22); }
+        45% { transform: translateY(7px) rotate(-12deg) scale(0.96); opacity: 0.86; filter: brightness(0.94); }
+        100% { transform: translateY(22px) rotate(-16deg) scale(0.8); opacity: 0.08; filter: grayscale(0.65) brightness(0.56); }
+      }
+      @keyframes hero-death-image {
+        0% { filter: saturate(1) brightness(1); }
+        36% { filter: saturate(0.2) brightness(1.5) drop-shadow(0 0 12px rgba(248, 113, 113, 0.85)); }
+        100% { filter: saturate(0) brightness(0.5); }
+      }
+      @keyframes monster-death-image {
+        0% { filter: saturate(1) brightness(1); }
+        34% { filter: saturate(0.25) brightness(1.48) drop-shadow(0 0 12px rgba(251, 113, 133, 0.9)); }
+        100% { filter: saturate(0) brightness(0.5); }
       }
       @keyframes hero-crit-pop {
         0% { transform: scale(1); filter: saturate(1); }
@@ -1002,14 +1094,13 @@
             <div class="hero-crit-core" aria-hidden="true"></div>
             <div class="hero-cleave-flare" aria-hidden="true"></div>
           </div>
-
-        </div>
-        <div class="battle-status-trigger-wrap">
-          <button id="battleStatusOpenBtn" class="mini-btn battle-status-trigger" type="button">전투 상태 보기</button>
+          <div class="battle-status-trigger-wrap">
+            <button id="battleStatusOpenBtn" class="mini-btn battle-status-trigger" type="button">전투 상태 보기</button>
+          </div>
         </div>
       </section>
 
-      <section class="card">
+      <section class="card main-panel">
         <div class="tab-buttons">
           <button id="tabStatBtn" class="tab-btn">스텟 보기</button>
           <button id="tabUpgradeBtn" class="tab-btn active">강화</button>
@@ -1038,7 +1129,7 @@
             <div class="row"><span>추가타 횟수</span><strong id="statCleaveCount">0회</strong></div>
             <div class="row"><span>전체 전투력</span><strong id="statCombatPower">0</strong></div>
             <div class="row"><span>공격 간격</span><strong id="statInterval">0초</strong></div>
-            <div class="row"><span>강화 레벨</span><strong id="statUpgradeLv">1/1/1</strong></div>
+            <div class="row"><span>강화 레벨</span><strong id="statUpgradeLv">0/0/0</strong></div>
             <div class="row"><span>스킬 레벨</span><strong id="statSkillLv">치확0/치피0/추확0/추타0/흡확0/흡회0</strong></div>
             <div class="row"><span>동료</span><strong id="statCompanionText">없음</strong></div>
             <div class="bar-wrap" style="margin-top: 8px"><div id="statHpBar" class="bar"></div></div>
@@ -1052,11 +1143,11 @@
           <h2 class="section-title">강화 화면</h2>
           <div class="actions">
             <button id="upgradeBulkToggleBtn" class="btn-secondary" type="button">10회 업그레이드: OFF</button>
-            <button id="upgradeAttackBtn" class="btn-secondary">공격력 강화 <span class="sub">(비용: <span id="attackCost">3</span>)</span></button>
-            <button id="upgradeHpBtn" class="btn-secondary">체력 강화 <span class="sub">(비용: <span id="hpCost">4</span>)</span></button>
-            <button id="upgradeSpeedBtn" class="btn-secondary">공격속도 강화 <span class="sub">(비용: <span id="speedCost">5</span>)</span></button>
+            <button id="upgradeAttackBtn" class="btn-secondary">공격력 강화 <span class="sub">(비용: <span id="attackCost">50</span>)</span></button>
+            <button id="upgradeHpBtn" class="btn-secondary">체력 강화 <span class="sub">(비용: <span id="hpCost">40</span>)</span></button>
+            <button id="upgradeSpeedBtn" class="btn-secondary">공격속도 강화 <span class="sub">(비용: <span id="speedCost">120</span>)</span></button>
              <div class="row"><span>골드</span><strong id="skillPoints">0</strong></div>
-            <div id="upgradeSummary" class="muted">강화 레벨: 공격1 / 체력1 / 속도1</div>
+            <div id="upgradeSummary" class="muted">강화 레벨: 공격0 / 체력0 / 속도0</div>
           </div>
           <div class="actions">
             <button id="saveBtn" class="btn-primary">수동 저장</button>
@@ -1078,6 +1169,8 @@
             <button id="companionTierRateBtn" class="btn-secondary" type="button">티어별 뽑기 확률 보기</button>
             <div class="row"><span>현재 동료</span><strong id="selectedCompanionText">해제</strong></div>
             <div class="row" style="align-items:flex-start"><span>효과(보유+장착)</span><strong id="selectedCompanionEffect" style="max-width: 330px; text-align: right"></strong></div>
+            <button id="upgradeEquippedCompanionBtn" class="btn-secondary" type="button">장착 동료 강화</button>
+            <div class="row"><span>강화 정보</span><strong id="equippedCompanionUpgradeInfo">장착 동료 없음</strong></div>
             <div class="companion-scroll">
               <div id="companionList" class="companion-grid"></div>
             </div>
@@ -1088,12 +1181,12 @@
           <h2 class="section-title">스킬 업그레이드</h2>
           <button id="skillBulkToggleBtn" class="btn-secondary" type="button">10회 업그레이드: OFF</button>
           <div class="skill-grid">
-            <button id="upgradeCritChanceBtn" class="btn-secondary">치명타 확률 <span id="critChanceDesc" class="skill-text">확률 0% / 최대 100%</span><div class="sub">비용 <span id="critChanceCost">12</span></div></button>
-            <button id="upgradeCritDamageBtn" class="btn-secondary">치명타 데미지 <span id="critDamageDesc" class="skill-text">추가 50% (Lv 0)</span><div class="sub">비용 <span id="critDamageCost">12</span></div></button>
-            <button id="upgradeCleaveChanceBtn" class="btn-secondary">추가타 확률 <span id="cleaveChanceDesc" class="skill-text">확률 0% / 최대 50%</span><div class="sub">비용 <span id="cleaveChanceCost">15</span></div></button>
-            <button id="upgradeCleaveCountBtn" class="btn-secondary">추가타 갯수 <span id="cleaveCountDesc" class="skill-text">1회 / 최대 5회</span><div class="sub">비용 <span id="cleaveCountCost">75</span></div></button>
-            <button id="upgradeLifestealChanceBtn" class="btn-secondary">흡혈 확률 <span id="lifestealChanceDesc" class="skill-text">확률 0% / 최대 50%</span><div class="sub">비용 <span id="lifeChanceCost">16</span></div></button>
-            <button id="upgradeLifestealAmountBtn" class="btn-secondary">흡혈 회복량 <span id="lifestealAmountDesc" class="skill-text">회복량 +0% (Lv 0)</span><div class="sub">비용 <span id="lifeAmountCost">16</span></div></button>
+            <button id="upgradeCritChanceBtn" class="btn-secondary">치명타 확률 <span id="critChanceDesc" class="skill-text">확률 0% / 최대 100%</span><div class="sub">비용 <span id="critChanceCost">150</span></div></button>
+            <button id="upgradeCritDamageBtn" class="btn-secondary">치명타 데미지 <span id="critDamageDesc" class="skill-text">추가 50% (Lv 0)</span><div class="sub">비용 <span id="critDamageCost">130</span></div></button>
+            <button id="upgradeCleaveChanceBtn" class="btn-secondary">추가타 확률 <span id="cleaveChanceDesc" class="skill-text">확률 0% / 최대 50%</span><div class="sub">비용 <span id="cleaveChanceCost">200</span></div></button>
+            <button id="upgradeCleaveCountBtn" class="btn-secondary">추가타 갯수 <span id="cleaveCountDesc" class="skill-text">0회 / 최대 5회</span><div class="sub">비용 <span id="cleaveCountCost">500</span></div></button>
+            <button id="upgradeLifestealChanceBtn" class="btn-secondary">흡혈 확률 <span id="lifestealChanceDesc" class="skill-text">확률 0% / 최대 50%</span><div class="sub">비용 <span id="lifeChanceCost">180</span></div></button>
+            <button id="upgradeLifestealAmountBtn" class="btn-secondary">흡혈 회복량 <span id="lifestealAmountDesc" class="skill-text">회복량 +0% (Lv 0)</span><div class="sub">비용 <span id="lifeAmountCost">160</span></div></button>
           </div>
           <div class="actions">
             <div class="row"><span>골드</span><strong id="skillPoints2">0</strong></div>
@@ -1145,10 +1238,10 @@
             <button id="companionTierRateCloseBtn" class="battle-status-close" type="button">닫기</button>
           </div>
           <div class="info-grid">
-            <div class="row"><span>T1</span><strong id="tierRateT1Text">50%</strong></div>
-            <div class="row"><span>T2</span><strong id="tierRateT2Text">30%</strong></div>
-            <div class="row"><span>T3</span><strong id="tierRateT3Text">15%</strong></div>
-            <div class="row"><span>T4</span><strong id="tierRateT4Text">5%</strong></div>
+            <div class="row"><span>T1</span><strong id="tierRateT1Text">60%</strong></div>
+            <div class="row"><span>T2</span><strong id="tierRateT2Text">28%</strong></div>
+            <div class="row"><span>T3</span><strong id="tierRateT3Text">10%</strong></div>
+            <div class="row"><span>T4</span><strong id="tierRateT4Text">2%</strong></div>
             <div class="row" style="align-items:flex-start"><span>안내</span><strong style="max-width: 330px; text-align: right">티어 확률 적용 후, 선택된 티어 내 동료는 균등 확률로 결정됩니다.</strong></div>
           </div>
         </section>
@@ -1180,21 +1273,63 @@
       const MAX_CHAPTER = 20;
       const BOSS_TIME_LIMIT = 10;
       const MAX_COMPANIONS = 20;
-      const MAX_EQUIPPED_COMPANIONS = 5;
+      const MAX_EQUIPPED_COMPANIONS = 3;
       const COMPANION_DRAW_COST_SINGLE = 10;
       const COMPANION_DRAW_COST_MULTI = 100;
       const COMPANION_MULTI_DRAW_COUNT = 11;
       const COMPANION_MAX_LEVEL = 10;
-      const COMPANION_LV10_DUPLICATES = 3;
-      const COMPANION_OWNED_EFFECT_RATIO = 0.5;
-      const COMPANION_EQUIPPED_EFFECT_RATIO = 0.5;
+      const COMPANION_LEVELUP_COST_START = { 1: 50, 2: 120, 3: 300, 4: 800 };
+      const COMPANION_LEVELUP_COST_GROWTH = { 1: 1.1, 2: 1.12, 3: 1.14, 4: 1.16 };
+      const COMPANION_LEVELUP_EFFECT_GROWTH = {
+        1: { owned: 0.06, equipped: 0.08 },
+        2: { owned: 0.05, equipped: 0.07 },
+        3: { owned: 0.04, equipped: 0.06 },
+        4: { owned: 0.03, equipped: 0.05 },
+      };
       const DIAMOND_DROP_CHANCE = 0.1;
       const ATTACK_SPEED_CAP = 10;
-      const ATTACK_SPEED_MIN = 0.8;
+      const ATTACK_SPEED_MIN = 1;
       const DEBUG_STORAGE_KEY = "auto-idle-debug-enabled";
       const OFFLINE_MAX_SECONDS = 900;
       const OFFLINE_MAX_SIM_HITS = 1200;
       const BULK_UPGRADE_COUNT = 10;
+      const PLAYER_BASE_ATTACK = 20;
+      const PLAYER_BASE_HP = 200;
+      const PLAYER_BASE_ATTACK_SPEED = 1.0;
+      const ENEMY_BASE_ATK = 8;
+      const ENEMY_BASE_HP = 60;
+      const ENEMY_GROWTH_ATK = { early: 1.07, mid: 1.09, late: 1.11 };
+      const ENEMY_GROWTH_HP = { early: 1.13, mid: 1.16, late: 1.19 };
+      const GOLD_BASE_NORMAL = 10;
+      const GOLD_GROWTH = { early: 1.16, mid: 1.14, late: 1.13 };
+      const MIDBOSS_MULT = { atk: 1.35, hp: 2.5, gold: 3 };
+      const CHAPTER_BOSS_MULT_BY_CHAPTER = (chapter) => {
+        if (chapter <= 4) return { atk: 1.8, hp: 5 };
+        if (chapter === 5) return { atk: 2.2, hp: 10 };
+        if (chapter <= 10) return { atk: 2.4, hp: 12 };
+        return { atk: 2.8, hp: 15 };
+      };
+      const CHAPTER_BOSS_GOLD_MULT = 8;
+      const CHAPTER_CLEAR_DIAMOND_REWARD = 10;
+      const UPGRADE_ATTACK = { baseCost: 50, growth: 1.12, scale: 0.08 };
+      const UPGRADE_HP = { baseCost: 40, growth: 1.11, scale: 0.1 };
+      const UPGRADE_SPEED = { baseCost: 120, growth: 1.14, perLevel: 0.08, cap: 10 };
+      const SKILL_LIMIT = {
+        critChanceLv: 100,
+        critDamageLv: 80,
+        cleaveChanceLv: 100,
+        cleaveCountLv: 25,
+        lifestealChanceLv: 100,
+        lifestealAmountLv: 80,
+      };
+      const SKILL_CONF = {
+        critChanceLv: { baseCost: 150, growth: 1.15 },
+        critDamageLv: { baseCost: 130, growth: 1.15 },
+        cleaveChanceLv: { baseCost: 200, growth: 1.16 },
+        cleaveCountLv: { baseCost: 500, growth: 1.2 },
+        lifestealChanceLv: { baseCost: 180, growth: 1.15 },
+        lifestealAmountLv: { baseCost: 160, growth: 1.14 },
+      };
       const ENEMY_FAMILIES = [
         { id: "slime", normal: "이끼 슬라임", midboss: "점액 거신", chapterBoss: "심연 점액황제" },
         { id: "hound", normal: "바위 하운드", midboss: "폭주 하운드장", chapterBoss: "혈월 하운드 군주" },
@@ -1228,28 +1363,54 @@
         "열사 도마군주": "enemy/chapboss/chap_lizard.png",
         "프로토타입 제어핵": "enemy/chapboss/chap_core.png",
       };
+      const ENEMY_SPRITE_FALLBACK_BY_FAMILY = {
+        normal: {
+          slime: "enemy/normal/normal_slime.png",
+          hound: "enemy/normal/normal_rocky_hound.png",
+          golem: "enemy/normal/normal_rocky_golem.png",
+          specter: "enemy/normal/normal_wraith.png",
+          lizard: "enemy/normal/normal_desert_lizard.png",
+          construct: "enemy/normal/normal_core.png",
+        },
+        midboss: {
+          slime: "enemy/midboss/mid_slime.png",
+          hound: "enemy/midboss/mid_hound.png",
+          golem: "enemy/midboss/mid_golem.png",
+          specter: "enemy/midboss/mid_wraith.png",
+          lizard: "enemy/midboss/mid_lizard.png",
+          construct: "enemy/midboss/mid_core.png",
+        },
+        chapterBoss: {
+          slime: "enemy/chapboss/chap_slime.png",
+          hound: "enemy/chapboss/chap_hound.png",
+          golem: "enemy/chapboss/chap_golem.png",
+          specter: "enemy/chapboss/chap_wraith.png",
+          lizard: "enemy/chapboss/chap_lizard.png",
+          construct: "enemy/chapboss/chap_core.png",
+        },
+      };
       const COMPANION_ROSTER = [
-        { id: "none", name: "무소속", tier: 0, cost: 0, effect: { atk: 0, hp: 0, speed: 0, bossAtk: 0, crit: 0, cleave: 0, text: "추가 효과 없음" } },
-        { id: "comp-1-1", tier: 1, name: "별무리 도우미", cost: 18, effect: { atk: 0.04, hp: 0.01, speed: 0.00, bossAtk: 0.00, crit: 0.00, cleave: 0.00, text: "공격력 +4%" } },
-        { id: "comp-1-2", tier: 1, name: "회복 버섯 정령", cost: 20, effect: { atk: 0.01, hp: 0.05, speed: 0.00, bossAtk: 0.00, crit: 0.00, cleave: 0.00, text: "최대체력 +5%" } },
-        { id: "comp-1-3", tier: 1, name: "산길 순찰자", cost: 20, effect: { atk: 0.00, hp: 0.01, speed: 0.03, bossAtk: 0.00, crit: 0.00, cleave: 0.00, text: "공격속도 +3%" } },
-        { id: "comp-1-4", tier: 1, name: "달빛 궁수", cost: 22, effect: { atk: 0.03, hp: 0.00, speed: 0.01, bossAtk: 0.01, crit: 0.00, cleave: 0.00, text: "공격력 +3%, 보스 추가 공격력 +1%" } },
-        { id: "comp-1-5", tier: 1, name: "잿빛 전사", cost: 24, effect: { atk: 0.05, hp: 0.00, speed: 0.00, bossAtk: 0.00, crit: 0.01, cleave: 0.00, text: "공격력 +5%, 치명타 +1%" } },
-        { id: "comp-2-1", tier: 2, name: "화염의 교관", cost: 30, effect: { atk: 0.07, hp: 0.02, speed: 0.00, bossAtk: 0.02, crit: 0.00, cleave: 0.00, text: "공격력 +7%, 보스 추가 공격력 +2%" } },
-        { id: "comp-2-2", tier: 2, name: "강철 집행자", cost: 34, effect: { atk: 0.03, hp: 0.07, speed: 0.01, bossAtk: 0.00, crit: 0.00, cleave: 0.00, text: "최대체력 +7%, 공격속도 +1%" } },
-        { id: "comp-2-3", tier: 2, name: "폭풍 사냥개", cost: 34, effect: { atk: 0.02, hp: 0.00, speed: 0.06, bossAtk: 0.03, crit: 0.00, cleave: 0.00, text: "공격속도 +6%, 보스 추가 공격력 +3%" } },
-        { id: "comp-2-4", tier: 2, name: "은빛 정찰단", cost: 38, effect: { atk: 0.04, hp: 0.02, speed: 0.00, bossAtk: 0.00, crit: 0.02, cleave: 0.00, text: "공격력 +4%, 치명타 +2%" } },
-        { id: "comp-2-5", tier: 2, name: "그림자 낚시꾼", cost: 38, effect: { atk: 0.03, hp: 0.00, speed: 0.00, bossAtk: 0.00, crit: 0.00, cleave: 0.03, text: "추가타 확률 +3%" } },
-        { id: "comp-3-1", tier: 3, name: "청룡의 수행자", cost: 48, effect: { atk: 0.09, hp: 0.03, speed: 0.02, bossAtk: 0.04, crit: 0.00, cleave: 0.00, text: "공격력 +9%, 보스 추가 공격력 +4%" } },
-        { id: "comp-3-2", tier: 3, name: "철갑 바드", cost: 52, effect: { atk: 0.02, hp: 0.10, speed: 0.00, bossAtk: 0.02, crit: 0.00, cleave: 0.00, text: "체력 +10%, 보스 추가 공격력 +2%" } },
-        { id: "comp-3-3", tier: 3, name: "번개의 사절", cost: 55, effect: { atk: 0.06, hp: 0.00, speed: 0.03, bossAtk: 0.00, crit: 0.05, cleave: 0.00, text: "공격력 +6%, 공격속도 +3%, 치명타 +5%" } },
-        { id: "comp-3-4", tier: 3, name: "그림자 파동", cost: 58, effect: { atk: 0.04, hp: 0.04, speed: 0.01, bossAtk: 0.00, crit: 0.00, cleave: 0.04, text: "공격력 +4%, 최대체력 +4%, 추가타 확률 +4%" } },
-        { id: "comp-3-5", tier: 3, name: "화산의 검사", cost: 62, effect: { atk: 0.06, hp: 0.00, speed: 0.00, bossAtk: 0.06, crit: 0.00, cleave: 0.00, text: "공격력 +6%, 보스 추가 공격력 +6%" } },
-        { id: "comp-4-1", tier: 4, name: "천공의 사도", cost: 74, effect: { atk: 0.14, hp: 0.08, speed: 0.03, bossAtk: 0.10, crit: 0.00, cleave: 0.00, text: "공격력 +14%, 보스 추가 공격력 +10%" } },
-        { id: "comp-4-2", tier: 4, name: "태고의 심판자", cost: 78, effect: { atk: 0.09, hp: 0.16, speed: 0.00, bossAtk: 0.04, crit: 0.00, cleave: 0.00, text: "최대체력 +16%, 보스 추가 공격력 +4%" } },
-        { id: "comp-4-3", tier: 4, name: "폭풍의 제왕", cost: 82, effect: { atk: 0.07, hp: 0.06, speed: 0.09, bossAtk: 0.07, crit: 0.00, cleave: 0.00, text: "공격속도 +9%, 보스 추가 공격력 +7%" } },
-        { id: "comp-4-4", tier: 4, name: "심연 감시인", cost: 88, effect: { atk: 0.08, hp: 0.04, speed: 0.02, bossAtk: 0.00, crit: 0.07, cleave: 0.00, text: "공격력 +8%, 치명타 +7%" } },
-        { id: "comp-4-5", tier: 4, name: "용의 연금술사", cost: 94, effect: { atk: 0.10, hp: 0.09, speed: 0.03, bossAtk: 0.12, crit: 0.00, cleave: 0.00, text: "공격력 +10%, 보스 추가 공격력 +12%" } },
+        { id: "none", name: "무소속", tier: 0, role: "none", effect: { atk: 0, hp: 0, speed: 0, crit: 0, critDmg: 0, cleave: 0, gold: 0 }, equipEffect: { atk: 0, hp: 0, speed: 0, crit: 0, critDmg: 0, cleave: 0, gold: 0 } },
+        { id: "comp-1-1", tier: 1, role: "atk", name: "별무리 도우미", effect: { atk: 0.03 }, equipEffect: { atk: 0.15 } },
+        { id: "comp-1-2", tier: 1, role: "hp", name: "회복 버섯 정령", effect: { hp: 0.03 }, equipEffect: { hp: 0.15 } },
+        { id: "comp-1-3", tier: 1, role: "speed", name: "산길 순찰자", effect: { speed: 0.01 }, equipEffect: { speed: 0.06 } },
+        { id: "comp-1-4", tier: 1, role: "crit", name: "달빛 궁수", effect: { crit: 0.01 }, equipEffect: { crit: 0.04 } },
+        { id: "comp-1-5", tier: 1, role: "util", name: "잿빛 상인", effect: { gold: 0.03 }, equipEffect: { gold: 0.12 } },
+        { id: "comp-2-1", tier: 2, role: "atk", name: "화염의 교관", effect: { atk: 0.05 }, equipEffect: { atk: 0.25 } },
+        { id: "comp-2-2", tier: 2, role: "hp", name: "강철 집행자", effect: { hp: 0.05 }, equipEffect: { hp: 0.25 } },
+        { id: "comp-2-3", tier: 2, role: "speed", name: "폭풍 사냥개", effect: { speed: 0.02 }, equipEffect: { speed: 0.1 } },
+        { id: "comp-2-4", tier: 2, role: "crit", name: "은빛 정찰단", effect: { crit: 0.02, critDmg: 0.1 }, equipEffect: { crit: 0.06, critDmg: 0.3 } },
+        { id: "comp-2-5", tier: 2, role: "util", name: "그림자 낚시꾼", effect: { gold: 0.05 }, equipEffect: { gold: 0.2 } },
+        { id: "comp-3-1", tier: 3, role: "atk", name: "청룡의 수행자", effect: { atk: 0.08 }, equipEffect: { atk: 0.4 } },
+        { id: "comp-3-2", tier: 3, role: "hp", name: "철갑 바드", effect: { hp: 0.08 }, equipEffect: { hp: 0.4 } },
+        { id: "comp-3-3", tier: 3, role: "speed", name: "번개의 사절", effect: { speed: 0.03 }, equipEffect: { speed: 0.15 } },
+        { id: "comp-3-4", tier: 3, role: "crit", name: "그림자 파동", effect: { crit: 0.03, critDmg: 0.2 }, equipEffect: { crit: 0.1, critDmg: 0.5 } },
+        { id: "comp-3-5", tier: 3, role: "util", name: "화산의 검사", effect: { gold: 0.08 }, equipEffect: { gold: 0.3 } },
+        { id: "comp-4-1", tier: 4, role: "atk", name: "천공의 사도", effect: { atk: 0.12 }, equipEffect: { atk: 0.6 } },
+        { id: "comp-4-2", tier: 4, role: "hp", name: "태고의 심판자", effect: { hp: 0.12 }, equipEffect: { hp: 0.6 } },
+        { id: "comp-4-3", tier: 4, role: "speed", name: "폭풍의 제왕", effect: { speed: 0.05 }, equipEffect: { speed: 0.2 } },
+        { id: "comp-4-4", tier: 4, role: "crit", name: "심연 감시인", effect: { crit: 0.05, critDmg: 0.35 }, equipEffect: { crit: 0.15, critDmg: 0.8 } },
+        { id: "comp-4-5", tier: 4, role: "util", name: "용의 연금술사", effect: { gold: 0.12 }, equipEffect: { gold: 0.45 } },
       ];
       const companionById = Object.fromEntries(COMPANION_ROSTER.map((c) => [c.id, c]));
       const COMPANION_TIER_META = {
@@ -1259,11 +1420,12 @@
         4: { label: "전설", className: "tier-4" },
       };
       const COMPANION_TIER_RATE = {
-        1: 0.5,
-        2: 0.3,
-        3: 0.15,
-        4: 0.05,
-      };      const debugState = {
+        1: 0.6,
+        2: 0.28,
+        3: 0.1,
+        4: 0.02,
+      };
+      const debugState = {
         enabled: false,
         maxLines: 30,
       };
@@ -1277,14 +1439,14 @@
         skillPoints: 0,
           diamonds: 0,
         bulkUpgradeMode: false,
-        attackBase: 5,
-        hpBase: 78,
-        speedBase: 1,
+        attackBase: PLAYER_BASE_ATTACK,
+        hpBase: PLAYER_BASE_HP,
+        speedBase: PLAYER_BASE_ATTACK_SPEED,
         defenseBase: 1,
-        attackLv: 1,
-        hpLv: 1,
-        speedLv: 1,
-        hp: 78,
+        attackLv: 0,
+        hpLv: 0,
+        speedLv: 0,
+        hp: PLAYER_BASE_HP,
         chapter: 1,
         stage: 1,
         stageKillCount: 0,
@@ -1295,17 +1457,17 @@
         drawCount: 0,
           companionLevels: {},
           companionLv9Shards: {},
-        previousEnemy: { hpMax: 24, atk: 3 },
+        previousEnemy: { hpMax: ENEMY_BASE_HP, atk: ENEMY_BASE_ATK },
         skills: { critChanceLv: 0, critDamageLv: 0, cleaveChanceLv: 0, cleaveCountLv: 0, lifestealChanceLv: 0, lifestealAmountLv: 0 },
       };
 
       const enemy = {
-        name: "슬라임",
+        name: "이끼 슬라임",
         level: 1,
         family: "slime",
-        hpMax: 24,
-        hp: 24,
-        atk: 3,
+        hpMax: ENEMY_BASE_HP,
+        hp: ENEMY_BASE_HP,
+        atk: ENEMY_BASE_ATK,
         attackInterval: 1.3,
         attackCooldown: 0,
         type: "normal",
@@ -1337,6 +1499,8 @@
         statCompanionText: document.getElementById("statCompanionText"),
         selectedCompanionText: document.getElementById("selectedCompanionText"),
         selectedCompanionEffect: document.getElementById("selectedCompanionEffect"),
+        upgradeEquippedCompanionBtn: document.getElementById("upgradeEquippedCompanionBtn"),
+        equippedCompanionUpgradeInfo: document.getElementById("equippedCompanionUpgradeInfo"),
         companionList: document.getElementById("companionList"),
         drawCompanionBtn: document.getElementById("drawCompanionBtn"),
         drawCompanion11Btn: document.getElementById("drawCompanion11Btn"),
@@ -1447,8 +1611,53 @@
       const toast = document.getElementById("toast");
       const battleCenterNotice = document.getElementById("battleCenterNotice");
       const stage = document.querySelector(".battle-stage");
+      const STAGE_SWAP_DURATION_MS = 1000;
+      const STAGE_SWAP_HALF_MS = STAGE_SWAP_DURATION_MS / 2;
+      const STAGE_RESULT_NOTICE_DELAY_MS = 180;
+      let isStageTransitioning = false;
       let centerNoticeTimer = null;
       let companionListRendered = false;
+
+      function sleep(ms) {
+        return new Promise((resolve) => setTimeout(resolve, ms));
+      }
+
+      async function runDeathStageTransition(deathTarget = "none", onSwap = null, noticeText = "") {
+        if (isStageTransitioning) return false;
+        isStageTransitioning = true;
+        enemy.attackCooldown = 0;
+
+        if (deathTarget === "hero") {
+          ui.heroSprite.classList.remove("hero-hit", "hero-surge", "hero-death");
+          void ui.heroSprite.offsetWidth;
+          ui.heroSprite.classList.add("hero-death");
+        } else if (deathTarget === "monster") {
+          ui.monster.classList.remove("monster-hit", "monster-attack", "monster-death");
+          void ui.monster.offsetWidth;
+          ui.monster.classList.add("monster-death");
+        }
+
+        stage.classList.remove("stage-swap");
+        void stage.offsetWidth;
+        stage.classList.add("stage-swap");
+        if (noticeText) {
+          setTimeout(() => {
+            if (isStageTransitioning) showCenterNotice(noticeText, STAGE_SWAP_DURATION_MS + 260);
+          }, STAGE_RESULT_NOTICE_DELAY_MS);
+        }
+
+        await sleep(STAGE_SWAP_HALF_MS);
+        if (typeof onSwap === "function") onSwap();
+        ensureBounds();
+        updateStatus();
+
+        await sleep(STAGE_SWAP_HALF_MS);
+        ui.heroSprite.classList.remove("hero-death");
+        ui.monster.classList.remove("monster-death");
+        stage.classList.remove("stage-swap");
+        isStageTransitioning = false;
+        return true;
+      }
 
       function normalizeCompanionId(raw) {
         const candidates = COMPANION_ROSTER.filter((c) => c.id !== "none");
@@ -1467,7 +1676,7 @@
       }
 
       function upgradeCost(base, level, growth = 1.35) {
-        return Math.max(1, Math.floor(base * Math.pow(growth, Math.max(0, level - 1))));
+        return Math.max(1, Math.floor(base * Math.pow(growth, Math.max(0, level))));
       }
 
       function skillCost(base, level, growth = 1.5) {
@@ -1496,9 +1705,10 @@
         const normalized = rawList
           .map((item) => normalizeCompanionId(item))
           .filter((id) => id !== "none" && companionById[id]);
+        const slots = unlockedCompanionSlots();
         const unique = Array.from(new Set(normalized))
           .filter((id) => state.ownedCompanions.includes(id))
-          .slice(0, MAX_EQUIPPED_COMPANIONS);
+          .slice(0, slots);
         state.companionIds = unique;
         state.companionId = unique[0] || "none";
       }
@@ -1509,7 +1719,7 @@
       }
 
       function createEffectAccumulator() {
-        return { atk: 0, hp: 0, speed: 0, bossAtk: 0, crit: 0, cleave: 0, lifesteal: 0 };
+        return { atk: 0, hp: 0, speed: 0, crit: 0, critDmg: 0, cleave: 0, lifesteal: 0, gold: 0 };
       }
 
       function addScaledEffect(target, effect, scale) {
@@ -1517,15 +1727,19 @@
         target.atk += (effect.atk || 0) * scale;
         target.hp += (effect.hp || 0) * scale;
         target.speed += (effect.speed || 0) * scale;
-        target.bossAtk += (effect.bossAtk || 0) * scale;
         target.crit += (effect.crit || 0) * scale;
+        target.critDmg += (effect.critDmg || 0) * scale;
         target.cleave += (effect.cleave || 0) * scale;
         target.lifesteal += (effect.lifesteal || 0) * scale;
+        target.gold += (effect.gold || 0) * scale;
       }
 
-      function companionLevelMultiplier(level) {
+      function companionLevelMultiplier(tier, level, scope = "owned") {
         if (level <= 0) return 0;
-        return 1 + (Math.max(1, Math.min(COMPANION_MAX_LEVEL, level)) - 1) / (COMPANION_MAX_LEVEL - 1);
+        const tierKey = Math.max(1, Math.min(4, Math.floor(Number(tier) || 1)));
+        const rate = Number(COMPANION_LEVELUP_EFFECT_GROWTH[tierKey]?.[scope]) || 0;
+        const lv = Math.max(1, Math.min(COMPANION_MAX_LEVEL, Math.floor(Number(level) || 1)));
+        return Math.pow(1 + rate, Math.max(0, lv - 1));
       }
 
       function getCompanionLevel(companionId) {
@@ -1537,12 +1751,24 @@
         return Math.max(0, Math.floor(Number(state.companionLv9Shards?.[companionId]) || 0));
       }
 
+      function companionLevelUpCost(companionId) {
+        const companion = companionById[companionId];
+        if (!companion || companion.id === "none") return 0;
+        const level = getCompanionLevel(companionId);
+        if (level <= 0 || level >= COMPANION_MAX_LEVEL) return 0;
+        const tier = Math.max(1, Math.min(4, Number(companion.tier) || 1));
+        const base = Number(COMPANION_LEVELUP_COST_START[tier]) || 0;
+        const growth = Number(COMPANION_LEVELUP_COST_GROWTH[tier]) || 1;
+        return Math.max(1, Math.floor(base * Math.pow(growth, Math.max(0, level - 1))));
+      }
+
       function companionNextLevelProgress(companionId) {
         const level = getCompanionLevel(companionId);
         if (level <= 0) return "미획득";
-        if (level < 9) return `다음 Lv${level + 1}: 동일 동료 1개`;
-        if (level === 9) return `Lv10 승급 조각 ${getCompanionLv9Shard(companionId)}/${COMPANION_LV10_DUPLICATES}`;
-        return "Lv MAX";
+        if (level >= COMPANION_MAX_LEVEL) return "Lv MAX";
+        const shard = getCompanionLv9Shard(companionId);
+        const cost = companionLevelUpCost(companionId);
+        return `다음 Lv${level + 1}: 조각 ${shard}/1, 비용 ${cost} 다이아`;
       }
 
 
@@ -1553,15 +1779,15 @@
         for (const companionId of state.ownedCompanions) {
           const c = companionById[companionId];
           if (!c || c.id === "none") continue;
-          const scale = COMPANION_OWNED_EFFECT_RATIO * companionLevelMultiplier(getCompanionLevel(companionId));
-          addScaledEffect(owned, c.effect, scale);
+          const scale = companionLevelMultiplier(c.tier, getCompanionLevel(companionId), "owned");
+          addScaledEffect(owned, c.effect || {}, scale);
         }
 
         const equipped = createEffectAccumulator();
         for (const c of getEquippedCompanions()) {
           if (!c || c.id === "none") continue;
-          const scale = COMPANION_EQUIPPED_EFFECT_RATIO * companionLevelMultiplier(getCompanionLevel(c.id));
-          addScaledEffect(equipped, c.effect, scale);
+          const scale = companionLevelMultiplier(c.tier, getCompanionLevel(c.id), "equipped");
+          addScaledEffect(equipped, c.equipEffect || {}, scale);
         }
 
         const total = createEffectAccumulator();
@@ -1573,7 +1799,7 @@
 
       function companionAttackMultiplier() {
         const effect = aggregateCompanionEffect();
-        return 1 + effect.atk + (enemy?.isBoss ? effect.bossAtk : 0);
+        return 1 + effect.atk;
       }
 
       function companionHpMultiplier() {
@@ -1592,6 +1818,10 @@
 
       function companionCleaveChance() {
         return aggregateCompanionEffect().cleave;
+      }
+
+      function companionGoldMultiplier() {
+        return 1 + (aggregateCompanionEffect().gold || 0);
       }
 
       function companionDrawCost(drawAmount = 1) {
@@ -1630,13 +1860,7 @@
           }
 
           state.companionLevels[id] = level;
-
-          if (level === 9) {
-            const shard = Math.floor(Number(state.companionLv9Shards[id]) || 0);
-            state.companionLv9Shards[id] = Math.max(0, Math.min(COMPANION_LV10_DUPLICATES - 1, shard));
-          } else {
-            delete state.companionLv9Shards[id];
-          }
+          state.companionLv9Shards[id] = Math.max(0, Math.floor(Number(state.companionLv9Shards[id]) || 0));
         }
 
         state.ownedCompanions = Object.keys(state.companionLevels)
@@ -1655,14 +1879,23 @@
         return candidates.every((c) => (Math.floor(Number(state.companionLevels?.[c.id]) || 0) >= COMPANION_MAX_LEVEL));
       }
 
+      function unlockedCompanionSlots() {
+        const clearedChapter = Math.max(0, Math.floor(Number(state.chapter) || 1) - 1);
+        let slots = 1;
+        if (clearedChapter >= 3) slots += 1;
+        if (clearedChapter >= 7) slots += 1;
+        return Math.min(MAX_EQUIPPED_COMPANIONS, slots);
+      }
+
       function companionDisplayName() {
         const equipped = getEquippedCompanions();
+        const slots = unlockedCompanionSlots();
         if (!equipped.length) return "동료 미장착";
         if (equipped.length === 1) {
           const one = equipped[0];
-          return `1/${MAX_EQUIPPED_COMPANIONS} 장착 - ${one.name} Lv${getCompanionLevel(one.id)}`;
+          return `1/${slots} 장착 - ${one.name} Lv${getCompanionLevel(one.id)}`;
         }
-        return `${equipped.length}/${MAX_EQUIPPED_COMPANIONS} 장착`;
+        return `${equipped.length}/${slots} 장착`;
       }
 
       function formatEffectSummary(effect) {
@@ -1670,9 +1903,10 @@
         if ((effect.atk || 0) !== 0) parts.push(`공격 ${Math.round(effect.atk * 100)}%`);
         if ((effect.hp || 0) !== 0) parts.push(`체력 ${Math.round(effect.hp * 100)}%`);
         if ((effect.speed || 0) !== 0) parts.push(`속도 ${Math.round(effect.speed * 100)}%`);
-        if ((effect.bossAtk || 0) !== 0) parts.push(`보스 ${Math.round(effect.bossAtk * 100)}%`);
         if ((effect.crit || 0) !== 0) parts.push(`치확 ${Math.round(effect.crit * 100)}%`);
+        if ((effect.critDmg || 0) !== 0) parts.push(`치피 ${Math.round(effect.critDmg * 100)}%`);
         if ((effect.cleave || 0) !== 0) parts.push(`추타 ${Math.round(effect.cleave * 100)}%`);
+        if ((effect.gold || 0) !== 0) parts.push(`골드 ${Math.round(effect.gold * 100)}%`);
         return parts.length ? parts.join(", ") : "없음";
       }
 
@@ -1689,9 +1923,10 @@
           atk: (baseEffect.atk || 0) * scale,
           hp: (baseEffect.hp || 0) * scale,
           speed: (baseEffect.speed || 0) * scale,
-          bossAtk: (baseEffect.bossAtk || 0) * scale,
           crit: (baseEffect.crit || 0) * scale,
+          critDmg: (baseEffect.critDmg || 0) * scale,
           cleave: (baseEffect.cleave || 0) * scale,
+          gold: (baseEffect.gold || 0) * scale,
         };
       }
 
@@ -1701,38 +1936,17 @@
         const currentLevel = getCompanionLevel(companionId);
         if (currentLevel <= 0) {
           state.companionLevels[companionId] = 1;
-          delete state.companionLv9Shards[companionId];
+          state.companionLv9Shards[companionId] = Math.max(0, Math.floor(Number(state.companionLv9Shards[companionId]) || 0));
           normalizeOwnedCompanions();
           return { level: 1, statusText: "획득 (Lv1)" };
         }
-
-        if (currentLevel < 9) {
-          const nextLevel = currentLevel + 1;
-          state.companionLevels[companionId] = nextLevel;
-          normalizeOwnedCompanions();
-          return { level: nextLevel, statusText: `Lv${nextLevel} 달성` };
-        }
-
-        if (currentLevel === 9) {
-          const nextShard = getCompanionLv9Shard(companionId) + 1;
-          if (nextShard >= COMPANION_LV10_DUPLICATES) {
-            state.companionLevels[companionId] = 10;
-            delete state.companionLv9Shards[companionId];
-            normalizeOwnedCompanions();
-            return { level: 10, statusText: "Lv10 달성" };
-          }
-
-          state.companionLv9Shards[companionId] = nextShard;
-          normalizeOwnedCompanions();
-          return { level: 9, statusText: `Lv10 승급 조각 ${nextShard}/${COMPANION_LV10_DUPLICATES}` };
-        }
-
-        return { level: COMPANION_MAX_LEVEL, statusText: "Lv10 (최대)" };
+        state.companionLv9Shards[companionId] = getCompanionLv9Shard(companionId) + 1;
+        normalizeOwnedCompanions();
+        return { level: currentLevel, statusText: `중복: 조각 +1 (${getCompanionLv9Shard(companionId)})` };
       }
 
       function drawableCompanionPool() {
-        normalizeOwnedCompanions();
-        return COMPANION_ROSTER.filter((c) => c.id !== "none" && (Math.floor(Number(state.companionLevels?.[c.id]) || 0) < COMPANION_MAX_LEVEL));
+        return COMPANION_ROSTER.filter((c) => c.id !== "none");
       }
 
       function pickCompanionFromTierWeightedPool(pool) {
@@ -1772,26 +1986,43 @@
         return tierPool[Math.floor(Math.random() * tierPool.length)] || null;
       }
 
+      function stageOrdinal(chapter = state.chapter, stageNum = state.stage) {
+        const chapterClamped = Math.max(1, Math.min(MAX_CHAPTER, Math.floor(Number(chapter) || 1)));
+        const stageClamped = Math.max(1, Math.min(MAX_STAGE, Math.floor(Number(stageNum) || 1)));
+        return (chapterClamped - 1) * MAX_STAGE + stageClamped;
+      }
+
+      function growthMultiplierByStage(stageIdx, earlyGrowth, midGrowth, lateGrowth) {
+        const idx = Math.max(1, Math.floor(Number(stageIdx) || 1));
+        const steps = idx - 1;
+        const earlySteps = Math.min(99, Math.max(0, steps));
+        const midSteps = Math.min(100, Math.max(0, steps - 99));
+        const lateSteps = Math.max(0, steps - 199);
+        return Math.pow(earlyGrowth, earlySteps) * Math.pow(midGrowth, midSteps) * Math.pow(lateGrowth, lateSteps);
+      }
+
       function attackValue() {
-        const base = state.attackBase * (1 + (state.attackLv - 1) * 0.3) + state.level * 2;
-        return Math.max(1, Math.floor(base * companionAttackMultiplier()));
+        const upgraded = state.attackBase * Math.pow(1 + UPGRADE_ATTACK.scale, Math.max(0, state.attackLv));
+        return Math.max(1, Math.floor(upgraded * companionAttackMultiplier()));
       }
 
       function defenseValue() {
-        return Math.floor(state.defenseBase + state.speedLv - 1);
+        return Math.floor(state.defenseBase);
       }
 
       function maxHp() {
-        return Math.max(1, Math.floor(state.hpBase * (1 + (state.hpLv - 1) * 0.32) * companionHpMultiplier()));
+        const upgraded = state.hpBase * Math.pow(1 + UPGRADE_HP.scale, Math.max(0, state.hpLv));
+        return Math.max(1, Math.floor(upgraded * companionHpMultiplier()));
       }
 
       function baseAttacksPerSecond(level = state.speedLv) {
-        const base = state.speedBase * (1 + (Number(level) - 1) * 0.35);
-        return Math.min(ATTACK_SPEED_CAP, Math.max(ATTACK_SPEED_MIN, base));
+        const lv = Math.max(0, Math.floor(Number(level) || 0));
+        const base = PLAYER_BASE_ATTACK_SPEED + UPGRADE_SPEED.perLevel * lv;
+        return Math.min(UPGRADE_SPEED.cap, Math.max(ATTACK_SPEED_MIN, base));
       }
 
       function isBaseAttacksPerSecondCapped(level = state.speedLv) {
-        return baseAttacksPerSecond(level) >= ATTACK_SPEED_CAP;
+        return baseAttacksPerSecond(level) >= UPGRADE_SPEED.cap;
       }
 
       function attacksPerSecond() {
@@ -1801,18 +2032,22 @@
       function attackInterval() {
         return 1 / attacksPerSecond();
       }
+      function clampChapter(v) {
+        return Math.max(1, Math.min(MAX_CHAPTER, Math.floor(Number(v) || 1)));
+      }
+
       function clampStage(v) {
-        return Math.max(1, Math.min(MAX_CHAPTER, v));
+        return Math.max(1, Math.min(MAX_STAGE, Math.floor(Number(v) || 1)));
       }
 
       function currentStageLabel() {
-        const chapter = clampStage(state.chapter);
-        const stage = Math.max(1, Math.min(MAX_STAGE, state.stage));
+        const chapter = clampChapter(state.chapter);
+        const stage = clampStage(state.stage);
         return `${chapter}-${stage}`;
       }
 
       function familyByProgress(idx) {
-        return ENEMY_FAMILIES[Math.max(0, idx) % ENEMY_FAMILIES.length];
+        return ENEMY_FAMILIES[Math.max(0, idx - 1) % ENEMY_FAMILIES.length];
       }
 
       function resolveEnemyFamily(id, fallbackIdx = 0) {
@@ -1828,15 +2063,17 @@
       }
 
       function critChanceBase() { return Math.min(1, 0.01 * state.skills.critChanceLv); }
-      function critChance() { return critChanceBase() + companionCritChance(); }
-      function critMultiplier() { return 1.5 + 0.05 * state.skills.critDamageLv; }
-      function cleaveChanceBase() { return Math.min(0.5, 0.05 * state.skills.cleaveChanceLv); }
-      function cleaveChance() { return cleaveChanceBase() + companionCleaveChance(); }
-      function cleaveCount() { return Math.min(5, state.skills.cleaveCountLv); }
+      function critChance() { return Math.min(1, critChanceBase() + companionCritChance()); }
+      function companionCritDamageBonus() { return aggregateCompanionEffect().critDmg || 0; }
+      function critDamageBonusRate() { return Math.min(10, 0.5 + 0.12 * state.skills.critDamageLv) + companionCritDamageBonus(); }
+      function critMultiplier() { return 1 + critDamageBonusRate(); }
+      function cleaveChanceBase() { return Math.min(0.5, 0.005 * state.skills.cleaveChanceLv); }
+      function cleaveChance() { return Math.min(0.5, cleaveChanceBase() + companionCleaveChance()); }
+      function cleaveCount() { return Math.min(5, Math.floor(state.skills.cleaveCountLv / 5)); }
       function companionLifestealChance() { return aggregateCompanionEffect().lifesteal; }
-      function lifestealChanceBase() { return Math.min(0.5, 0.05 * state.skills.lifestealChanceLv); }
-      function lifestealChance() { return lifestealChanceBase() + companionLifestealChance(); }
-      function lifestealAmountRate() { return Math.min(0.2, 0.01 * state.skills.lifestealAmountLv); }
+      function lifestealChanceBase() { return Math.min(0.5, 0.005 * state.skills.lifestealChanceLv); }
+      function lifestealChance() { return Math.min(0.5, lifestealChanceBase() + companionLifestealChance()); }
+      function lifestealAmountRate() { return Math.min(0.2, 0.0025 * state.skills.lifestealAmountLv); }
 
       function renderCompanionList() {
         if (!ui.companionList) return;
@@ -1881,9 +2118,8 @@
           const level = getCompanionLevel(c.id);
           const tierMeta = companionTierMeta(c.tier);
           const isOwned = level > 0;
-          const levelMultiplier = companionLevelMultiplier(level);
-          const ownedEffect = companionEffectForDisplay(c.effect, COMPANION_OWNED_EFFECT_RATIO * levelMultiplier);
-          const equippedEffect = companionEffectForDisplay(c.effect, COMPANION_EQUIPPED_EFFECT_RATIO * levelMultiplier);
+          const ownedEffect = companionEffectForDisplay(c.effect || {}, companionLevelMultiplier(c.tier, level, "owned"));
+          const equippedEffect = companionEffectForDisplay(c.equipEffect || {}, companionLevelMultiplier(c.tier, level, "equipped"));
           const progressText = companionNextLevelProgress(c.id);
 
           const b = document.createElement("button");
@@ -1957,8 +2193,9 @@
           return;
         }
 
-        if (state.companionIds.length >= MAX_EQUIPPED_COMPANIONS) {
-          setToast(`동료는 최대 ${MAX_EQUIPPED_COMPANIONS}명까지 장착할 수 있습니다`);
+        const slots = unlockedCompanionSlots();
+        if (state.companionIds.length >= slots) {
+          setToast(`동료는 현재 ${slots}명까지 장착할 수 있습니다`);
           pushDebugLog(`장착 실패(슬롯초과): ${next.id}`);
           return;
         }
@@ -1968,7 +2205,7 @@
         const after = maxHp();
         const healed = Math.max(0, after - before);
         if (healed > 0) state.hp = Math.min(after, state.hp + healed);
-        setToast(`${next.name} 장착 (${state.companionIds.length}/${MAX_EQUIPPED_COMPANIONS})`);
+        setToast(`${next.name} 장착 (${state.companionIds.length}/${unlockedCompanionSlots()})`);
         pushDebugLog(`장착 완료: ${state.companionIds.join(",")}, 보정HP=${after}, heal=${healed}`);
         renderCompanionList();
         refreshDebugPanel();
@@ -1982,11 +2219,6 @@
 
       function drawCompanionBatch(drawAmount = 1) {
         const drawCount = drawAmount >= COMPANION_MULTI_DRAW_COUNT ? COMPANION_MULTI_DRAW_COUNT : 1;
-
-        if (isAllCompanionsMaxed()) {
-          setToast("모든 동료가 Lv10입니다");
-          return;
-        }
 
         const cost = companionDrawCost(drawCount);
         if (!canBuyDiamond(cost)) {
@@ -2039,8 +2271,44 @@
         drawCompanionBatch(COMPANION_MULTI_DRAW_COUNT);
       }
 
+      function upgradeEquippedCompanion() {
+        const equipped = getEquippedCompanions();
+        const target = equipped[0];
+        if (!target) {
+          setToast("장착된 동료가 없습니다");
+          return;
+        }
+        const currentLevel = getCompanionLevel(target.id);
+        if (currentLevel >= COMPANION_MAX_LEVEL) {
+          setToast("이미 최대 레벨입니다");
+          return;
+        }
+        const shard = getCompanionLv9Shard(target.id);
+        const cost = companionLevelUpCost(target.id);
+        if (shard < 1) {
+          setToast("동료 조각이 부족합니다");
+          return;
+        }
+        if (!canBuyDiamond(cost)) {
+          setToast("다이아가 부족합니다");
+          return;
+        }
+        state.diamonds -= cost;
+        state.companionLv9Shards[target.id] = Math.max(0, shard - 1);
+        state.companionLevels[target.id] = Math.min(COMPANION_MAX_LEVEL, currentLevel + 1);
+        setToast(`${target.name} Lv${state.companionLevels[target.id]} 강화`);
+        updateStatus();
+      }
+
       function canBuy(v) { return state.skillPoints >= v; }
       function canBuyDiamond(v) { return state.diamonds >= v; }
+      function expectedDps() {
+        const atk = attackValue();
+        const aps = attacksPerSecond();
+        const critTerm = 1 + critChance() * critDamageBonusRate();
+        const cleaveTerm = 1 + cleaveChance() * cleaveCount();
+        return atk * aps * critTerm * cleaveTerm;
+      }
       function combatPower() {
         const attack = attackValue();
         const hp = maxHp();
@@ -2091,7 +2359,7 @@
         const equipped = getEquippedCompanions();
         if (ui.debugCompanionId) ui.debugCompanionId.textContent = equipped.length ? equipped.map((c) => c.id).join(",") : "none";
         if (ui.debugCompanionCheck) {
-          ui.debugCompanionCheck.textContent = `${equipped.length}/${MAX_EQUIPPED_COMPANIONS} 장착 / 리스트=${state.ownedCompanions.length}`;
+          ui.debugCompanionCheck.textContent = `${equipped.length}/${unlockedCompanionSlots()} 장착 / 리스트=${state.ownedCompanions.length}`;
         }
         if (ui.debugStorage) ui.debugStorage.textContent = STORAGE_KEY;
       }
@@ -2211,13 +2479,13 @@
       }
 
       function updateStatus() {
-        state.chapter = clampStage(state.chapter);
-        state.stage = Math.max(1, Math.min(MAX_STAGE, state.stage));
+        state.chapter = clampChapter(state.chapter);
+        state.stage = clampStage(state.stage);
         state.stageKillCount = Math.max(0, Math.min(ENEMIES_PER_STAGE, Math.floor(state.stageKillCount || 0)));
         const hpCap = maxHp();
         const at = attackValue();
         const aps = attacksPerSecond();
-        const dps = at * aps;
+        const dps = expectedDps();
         const nextExp = expNeed(state.level);
         state.hp = Math.min(state.hp, hpCap);
 
@@ -2250,12 +2518,33 @@
         ui.speedLvlBtn.textContent = `공격속도 강화 ${state.speedLv}회`;
         ui.selectedCompanionText.textContent = companionDisplayName();
         ui.selectedCompanionEffect.textContent = companionEffectText();
+        const firstEquipped = getEquippedCompanions()[0] || null;
+        if (firstEquipped) {
+          const lv = getCompanionLevel(firstEquipped.id);
+          const shard = getCompanionLv9Shard(firstEquipped.id);
+          const cost = companionLevelUpCost(firstEquipped.id);
+          const canUpgrade = lv < COMPANION_MAX_LEVEL && shard >= 1 && canBuyDiamond(cost);
+          if (ui.equippedCompanionUpgradeInfo) {
+            ui.equippedCompanionUpgradeInfo.textContent = lv >= COMPANION_MAX_LEVEL
+              ? `${firstEquipped.name} Lv${lv} (최대)`
+              : `${firstEquipped.name} Lv${lv} / 조각 ${shard}/1 / 비용 ${cost} 다이아`;
+          }
+          if (ui.upgradeEquippedCompanionBtn) {
+            ui.upgradeEquippedCompanionBtn.disabled = !canUpgrade;
+            ui.upgradeEquippedCompanionBtn.classList.toggle("btn-disable", !canUpgrade);
+          }
+        } else {
+          if (ui.equippedCompanionUpgradeInfo) ui.equippedCompanionUpgradeInfo.textContent = "장착 동료 없음";
+          if (ui.upgradeEquippedCompanionBtn) {
+            ui.upgradeEquippedCompanionBtn.disabled = true;
+            ui.upgradeEquippedCompanionBtn.classList.add("btn-disable");
+          }
+        }
 
         normalizeOwnedCompanions();
         const drawCostSingle = companionDrawCost(1);
         const drawCostMulti = companionDrawCost(COMPANION_MULTI_DRAW_COUNT);
         const ownedCount = Math.min(MAX_COMPANIONS, COMPANION_ROSTER.length - 1, state.ownedCompanions.length);
-        const allMaxed = isAllCompanionsMaxed();
 
         ui.ownedCompanionCount.textContent = `${ownedCount}/${Math.min(MAX_COMPANIONS, COMPANION_ROSTER.length - 1)}`;
         ui.drawAttemptText.textContent = `${state.drawCount || 0}회`;
@@ -2264,11 +2553,11 @@
         ui.drawBtnCost.textContent = String(drawCostSingle);
         if (ui.drawMultiBtnCost) ui.drawMultiBtnCost.textContent = String(drawCostMulti);
 
-        ui.drawCompanionBtn.classList.toggle("btn-disable", allMaxed || !canBuyDiamond(drawCostSingle));
-        ui.drawCompanionBtn.disabled = allMaxed || !canBuyDiamond(drawCostSingle);
+        ui.drawCompanionBtn.classList.toggle("btn-disable", !canBuyDiamond(drawCostSingle));
+        ui.drawCompanionBtn.disabled = !canBuyDiamond(drawCostSingle);
         if (ui.drawCompanion11Btn) {
-          ui.drawCompanion11Btn.classList.toggle("btn-disable", allMaxed || !canBuyDiamond(drawCostMulti));
-          ui.drawCompanion11Btn.disabled = allMaxed || !canBuyDiamond(drawCostMulti);
+          ui.drawCompanion11Btn.classList.toggle("btn-disable", !canBuyDiamond(drawCostMulti));
+          ui.drawCompanion11Btn.disabled = !canBuyDiamond(drawCostMulti);
         }
         const bulkModeText = `10회 업그레이드: ${state.bulkUpgradeMode ? "ON" : "OFF"}`;
         if (ui.upgradeBulkToggleBtn) {
@@ -2286,22 +2575,22 @@
         const atkCount = bulkCount;
         const hpCount = bulkCount;
         const spCount = maxBaseSpeedUpgradeCount(state.speedLv, bulkCount);
-        const critCount = Math.max(0, Math.min(bulkCount, 100 - state.skills.critChanceLv));
-        const critDamageCount = Math.max(0, Math.min(bulkCount, 200 - state.skills.critDamageLv));
-        const cleaveChanceCount = Math.max(0, Math.min(bulkCount, 10 - state.skills.cleaveChanceLv));
-        const cleaveCountCount = Math.max(0, Math.min(bulkCount, 5 - state.skills.cleaveCountLv));
-        const lifeChanceCount = Math.max(0, Math.min(bulkCount, 10 - state.skills.lifestealChanceLv));
-        const lifeAmountCount = Math.max(0, Math.min(bulkCount, 20 - state.skills.lifestealAmountLv));
+        const critCount = Math.max(0, Math.min(bulkCount, SKILL_LIMIT.critChanceLv - state.skills.critChanceLv));
+        const critDamageCount = Math.max(0, Math.min(bulkCount, SKILL_LIMIT.critDamageLv - state.skills.critDamageLv));
+        const cleaveChanceCount = Math.max(0, Math.min(bulkCount, SKILL_LIMIT.cleaveChanceLv - state.skills.cleaveChanceLv));
+        const cleaveCountCount = Math.max(0, Math.min(bulkCount, SKILL_LIMIT.cleaveCountLv - state.skills.cleaveCountLv));
+        const lifeChanceCount = Math.max(0, Math.min(bulkCount, SKILL_LIMIT.lifestealChanceLv - state.skills.lifestealChanceLv));
+        const lifeAmountCount = Math.max(0, Math.min(bulkCount, SKILL_LIMIT.lifestealAmountLv - state.skills.lifestealAmountLv));
 
-        const atkCost = sumSequentialCost(atkCount, (i) => upgradeCost(3, state.attackLv + i));
-        const hpCost = sumSequentialCost(hpCount, (i) => upgradeCost(4, state.hpLv + i));
-        const spCost = sumSequentialCost(spCount, (i) => upgradeCost(5, state.speedLv + i));
-        const critChanceUpCost = critCount > 0 ? sumSequentialCost(critCount, (i) => skillCost(12, state.skills.critChanceLv + i)) : 0;
-        const critDamageUpCost = critDamageCount > 0 ? sumSequentialCost(critDamageCount, (i) => skillCost(12, state.skills.critDamageLv + i)) : 0;
-        const cleaveChanceUpCost = cleaveChanceCount > 0 ? sumSequentialCost(cleaveChanceCount, (i) => skillCost(15, state.skills.cleaveChanceLv + i)) : 0;
-        const cleaveCountUpCost = cleaveCountCount > 0 ? sumSequentialCost(cleaveCountCount, (i) => skillCost(15, state.skills.cleaveCountLv + i) * 5) : 0;
-        const lifeChanceUpCost = lifeChanceCount > 0 ? sumSequentialCost(lifeChanceCount, (i) => skillCost(16, state.skills.lifestealChanceLv + i)) : 0;
-        const lifeAmountUpCost = lifeAmountCount > 0 ? sumSequentialCost(lifeAmountCount, (i) => skillCost(16, state.skills.lifestealAmountLv + i)) : 0;
+        const atkCost = sumSequentialCost(atkCount, (i) => upgradeCost(UPGRADE_ATTACK.baseCost, state.attackLv + i, UPGRADE_ATTACK.growth));
+        const hpCost = sumSequentialCost(hpCount, (i) => upgradeCost(UPGRADE_HP.baseCost, state.hpLv + i, UPGRADE_HP.growth));
+        const spCost = sumSequentialCost(spCount, (i) => upgradeCost(UPGRADE_SPEED.baseCost, state.speedLv + i, UPGRADE_SPEED.growth));
+        const critChanceUpCost = critCount > 0 ? sumSequentialCost(critCount, (i) => skillCost(SKILL_CONF.critChanceLv.baseCost, state.skills.critChanceLv + i, SKILL_CONF.critChanceLv.growth)) : 0;
+        const critDamageUpCost = critDamageCount > 0 ? sumSequentialCost(critDamageCount, (i) => skillCost(SKILL_CONF.critDamageLv.baseCost, state.skills.critDamageLv + i, SKILL_CONF.critDamageLv.growth)) : 0;
+        const cleaveChanceUpCost = cleaveChanceCount > 0 ? sumSequentialCost(cleaveChanceCount, (i) => skillCost(SKILL_CONF.cleaveChanceLv.baseCost, state.skills.cleaveChanceLv + i, SKILL_CONF.cleaveChanceLv.growth)) : 0;
+        const cleaveCountUpCost = cleaveCountCount > 0 ? sumSequentialCost(cleaveCountCount, (i) => skillCost(SKILL_CONF.cleaveCountLv.baseCost, state.skills.cleaveCountLv + i, SKILL_CONF.cleaveCountLv.growth)) : 0;
+        const lifeChanceUpCost = lifeChanceCount > 0 ? sumSequentialCost(lifeChanceCount, (i) => skillCost(SKILL_CONF.lifestealChanceLv.baseCost, state.skills.lifestealChanceLv + i, SKILL_CONF.lifestealChanceLv.growth)) : 0;
+        const lifeAmountUpCost = lifeAmountCount > 0 ? sumSequentialCost(lifeAmountCount, (i) => skillCost(SKILL_CONF.lifestealAmountLv.baseCost, state.skills.lifestealAmountLv + i, SKILL_CONF.lifestealAmountLv.growth)) : 0;
 
         const isCritChanceMax = critCount <= 0;
         const isCritDamageMax = critDamageCount <= 0;
@@ -2312,7 +2601,7 @@
         const isLifeAmountMax = lifeAmountCount <= 0;
 
         const renderCostText = (cost, count, done = false) => {
-          if (done || count <= 0) return "완료";
+          if (done || count <= 0) return "강화 완료";
           if (!state.bulkUpgradeMode) return String(cost);
           return `${cost} (${count}회)`;
         };
@@ -2329,9 +2618,9 @@
         ui.upgradeSummary.textContent = `강화 레벨: 공격${state.attackLv} / 체력${state.hpLv} / 속도${state.speedLv}`;
 
         ui.critChanceDesc.textContent = `확률 ${Math.round(critChance() * 100)}%, 최대 100% (Lv ${state.skills.critChanceLv})`;
-        ui.critDamageDesc.textContent = `추가 +${50 + state.skills.critDamageLv * 5}% (Lv ${state.skills.critDamageLv}, 최대 +1050%)`;
+        ui.critDamageDesc.textContent = `추가 +${Math.round(critDamageBonusRate() * 100)}% (Lv ${state.skills.critDamageLv}, 최대 +1000%)`;
         ui.cleaveChanceDesc.textContent = `확률 ${Math.round(cleaveChance() * 100)}%, 최대 50% (Lv ${state.skills.cleaveChanceLv})`;
-        ui.cleaveCountDesc.textContent = `${cleaveCount()}회 / 최대 5회 (Lv ${state.skills.cleaveCountLv})`;
+        ui.cleaveCountDesc.textContent = `${cleaveCount()}회 / 최대 5회 (Lv ${state.skills.cleaveCountLv}, 5레벨당 +1)`;
         ui.lifestealChanceDesc.textContent = `확률 ${Math.round(lifestealChance() * 100)}%, 최대 50% (Lv ${state.skills.lifestealChanceLv})`;
         ui.lifestealAmountDesc.textContent = `회복량 +${Math.round(lifestealAmountRate() * 100)}% (Lv ${state.skills.lifestealAmountLv}, 최대 20%)`;
 
@@ -2364,11 +2653,11 @@
         const hpCap = maxHp();
         const finalAttack = attackValue();
         const finalSpeed = attacksPerSecond();
-        const finalDps = finalAttack * finalSpeed;
+        const finalDps = expectedDps();
         const companionEffect = aggregateCompanionEffect();
         const critRate = Math.round(critChance() * 100);
         const critDamageRate = Math.round((critMultiplier() - 1) * 100);
-        const bossBonusRate = Math.round((companionEffect.bossAtk || 0) * 100);
+        const bossBonusRate = 0;
         const cleaveRate = Math.round(cleaveChance() * 100);
         const cleaveHits = cleaveCount();
         const nextExp = expNeed(state.level);
@@ -2403,7 +2692,6 @@
       function gainExp(v) {
         if (v <= 0) return;
         state.exp += v;
-        state.skillPoints += Math.max(1, Math.floor(v * 0.7));
         while (state.exp >= expNeed(state.level)) {
           state.exp -= expNeed(state.level);
           state.level += 1;
@@ -2413,9 +2701,40 @@
       }
 
       function currentProgressIndex() {
-        const chapter = Math.max(1, Math.min(MAX_CHAPTER, state.chapter));
-        const stage = Math.max(1, Math.min(MAX_STAGE, state.stage));
-        return (chapter - 1) * (MAX_STAGE * ENEMIES_PER_STAGE) + (stage - 1) * ENEMIES_PER_STAGE + Math.min(ENEMIES_PER_STAGE, Math.max(0, state.stageKillCount));
+        return stageOrdinal(state.chapter, state.stage);
+      }
+
+      function normalEnemyBaseStats(chapter = state.chapter, stageNum = state.stage) {
+        const idx = stageOrdinal(chapter, stageNum);
+        const atkMult = growthMultiplierByStage(idx, ENEMY_GROWTH_ATK.early, ENEMY_GROWTH_ATK.mid, ENEMY_GROWTH_ATK.late);
+        const hpMult = growthMultiplierByStage(idx, ENEMY_GROWTH_HP.early, ENEMY_GROWTH_HP.mid, ENEMY_GROWTH_HP.late);
+        return {
+          idx,
+          atk: Math.max(1, Math.floor(ENEMY_BASE_ATK * atkMult)),
+          hp: Math.max(1, Math.floor(ENEMY_BASE_HP * hpMult)),
+        };
+      }
+
+      function normalGoldByStage(chapter = state.chapter, stageNum = state.stage) {
+        const idx = stageOrdinal(chapter, stageNum);
+        const goldMult = growthMultiplierByStage(idx, GOLD_GROWTH.early, GOLD_GROWTH.mid, GOLD_GROWTH.late);
+        return Math.max(1, Math.floor(GOLD_BASE_NORMAL * goldMult));
+      }
+
+      function enemyGoldReward() {
+        const normalGold = normalGoldByStage();
+        const base = enemy.type === "midboss"
+          ? normalGold * MIDBOSS_MULT.gold
+          : enemy.type === "chapterBoss"
+            ? normalGold * CHAPTER_BOSS_GOLD_MULT
+            : normalGold;
+        return Math.max(1, Math.floor(base * companionGoldMultiplier()));
+      }
+
+      function chapterClearGoldReward(chapterNum) {
+        const chapter = Math.max(1, Math.min(MAX_CHAPTER, Number(chapterNum) || 1));
+        const chapterStageNormalGold = normalGoldByStage(chapter, MAX_STAGE);
+        return Math.max(1, Math.floor(chapterStageNormalGold * 20 * companionGoldMultiplier()));
       }
 
       function applyEnemyProfile(hpMax, atk, type, levelLabel = "normal", attackInterval = 0, familyId = null, fallbackIdx = 0) {
@@ -2434,56 +2753,82 @@
         state.previousEnemy = { hpMax: enemy.hpMax, atk: enemy.atk };
       }
 
+      function resolveEnemySpritePath(type, enemyName, familyId = "slime") {
+        const family = resolveEnemyFamily(familyId, 0);
+        const byName = type === "normal"
+          ? NORMAL_ENEMY_SPRITE_BY_NAME[enemyName]
+          : type === "midboss"
+            ? MIDBOSS_ENEMY_SPRITE_BY_NAME[enemyName]
+            : CHAPBOSS_ENEMY_SPRITE_BY_NAME[enemyName];
+
+        if (typeof byName === "string" && byName.length > 0) return byName;
+        const fallbackTable = ENEMY_SPRITE_FALLBACK_BY_FAMILY[type === "chapterBoss" ? "chapterBoss" : type] || ENEMY_SPRITE_FALLBACK_BY_FAMILY.normal;
+        return fallbackTable[family.id] || "";
+      }
+
       function applyEnemyVisualType() {
         ui.monster.classList.remove("normal", "midboss", "chapterBoss", "family-slime", "family-hound", "family-golem", "family-specter", "family-lizard", "family-construct");
         ui.monster.classList.add(enemy.type || "normal");
         ui.monster.classList.add(`family-${resolveEnemyFamily(enemy.family).id}`);
-        const spritePath = enemy.type === "normal"
-          ? NORMAL_ENEMY_SPRITE_BY_NAME[enemy.name]
-          : enemy.type === "midboss"
-            ? MIDBOSS_ENEMY_SPRITE_BY_NAME[enemy.name]
-            : enemy.type === "chapterBoss"
-              ? CHAPBOSS_ENEMY_SPRITE_BY_NAME[enemy.name]
-              : "";
+        const spritePath = resolveEnemySpritePath(enemy.type || "normal", enemy.name, enemy.family);
         const useMonsterSprite = typeof spritePath === "string" && spritePath.length > 0;
         ui.monster.classList.toggle("use-normal-sprite", useMonsterSprite);
         if (ui.monsterNormalImage) {
-          if (useMonsterSprite) ui.monsterNormalImage.src = spritePath;
+          if (useMonsterSprite) {
+            ui.monsterNormalImage.src = spritePath;
+            ui.monsterNormalImage.onerror = () => {
+              ui.monsterNormalImage.hidden = true;
+              ui.monster.classList.remove("use-normal-sprite");
+              ui.monsterNormalImage.onerror = null;
+            };
+          } else {
+            ui.monsterNormalImage.hidden = true;
+            ui.monster.classList.remove("use-normal-sprite");
+          }
           ui.monsterNormalImage.alt = enemy.name || "적 이미지";
           ui.monsterNormalImage.hidden = !useMonsterSprite;
         }
       }
 
-      function spawnNormalMonster() {
-        const idx = currentProgressIndex();
-        const hpMax = 24 + Math.floor(idx * 7 + state.attackLv * 2);
-        const atk = 2.5 + Math.floor(idx * 0.45 + state.level * 0.2);
-        const interval = Math.max(0.58, 1.15 - idx * 0.0018 - state.speedLv * 0.008);
-        const family = familyByProgress(idx);
-        applyEnemyProfile(hpMax, atk, "normal", idx + 1, interval, family.id, idx);
+      function pickRandomFamily() {
+        return familyByProgress(Math.floor(Math.random() * Math.max(1, ENEMY_FAMILIES.length)));
+      }
+
+      function spawnNormalMonster(options = {}) {
+        const stats = normalEnemyBaseStats();
+        const idx = stats.idx;
+        const hpMax = stats.hp;
+        const atk = stats.atk;
+        const interval = Math.max(0.58, 1.02 - idx * 0.0005);
+        const family = resolveEnemyFamily(
+          typeof options.forceFamilyId === "string" ? options.forceFamilyId : null,
+          options.forceFamilyIdx ?? idx
+        );
+        applyEnemyProfile(hpMax, atk, "normal", idx, interval, family.id, idx);
         applyEnemyVisualType();
       }
 
       function spawnMidBossMonster() {
-        const prev = state.previousEnemy || { hpMax: 24, atk: 3 };
-        const hpMax = Math.max(1, Math.floor(prev.hpMax * 5));
-        const atk = Math.max(1, Math.floor(prev.atk * 5));
-        applyEnemyProfile(hpMax, atk, "midboss", enemy.level + 1, Math.max(0.45, enemy.attackInterval - 0.05), enemy.family, currentProgressIndex());
+        const stageStats = normalEnemyBaseStats();
+        const hpMax = Math.max(1, Math.floor(stageStats.hp * MIDBOSS_MULT.hp));
+        const atk = Math.max(1, Math.floor(stageStats.atk * MIDBOSS_MULT.atk));
+        applyEnemyProfile(hpMax, atk, "midboss", stageStats.idx, Math.max(0.45, enemy.attackInterval - 0.04), enemy.family, currentProgressIndex());
         applyEnemyVisualType();
       }
 
       function spawnChapterBossMonster() {
-        const prev = state.previousEnemy || { hpMax: 24, atk: 3 };
-        const hpMax = Math.max(1, Math.floor(prev.hpMax * 20));
-        const atk = Math.max(1, Math.floor(prev.atk * 10));
-        applyEnemyProfile(hpMax, atk, "chapterBoss", enemy.level + 1, 0.45, enemy.family, currentProgressIndex());
+        const stageStats = normalEnemyBaseStats();
+        const chapterMult = CHAPTER_BOSS_MULT_BY_CHAPTER(Math.max(1, state.chapter));
+        const hpMax = Math.max(1, Math.floor(stageStats.hp * chapterMult.hp));
+        const atk = Math.max(1, Math.floor(stageStats.atk * chapterMult.atk));
+        applyEnemyProfile(hpMax, atk, "chapterBoss", stageStats.idx, 0.45, enemy.family, currentProgressIndex());
         applyEnemyVisualType();
       }
 
       function restartCurrentStageFromStart() {
         state.stageKillCount = 0;
         state.stage = clampStage(state.stage);
-        state.chapter = clampStage(state.chapter);
+        state.chapter = clampChapter(state.chapter);
         state.bossTimeLeft = 0;
         spawnNormalMonster();
       }
@@ -2494,7 +2839,6 @@
           if (state.stageKillCount >= ENEMIES_PER_STAGE) {
             state.stageKillCount = ENEMIES_PER_STAGE;
             spawnMidBossMonster();
-            showCenterNotice("스테이지 클리어");
             return;
           }
           spawnNormalMonster();
@@ -2504,13 +2848,8 @@
         if (enemy.type === "midboss") {
           state.stageKillCount = 0;
           if (state.stage >= MAX_STAGE) {
-            if (state.chapter < MAX_CHAPTER) {
-              state.chapter += 1;
-              state.stage = 1;
-              spawnChapterBossMonster();
-              return;
-            }
             spawnChapterBossMonster();
+            showCenterNotice("스테이지 클리어");
             return;
           }
           state.stage += 1;
@@ -2520,16 +2859,19 @@
         }
 
         if (enemy.type === "chapterBoss") {
+          const clearedChapter = Math.max(1, state.chapter);
+          state.skillPoints += chapterClearGoldReward(clearedChapter);
+          state.diamonds += CHAPTER_CLEAR_DIAMOND_REWARD;
           if (state.chapter < MAX_CHAPTER) {
             state.chapter += 1;
             state.stage = 1;
           } else {
-            state.stage = 1;
+            state.stage = MAX_STAGE;
           }
           state.stageKillCount = 0;
           state.bossTimeLeft = 0;
           spawnNormalMonster();
-          showCenterNotice("스테이지 클리어");
+          showCenterNotice("챕터 클리어");
           return;
         }
 
@@ -2537,8 +2879,9 @@
       }
 
       function heroStrike() {
+        if (isStageTransitioning || enemy.hp <= 0 || state.hp <= 0) return;
         const base = attackValue();
-        const baseDmg = Math.max(1, base - enemy.level * 0.12);
+        const baseDmg = Math.max(1, base);
         const labels = [];
         let totalDmg = 0;
         const isCrit = Math.random() < critChance();
@@ -2622,22 +2965,17 @@
 
         if (enemy.hp <= 0) {
           const defeatedType = enemy.type;
-          const expGain = 8 + enemy.level * 2;
-          const killBonus = Math.max(1, Math.floor(totalDmg * 0.25));
-          const bonus = enemy.level + 1 + killBonus;
+          const stageIdx = stageOrdinal();
+          const expGain = Math.max(6, Math.floor(6 + stageIdx * 0.8));
           const label = defeatedType === "midboss" ? "중간보스" : defeatedType === "chapterBoss" ? "챕터 보스" : "적";
           gainExp(expGain);
-          state.skillPoints += enemy.level + 1;
-          state.skillPoints += killBonus;
-          let droppedDiamond = 0;
+          state.skillPoints += enemyGoldReward();
           if (Math.random() < DIAMOND_DROP_CHANCE) {
             state.diamonds += 1;
-            droppedDiamond = 1;
           }
-
-          spawnNextMonster();
-          ensureBounds();
-          updateStatus();
+          runDeathStageTransition("monster", () => {
+            spawnNextMonster();
+          }, `${label} 처치`);
           return;
         }
 
@@ -2646,6 +2984,7 @@
       }
 
       function monsterStrike() {
+        if (isStageTransitioning || enemy.hp <= 0 || state.hp <= 0) return;
         const dmg = randomizeDamage(enemy.atk - defenseValue());
         state.hp -= dmg;
         ui.monster.classList.remove("monster-attack");
@@ -2659,26 +2998,19 @@
 
         if (state.hp <= 0) {
           resetCurrentStage("hp");
+          return;
         }
       }
 
       function resetCurrentStage(reason = "hp") {
         const type = reason === "time" ? "time" : "hp";
-        ui.monster.classList.remove("monster-reset-hp", "monster-reset-time");
-        void ui.monster.offsetWidth;
-        ui.monster.classList.add(`monster-reset-${type}`);
-        setTimeout(() => ui.monster.classList.remove(`monster-reset-${type}`), 560);
-        stage.classList.remove("reset-hp", "reset-time");
-        void stage.offsetWidth;
-        stage.classList.add(`reset-${type}`);
-        setTimeout(() => stage.classList.remove(`reset-${type}`), type === "hp" ? 640 : 760);
-        state.hp = maxHp();
-        restartCurrentStageFromStart();
-        if (type === "time") {
-          showCenterNotice("보스 제한시간이 초과되어 스테이지가 초기화됩니다");
-        } else {
-          showCenterNotice("플레이어가 사망해 스테이지가 초기화됩니다");
-        }
+        const notice = type === "time"
+          ? "보스 제한시간이 초과되어 스테이지가 초기화됩니다"
+          : "플레이어가 사망해 스테이지가 초기화됩니다";
+        runDeathStageTransition(type === "hp" ? "hero" : "none", () => {
+          state.hp = maxHp();
+          restartCurrentStageFromStart();
+        }, notice);
       }
 
       function ensureBounds() {
@@ -2692,7 +3024,7 @@
       }
 
       function maxBaseSpeedUpgradeCount(fromLevel = state.speedLv, limit = upgradeBatchCount()) {
-        const start = Math.max(1, Math.floor(Number(fromLevel) || 0));
+        const start = Math.max(0, Math.floor(Number(fromLevel) || 0));
         const maxTurns = Math.max(0, Math.floor(Number(limit) || 0));
         let count = 0;
 
@@ -2714,7 +3046,7 @@
 
       function upgradeAttack() {
         const count = upgradeBatchCount();
-        const totalCost = sumSequentialCost(count, (i) => upgradeCost(3, state.attackLv + i));
+        const totalCost = sumSequentialCost(count, (i) => upgradeCost(UPGRADE_ATTACK.baseCost, state.attackLv + i, UPGRADE_ATTACK.growth));
         if (!canBuy(totalCost)) return;
 
         state.skillPoints -= totalCost;
@@ -2725,7 +3057,7 @@
 
       function upgradeHp() {
         const count = upgradeBatchCount();
-        const totalCost = sumSequentialCost(count, (i) => upgradeCost(4, state.hpLv + i));
+        const totalCost = sumSequentialCost(count, (i) => upgradeCost(UPGRADE_HP.baseCost, state.hpLv + i, UPGRADE_HP.growth));
         if (!canBuy(totalCost)) return;
 
         state.skillPoints -= totalCost;
@@ -2746,7 +3078,7 @@
           setToast("공격속도는 더 이상 강화할 수 없습니다");
           return;
         }
-        const totalCost = sumSequentialCost(count, (i) => upgradeCost(5, state.speedLv + i));
+        const totalCost = sumSequentialCost(count, (i) => upgradeCost(UPGRADE_SPEED.baseCost, state.speedLv + i, UPGRADE_SPEED.growth));
         if (!canBuy(totalCost)) return;
 
         state.skillPoints -= totalCost;
@@ -2756,9 +3088,9 @@
       }
 
       function upgradeCrit() {
-        const count = Math.max(0, Math.min(upgradeBatchCount(), 100 - state.skills.critChanceLv));
+        const count = Math.max(0, Math.min(upgradeBatchCount(), SKILL_LIMIT.critChanceLv - state.skills.critChanceLv));
         if (count <= 0) return;
-        const totalCost = sumSequentialCost(count, (i) => skillCost(12, state.skills.critChanceLv + i));
+        const totalCost = sumSequentialCost(count, (i) => skillCost(SKILL_CONF.critChanceLv.baseCost, state.skills.critChanceLv + i, SKILL_CONF.critChanceLv.growth));
         if (!canBuy(totalCost)) return;
 
         state.skillPoints -= totalCost;
@@ -2768,9 +3100,9 @@
       }
 
       function upgradeCleave() {
-        const count = Math.max(0, Math.min(upgradeBatchCount(), 10 - state.skills.cleaveChanceLv));
+        const count = Math.max(0, Math.min(upgradeBatchCount(), SKILL_LIMIT.cleaveChanceLv - state.skills.cleaveChanceLv));
         if (count <= 0) return;
-        const totalCost = sumSequentialCost(count, (i) => skillCost(15, state.skills.cleaveChanceLv + i));
+        const totalCost = sumSequentialCost(count, (i) => skillCost(SKILL_CONF.cleaveChanceLv.baseCost, state.skills.cleaveChanceLv + i, SKILL_CONF.cleaveChanceLv.growth));
         if (!canBuy(totalCost)) return;
 
         state.skillPoints -= totalCost;
@@ -2780,9 +3112,9 @@
       }
 
       function upgradeLifestealChance() {
-        const count = Math.max(0, Math.min(upgradeBatchCount(), 10 - state.skills.lifestealChanceLv));
+        const count = Math.max(0, Math.min(upgradeBatchCount(), SKILL_LIMIT.lifestealChanceLv - state.skills.lifestealChanceLv));
         if (count <= 0) return;
-        const totalCost = sumSequentialCost(count, (i) => skillCost(16, state.skills.lifestealChanceLv + i));
+        const totalCost = sumSequentialCost(count, (i) => skillCost(SKILL_CONF.lifestealChanceLv.baseCost, state.skills.lifestealChanceLv + i, SKILL_CONF.lifestealChanceLv.growth));
         if (!canBuy(totalCost)) return;
 
         state.skillPoints -= totalCost;
@@ -2792,9 +3124,9 @@
       }
 
       function upgradeLifestealAmount() {
-        const count = Math.max(0, Math.min(upgradeBatchCount(), 20 - state.skills.lifestealAmountLv));
+        const count = Math.max(0, Math.min(upgradeBatchCount(), SKILL_LIMIT.lifestealAmountLv - state.skills.lifestealAmountLv));
         if (count <= 0) return;
-        const totalCost = sumSequentialCost(count, (i) => skillCost(16, state.skills.lifestealAmountLv + i));
+        const totalCost = sumSequentialCost(count, (i) => skillCost(SKILL_CONF.lifestealAmountLv.baseCost, state.skills.lifestealAmountLv + i, SKILL_CONF.lifestealAmountLv.growth));
         if (!canBuy(totalCost)) return;
 
         state.skillPoints -= totalCost;
@@ -2804,9 +3136,9 @@
       }
 
       function upgradeCritDamage() {
-        const count = Math.max(0, Math.min(upgradeBatchCount(), 200 - state.skills.critDamageLv));
+        const count = Math.max(0, Math.min(upgradeBatchCount(), SKILL_LIMIT.critDamageLv - state.skills.critDamageLv));
         if (count <= 0) return;
-        const totalCost = sumSequentialCost(count, (i) => skillCost(12, state.skills.critDamageLv + i));
+        const totalCost = sumSequentialCost(count, (i) => skillCost(SKILL_CONF.critDamageLv.baseCost, state.skills.critDamageLv + i, SKILL_CONF.critDamageLv.growth));
         if (!canBuy(totalCost)) return;
 
         state.skillPoints -= totalCost;
@@ -2816,9 +3148,9 @@
       }
 
       function upgradeCleaveCount() {
-        const count = Math.max(0, Math.min(upgradeBatchCount(), 5 - state.skills.cleaveCountLv));
+        const count = Math.max(0, Math.min(upgradeBatchCount(), SKILL_LIMIT.cleaveCountLv - state.skills.cleaveCountLv));
         if (count <= 0) return;
-        const totalCost = sumSequentialCost(count, (i) => skillCost(15, state.skills.cleaveCountLv + i) * 5);
+        const totalCost = sumSequentialCost(count, (i) => skillCost(SKILL_CONF.cleaveCountLv.baseCost, state.skills.cleaveCountLv + i, SKILL_CONF.cleaveCountLv.growth));
         if (!canBuy(totalCost)) return;
 
         state.skillPoints -= totalCost;
@@ -2834,7 +3166,7 @@
 
       function loadGame() {
         const raw = localStorage.getItem(STORAGE_KEY);
-        if (!raw) return;
+        if (!raw) return false;
         try {
           const parsed = JSON.parse(raw);
           if (parsed.state) Object.assign(state, parsed.state);
@@ -2876,25 +3208,29 @@
           } else {
             state.skills = { ...defaultSkills, ...state.skills };
           }
-          state.skills.critChanceLv = Math.min(100, Math.max(0, Number(state.skills.critChanceLv || 0)));
-          state.skills.critDamageLv = Math.min(200, Math.max(0, Number(state.skills.critDamageLv || 0)));
-          state.skills.cleaveChanceLv = Math.min(10, Math.max(0, Number(state.skills.cleaveChanceLv || 0)));
-          state.skills.cleaveCountLv = Math.min(5, Math.max(0, Number(state.skills.cleaveCountLv || 0)));
-          state.skills.lifestealChanceLv = Math.min(10, Math.max(0, Number(state.skills.lifestealChanceLv || 0)));
-          state.skills.lifestealAmountLv = Math.min(20, Math.max(0, Number(state.skills.lifestealAmountLv || 0)));
+          state.skills.critChanceLv = Math.min(SKILL_LIMIT.critChanceLv, Math.max(0, Number(state.skills.critChanceLv || 0)));
+          state.skills.critDamageLv = Math.min(SKILL_LIMIT.critDamageLv, Math.max(0, Number(state.skills.critDamageLv || 0)));
+          state.skills.cleaveChanceLv = Math.min(SKILL_LIMIT.cleaveChanceLv, Math.max(0, Number(state.skills.cleaveChanceLv || 0)));
+          state.skills.cleaveCountLv = Math.min(SKILL_LIMIT.cleaveCountLv, Math.max(0, Number(state.skills.cleaveCountLv || 0)));
+          state.skills.lifestealChanceLv = Math.min(SKILL_LIMIT.lifestealChanceLv, Math.max(0, Number(state.skills.lifestealChanceLv || 0)));
+          state.skills.lifestealAmountLv = Math.min(SKILL_LIMIT.lifestealAmountLv, Math.max(0, Number(state.skills.lifestealAmountLv || 0)));
         } catch (e) {
           console.warn("저장 데이터 로드 실패", e);
+          return false;
         }
 
         state.chapter = Math.max(1, Math.min(MAX_CHAPTER, Number(state.chapter) || 1));
         state.stage = Math.max(1, Math.min(MAX_STAGE, Number(state.stage) || 1));
+        state.attackLv = Math.max(0, Math.floor(Number(state.attackLv) || 0));
+        state.hpLv = Math.max(0, Math.floor(Number(state.hpLv) || 0));
+        state.speedLv = Math.max(0, Math.floor(Number(state.speedLv) || 0));
         state.stageKillCount = Math.max(0, Math.min(ENEMIES_PER_STAGE, Math.floor(Number(state.stageKillCount) || 0)));
         state.bossTimeLeft = Math.max(0, Number(state.bossTimeLeft) || 0);
         if (!state.previousEnemy || typeof state.previousEnemy !== "object") {
-          state.previousEnemy = { hpMax: 24, atk: 3 };
+          state.previousEnemy = { hpMax: ENEMY_BASE_HP, atk: ENEMY_BASE_ATK };
         }
-        if (state.previousEnemy.hpMax <= 0 || !Number.isFinite(state.previousEnemy.hpMax)) state.previousEnemy.hpMax = 24;
-        if (state.previousEnemy.atk <= 0 || !Number.isFinite(state.previousEnemy.atk)) state.previousEnemy.atk = 3;
+        if (state.previousEnemy.hpMax <= 0 || !Number.isFinite(state.previousEnemy.hpMax)) state.previousEnemy.hpMax = ENEMY_BASE_HP;
+        if (state.previousEnemy.atk <= 0 || !Number.isFinite(state.previousEnemy.atk)) state.previousEnemy.atk = ENEMY_BASE_ATK;
         if (!enemy.type) enemy.type = enemy.tier || "normal";
         enemy.family = resolveEnemyFamily(enemy.family, currentProgressIndex()).id;
         enemy.name = enemy.name || enemyNameFor(enemy.type, enemy.family, currentProgressIndex());
@@ -2905,6 +3241,7 @@
         normalizeDebugMode();
         pushDebugLog(`loadGame: equipped=${state.companionIds.join(",") || "none"}, owned=${state.ownedCompanions.join(",") || "none"}`);
         refreshDebugPanel();
+        return true;
       }
 
       function applyOfflineProgress() {
@@ -2948,11 +3285,6 @@
 
         if (monsterDeaths > 0) {
           setToast(`오프라인 전투 반영: 스테이지 리셋 ${monsterDeaths}회`);
-        }
-
-        if (effectiveGap > 5) {
-          state.skillPoints += Math.floor(effectiveGap * 0.08);
-          state.skillPoints += Math.floor(effectiveGap * 0.04 * attacksPerSecond());
         }
 
         ensureBounds();
@@ -3055,6 +3387,7 @@
       ui.tabCompanionBtn.addEventListener("click", () => showTab("companion"));
       ui.drawCompanionBtn.addEventListener("click", drawCompanion);
       ui.drawCompanion11Btn?.addEventListener("click", drawCompanion11);
+      ui.upgradeEquippedCompanionBtn?.addEventListener("click", upgradeEquippedCompanion);
       ui.companionTierRateBtn?.addEventListener("click", openCompanionTierRateModal);
       ui.heroSprite.addEventListener("click", openBattleStatusModal);
       ui.battleStatusOpenBtn?.addEventListener("click", openBattleStatusModal);
@@ -3122,14 +3455,14 @@
           skillPoints: 0,
           diamonds: 0,
         bulkUpgradeMode: false,
-          attackBase: 5,
-          hpBase: 78,
-          speedBase: 1,
+          attackBase: PLAYER_BASE_ATTACK,
+          hpBase: PLAYER_BASE_HP,
+          speedBase: PLAYER_BASE_ATTACK_SPEED,
           defenseBase: 1,
-          attackLv: 1,
-          hpLv: 1,
-          speedLv: 1,
-          hp: 78,
+          attackLv: 0,
+          hpLv: 0,
+          speedLv: 0,
+          hp: PLAYER_BASE_HP,
           chapter: 1,
           stage: 1,
           stageKillCount: 0,
@@ -3141,15 +3474,15 @@
           companionLevels: {},
           companionLv9Shards: {},
           skills: { critChanceLv: 0, critDamageLv: 0, cleaveChanceLv: 0, cleaveCountLv: 0, lifestealChanceLv: 0, lifestealAmountLv: 0 },
-          previousEnemy: { hpMax: 24, atk: 3 },
+          previousEnemy: { hpMax: ENEMY_BASE_HP, atk: ENEMY_BASE_ATK },
         });
         Object.assign(enemy, {
           name: ENEMY_FAMILIES[0].normal,
           level: 1,
-          family: ENEMY_FAMILIES[0].id,
-          hpMax: 24,
-          hp: 24,
-          atk: 3,
+          family: pickRandomFamily().id,
+          hpMax: ENEMY_BASE_HP,
+          hp: ENEMY_BASE_HP,
+          atk: ENEMY_BASE_ATK,
           attackInterval: 1.3,
           attackCooldown: 0,
           type: "normal",
@@ -3157,16 +3490,21 @@
           isBoss: false,
         });
         state.bossTimeLeft = 0;
-        spawnNormalMonster();
+        spawnNormalMonster({ forceFamilyId: enemy.family });
         updateStatus();
         saveGame();
         setToast("초기화됨");
       });
 
       normalizeDebugMode();
-      loadGame();
-      if (!enemy.type || !state.previousEnemy) {
-        spawnNormalMonster();
+      const didLoad = loadGame();
+      if (!didLoad || !enemy.type || !state.previousEnemy) {
+        if (state.chapter === 1 && state.stage === 1 && state.stageKillCount <= 0) {
+          const startFamily = pickRandomFamily();
+          spawnNormalMonster({ forceFamilyId: startFamily.id });
+        } else {
+          spawnNormalMonster();
+        }
       } else if (enemy.isBoss && state.bossTimeLeft <= 0) {
         state.bossTimeLeft = BOSS_TIME_LIMIT;
       } else {
@@ -3189,11 +3527,27 @@
         const dt = Math.min(0.08, (now - last) / 1000);
         last = now;
 
+        if (isStageTransitioning) {
+          autoSave += dt;
+          if (autoSave >= 3) {
+            saveGame();
+            autoSave = 0;
+          }
+          ensureBounds();
+          updateStatus();
+          requestAnimationFrame(gameLoop);
+          return;
+        }
+
         heroTimer += dt;
         const atkInt = attackInterval();
         while (heroTimer >= atkInt) {
           heroTimer -= atkInt;
           heroStrike();
+          if (isStageTransitioning || enemy.hp <= 0 || state.hp <= 0) {
+            heroTimer = 0;
+            break;
+          }
         }
 
         enemy.attackCooldown += dt;
@@ -3225,93 +3579,3 @@
     </script>
   </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
