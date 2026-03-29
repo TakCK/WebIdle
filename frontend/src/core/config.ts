@@ -1,7 +1,7 @@
 ﻿import type { CompanionDefinition, CompanionRole, CompanionTier } from "./types";
 
-export const STORAGE_KEY = "auto-idle-modular-v1";
-export const SAVE_VERSION = 1;
+export const STORAGE_KEY = "auto-idle-split-screen-v3";
+export const SAVE_VERSION = 3;
 
 export const MAX_CHAPTER = 20;
 export const MAX_STAGE = 20;
@@ -15,39 +15,19 @@ export const PLAYER_BASE_ATTACK_SPEED = 1.0;
 export const ENEMY_BASE_ATTACK = 8;
 export const ENEMY_BASE_HP = 60;
 
-export const ENEMY_ATK_GROWTH = { early: 1.07, mid: 1.09, late: 1.11 };
-export const ENEMY_HP_GROWTH = { early: 1.13, mid: 1.16, late: 1.19 };
+export const ENEMY_ATK_GROWTH = { early: 1.08, mid: 1.10, late: 1.12 };
+export const ENEMY_HP_GROWTH = { early: 1.15, mid: 1.17, late: 1.19 };
 
 export const GOLD_BASE = 10;
 export const GOLD_GROWTH = { early: 1.16, mid: 1.14, late: 1.13 };
 
-export const MID_BOSS_MULTIPLIER = { atk: 1.35, hp: 2.5, gold: 3 };
+export const MID_BOSS_MULTIPLIER = { atk: 1.5, hp: 2.2, gold: 3 };
 export const CHAPTER_BOSS_GOLD_MULTIPLIER = 8;
 export const CHAPTER_CLEAR_DIAMOND_REWARD = 10;
+export const LIFESTEAL_CAP_PER_SECOND = 0.08;
+export const BOSS_LIFESTEAL_PENALTY = 0.5;
 
 export const DIAMOND_DROP_CHANCE = 0.1;
-
-export const UPGRADE_ATTACK = { baseCost: 50, growth: 1.12, perLevelMultiplier: 0.08 };
-export const UPGRADE_HP = { baseCost: 40, growth: 1.11, perLevelMultiplier: 0.1 };
-export const UPGRADE_SPEED = { baseCost: 120, growth: 1.14, perLevel: 0.08, cap: 10 };
-
-export const SKILL_COST = {
-  critChance: { baseCost: 150, growth: 1.15 },
-  critDamage: { baseCost: 130, growth: 1.15 },
-  extraChance: { baseCost: 200, growth: 1.16 },
-  extraCount: { baseCost: 500, growth: 1.2 },
-  lifestealChance: { baseCost: 180, growth: 1.15 },
-  lifestealAmount: { baseCost: 160, growth: 1.14 }
-};
-
-export const SKILL_LIMIT = {
-  critChance: 100,
-  critDamage: 80,
-  extraChance: 100,
-  extraCount: 25,
-  lifestealChance: 100,
-  lifestealAmount: 80
-};
 
 export const COMPANION_DRAW_COST = { single: 10, multi11: 100, multiCount: 11 };
 export const COMPANION_MAX_LEVEL = 10;
@@ -172,10 +152,10 @@ const ROLE_EFFECTS: Record<CompanionTier, Record<CompanionRole, { owned: Record<
     util: { owned: { gold: 0.08 }, equipped: { gold: 0.3 } }
   },
   4: {
-    atk: { owned: { atk: 0.12 }, equipped: { atk: 0.6 } },
-    hp: { owned: { hp: 0.12 }, equipped: { hp: 0.6 } },
-    speed: { owned: { speed: 0.05 }, equipped: { speed: 0.2 } },
-    crit: { owned: { crit: 0.05, critDmg: 0.35 }, equipped: { crit: 0.15, critDmg: 0.8 } },
+    atk: { owned: { atk: 0.10, finalAtk: 0.04 }, equipped: { atk: 0.40, finalAtk: 0.15 } },
+    hp: { owned: { hp: 0.10 }, equipped: { hp: 0.50 } },
+    speed: { owned: { speed: 0.04, finalAtk: 0.02 }, equipped: { speed: 0.15, finalAtk: 0.08 } },
+    crit: { owned: { crit: 0.04, critDmg: 0.25, finalAtk: 0.03 }, equipped: { crit: 0.10, critDmg: 0.50, finalAtk: 0.10 } },
     util: { owned: { gold: 0.12 }, equipped: { gold: 0.45 } }
   }
 };
@@ -217,20 +197,23 @@ export const COMPANIONS: CompanionDefinition[] = [1, 2, 3, 4].flatMap((tierNum) 
   const tier = tierNum as CompanionTier;
   return ROLE_ORDER.map((role, idx) => {
     const base = ROLE_EFFECTS[tier][role];
+    const growth = COMPANION_LEVELUP_EFFECT_GROWTH[tier];
     return {
       id: `comp-${tier}-${idx + 1}`,
       name: COMPANION_NAMES[tier][role],
       tier,
       role,
-      ownedEffect: base.owned,
-      equippedEffect: base.equipped
+      baseOwnedEffects: base.owned,
+      baseEquippedEffects: base.equipped,
+      ownedGrowthRate: growth.owned,
+      equippedGrowthRate: growth.equipped
     } as CompanionDefinition;
   });
 });
 
 export function chapterBossMultiplier(chapter: number): { atk: number; hp: number } {
-  if (chapter <= 4) return { atk: 1.8, hp: 5 };
-  if (chapter === 5) return { atk: 2.2, hp: 10 };
-  if (chapter <= 10) return { atk: 2.4, hp: 12 };
-  return { atk: 2.8, hp: 15 };
+  if (chapter <= 4) return { atk: 2.0, hp: 4.5 };
+  if (chapter <= 10) return { atk: 2.3, hp: 8.0 };
+  return { atk: 2.6, hp: 12.0 };
 }
+
